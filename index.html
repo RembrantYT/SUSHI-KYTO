@@ -3,255 +3,426 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SUSHI-KYTO | Pedidos Online</title>
+    <title>SUSHI-KYTO | Digital Menu & Delivery</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;700;900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;900&display=swap');
         
-        :root { --kyto-red: #E31C24; --gold: #D4AF37; }
-        body { font-family: 'Outfit', sans-serif; background: #0c0c0c; color: white; overflow-x: hidden; }
+        :root { --kyto-red: #E31C24; --gold: #D4AF37; --dark: #0A0A0A; }
+        body { font-family: 'Outfit', sans-serif; background: var(--dark); color: white; overflow-x: hidden; }
         
-        .glass-dark { background: rgba(20, 20, 20, 0.8); backdrop-filter: blur(15px); border: 1px solid rgba(255,255,255,0.1); }
-        .red-gradient { background: linear-gradient(135deg, #E31C24 0%, #950101 100%); }
+        .glass { background: rgba(15, 15, 15, 0.85); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.05); }
+        .kyto-gradient { background: linear-gradient(135deg, #E31C24 0%, #750000 100%); }
+        .gold-text { background: linear-gradient(to bottom, #FFD700, #B8860B); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         
-        /* Animación Pata del Gato */
-        @keyframes fortune-wave {
-            0%, 100% { transform: rotate(0deg); }
-            50% { transform: rotate(-25deg); }
-        }
-        .pata-move { animation: fortune-wave 1s infinite ease-in-out; transform-origin: bottom right; }
+        /* Gato Animación */
+        @keyframes wave { 0%, 100% { transform: rotate(0deg); } 50% { transform: rotate(-25deg); } }
+        .pata-wave { animation: wave 1s infinite ease-in-out; transform-origin: 85% 85%; }
+        
+        /* Checkout States */
+        .step { display: none; }
+        .step-active { display: block; animation: slideIn 0.4s ease-out; }
+        @keyframes slideIn { from { opacity: 0; transform: translateX(20px); } to { opacity: 1; transform: translateX(0); } }
 
-        /* Minijuego */
-        #game-canvas { display: none; background: #1a1a1a; border-radius: 20px; touch-action: none; }
-        
-        /* Estilo Menú Kyto */
-        .category-stripe { border-left: 5px solid var(--kyto-red); padding-left: 15px; margin: 40px 0 20px 0; font-style: italic; }
+        /* Scrollbar Custom */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #111; }
+        ::-webkit-scrollbar-thumb { background: var(--kyto-red); border-radius: 10px; }
     </style>
 </head>
 <body>
 
-    <nav class="glass-dark fixed w-full top-0 z-[100]">
-        <div class="container mx-auto flex justify-between items-center p-4">
-            <div class="text-3xl font-black tracking-tighter italic">SUSHI-<span class="text-red-600">KYTO</span></div>
-            <div class="flex items-center gap-4">
-                <button onclick="googleLogin()" class="hidden md:flex items-center gap-2 bg-white text-black px-4 py-2 rounded-full font-bold text-xs hover:bg-gray-200">
-                    <img src="https://www.google.com/favicon.ico" class="w-4"> Continuar con Google
+    <nav class="glass fixed w-full top-0 z-[100] border-b border-white/5">
+        <div class="container mx-auto flex justify-between items-center p-4 px-6">
+            <div class="flex items-center gap-2">
+                <span class="text-3xl font-black italic tracking-tighter uppercase">Sushi-<span class="text-red-600">Kyto</span></span>
+            </div>
+            
+            <div class="flex items-center gap-6">
+                <div id="user-profile" class="hidden md:flex items-center gap-3 bg-white/5 p-1 pr-4 rounded-full border border-white/10">
+                    <img id="user-img" src="https://ui-avatars.com/api/?name=Guest&background=E31C24&color=fff" class="w-8 h-8 rounded-full">
+                    <span id="user-name" class="text-xs font-bold">Invitado</span>
+                </div>
+                <button onclick="handleGoogleLogin()" id="login-btn" class="bg-white text-black px-5 py-2 rounded-full font-bold text-xs hover:bg-gray-200 transition">
+                    <i class="fa-brands fa-google mr-2"></i> Entrar
                 </button>
-                <button onclick="toggleCart()" class="relative p-3 bg-red-600 rounded-full">
-                    <i class="fa-solid fa-cart-shopping"></i>
-                    <span id="cart-count" class="absolute -top-1 -right-1 bg-white text-red-600 text-[10px] font-black rounded-full px-1.5">0</span>
+                <button onclick="toggleCart()" class="relative bg-red-600 p-3 rounded-2xl shadow-lg shadow-red-900/20 hover:scale-110 transition">
+                    <i class="fa-solid fa-bag-shopping"></i>
+                    <span id="cart-count" class="absolute -top-1 -right-1 bg-white text-red-600 text-[10px] font-black rounded-full px-1.5 border-2 border-red-600">0</span>
                 </button>
             </div>
         </div>
     </nav>
 
-    <header class="pt-32 pb-10 px-6 text-center bg-[url('https://www.transparenttextures.com/patterns/asfalt-dark.png')]">
-        <h1 class="text-6xl font-black mb-4 animate-pulse">EL VERDADERO SABOR.</h1>
-        <p class="text-gray-400 font-medium">Teziutlán, Pue. | Abierto 1:00 PM - 9:00 PM</p>
-    </header>
-
-    <main class="container mx-auto px-4 pb-32">
-        
-        <h2 class="category-stripe text-2xl font-black uppercase">Categoría 1.3 • Paquetes y Promos</h2>
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <div class="glass-dark p-6 rounded-3xl border-red-900/30 hover:border-red-600 transition group">
-                <div class="overflow-hidden rounded-2xl mb-4 bg-zinc-900 aspect-video">
-                    <img src="https://via.placeholder.com/400x250?text=Paquete+1.3" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
-                </div>
-                <h3 class="text-xl font-bold italic underline decoration-red-600">Mini Paquete</h3>
-                <p class="text-gray-400 text-xs mt-2">5 pzas Empanizado, 1 Brocheta Manchego, 120g Pasta o Arroz.</p>
-                <div class="mt-6 flex justify-between items-center">
-                    <span class="text-3xl font-black text-red-600">$120</span>
-                    <button onclick="addToCart('Mini Paquete', 120)" class="red-gradient px-6 py-2 rounded-xl font-black uppercase tracking-tighter active:scale-90 transition">Añadir</button>
-                </div>
-            </div>
-            <div class="glass-dark p-6 rounded-3xl border-red-900/30 hover:border-red-600 transition group">
-                <div class="overflow-hidden rounded-2xl mb-4 bg-zinc-900 aspect-video">
-                    <img src="https://via.placeholder.com/400x250?text=Kyto+Box" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
-                </div>
-                <h3 class="text-xl font-bold italic underline decoration-red-600">Kyto Box</h3>
-                <p class="text-gray-400 text-xs mt-2">3 Rollos Especiales, Yakimeshi, Brochetas, Onigiris y Postre.</p>
-                <div class="mt-6 flex justify-between items-center">
-                    <span class="text-3xl font-black text-red-600">$530</span>
-                    <button onclick="addToCart('Kyto Box', 530)" class="red-gradient px-6 py-2 rounded-xl font-black uppercase tracking-tighter active:scale-90 transition">Añadir</button>
+    <section class="relative pt-40 pb-20 px-6 overflow-hidden">
+        <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-red-900/20 via-transparent to-transparent -z-10"></div>
+        <div class="container mx-auto text-center">
+            <h1 class="text-5xl md:text-8xl font-black mb-6 tracking-tighter uppercase italic">
+                Sabor que <span class="text-red-600">Enamora.</span>
+            </h1>
+            <p class="text-gray-400 max-w-xl mx-auto text-lg mb-10">La mejor experiencia de Sushi en Teziutlán. Ingredientes frescos, procesos artesanales.</p>
+            <div class="flex flex-wrap justify-center gap-4">
+                <a href="#menu-sec" class="kyto-gradient px-8 py-4 rounded-full font-black uppercase tracking-widest text-sm">Explorar Menú</a>
+                <div class="flex items-center gap-2 text-xs font-bold text-gray-500 bg-white/5 px-6 py-4 rounded-full border border-white/10">
+                    <i class="fa-solid fa-clock text-red-600"></i> 1:00 PM - 9:00 PM
                 </div>
             </div>
         </div>
+    </section>
 
-        <h2 class="category-stripe text-2xl font-black uppercase">Categoría 1.1 • Rollos Especiales</h2>
-        <div id="rollos-1-1" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+    <main id="menu-sec" class="container mx-auto px-6 pb-40">
+        
+        <div class="mb-20">
+            <div class="flex items-center gap-4 mb-8">
+                <div class="h-[2px] w-12 bg-red-600"></div>
+                <h2 class="text-2xl font-black uppercase italic tracking-widest">1.3 Paquetes Promo</h2>
             </div>
+            <div id="grid-1-3" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                </div>
+        </div>
 
+        <div class="mb-20">
+            <div class="flex items-center gap-4 mb-8">
+                <div class="h-[2px] w-12 bg-red-600"></div>
+                <h2 class="text-2xl font-black uppercase italic tracking-widest">1.1 Especialidades</h2>
+            </div>
+            <div id="grid-1-1" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                </div>
+        </div>
     </main>
 
-    <div id="maneki-container" class="fixed bottom-6 right-6 z-[200] cursor-pointer">
-        <div id="game-ui" class="absolute bottom-20 right-0 w-64 glass-dark p-4 rounded-3xl hidden shadow-2xl">
-            <h4 class="text-center font-bold text-red-500 mb-2 italic">¡MINIJUEGO KYTO!</h4>
-            <canvas id="game-canvas" width="220" height="300"></canvas>
-            <p class="text-[8px] text-center mt-2 text-gray-400">Toca el gato para cerrar o jugar</p>
+    <div id="cat-wrapper" class="fixed bottom-8 left-8 z-[200]">
+        <div id="game-container" class="absolute bottom-24 left-0 w-72 glass p-4 rounded-[2.5rem] hidden border-red-600/30">
+            <div class="flex justify-between items-center mb-4 px-2">
+                <span class="text-xs font-black italic gold-text">SUSHI CATCHER</span>
+                <span id="score" class="text-xs font-bold text-red-500">Score: 0</span>
+            </div>
+            <canvas id="gameCanvas" width="250" height="350" class="rounded-3xl bg-black/50"></canvas>
+            <p class="text-[8px] text-center text-gray-500 mt-3 font-bold uppercase">Mueve al gato para atrapar el sushi</p>
         </div>
-        <div onclick="toggleGame()" class="relative bg-gradient-to-br from-yellow-300 to-yellow-700 w-20 h-20 rounded-full border-4 border-yellow-100 shadow-[0_0_30px_rgba(212,175,55,0.4)] flex items-center justify-center">
-            <i class="fa-solid fa-cat text-4xl text-yellow-900"></i>
-            <div class="pata-move absolute top-3 right-2 text-2xl text-yellow-100"><i class="fa-solid fa-hand-peace"></i></div>
-            <div class="absolute -top-2 -left-2 bg-red-600 text-[8px] font-bold px-2 py-1 rounded-full animate-bounce">¡TÓCAME!</div>
+
+        <div onclick="toggleSushiGame()" class="group relative cursor-pointer">
+            <div class="absolute -inset-2 bg-yellow-500/20 rounded-full blur-xl group-hover:bg-red-600/20 transition"></div>
+            <div class="relative bg-gradient-to-b from-yellow-300 to-yellow-700 w-20 h-20 rounded-full border-4 border-yellow-200 shadow-2xl flex items-center justify-center">
+                <i class="fa-solid fa-cat text-4xl text-yellow-900"></i>
+                <div class="pata-wave absolute top-3 right-2 text-2xl text-yellow-100"><i class="fa-solid fa-hand-sparkles"></i></div>
+                <div class="absolute -top-3 -right-3 bg-red-600 text-[10px] font-black p-2 rounded-full animate-bounce shadow-lg">PLAY</div>
+            </div>
         </div>
     </div>
 
-    <div id="cart-sidebar" class="fixed inset-y-0 right-[-100%] w-full md:w-[450px] glass-dark z-[300] shadow-2xl transition-all duration-500 flex flex-col border-l border-red-600/20 text-white">
-        <div class="p-6 border-b border-white/10 flex justify-between items-center">
-            <h2 class="text-2xl font-black italic">TU PEDIDO</h2>
-            <button onclick="toggleCart()" class="text-3xl">&times;</button>
-        </div>
+    <div id="cart-sidebar" class="fixed inset-y-0 right-[-100%] w-full md:w-[500px] glass z-[300] shadow-[0_0_100px_rgba(0,0,0,0.9)] transition-all duration-500 flex flex-col">
         
-        <div id="cart-items" class="flex-grow p-6 space-y-4 overflow-y-auto"></div>
+        <div id="step-1" class="step step-active flex flex-col h-full">
+            <div class="p-8 border-b border-white/5 flex justify-between items-center">
+                <div>
+                    <h2 class="text-3xl font-black italic">MI BOLSA</h2>
+                    <p class="text-[10px] text-gray-500 font-bold uppercase tracking-widest">Sushi-Kyto Teziutlán</p>
+                </div>
+                <button onclick="toggleCart()" class="w-12 h-12 flex items-center justify-center rounded-full bg-white/5 hover:bg-white/10 transition text-2xl">&times;</button>
+            </div>
+            
+            <div id="cart-content" class="flex-grow overflow-y-auto p-8 space-y-4">
+                </div>
 
-        <div id="timer-box" class="hidden p-4 mx-6 bg-red-900/40 border border-red-600 rounded-xl mb-4">
-            <p class="text-[10px] font-bold text-center">TIENES <span id="cancel-timer">05:00</span> PARA CANCELAR SI TE EQUIVOCASTE</p>
-            <button onclick="cancelOrder()" class="w-full mt-2 text-[10px] underline uppercase font-black text-white">Cancelar Pedido</button>
+            <div class="p-8 border-t border-white/5 bg-white/[0.02]">
+                <div class="space-y-2 mb-6 text-sm font-bold">
+                    <div class="flex justify-between text-gray-500"><span>Subtotal</span><span id="sub-val">$0</span></div>
+                    <div class="flex justify-between text-red-500"><span>Envío (Moto)</span><span>$40</span></div>
+                    <div class="flex justify-between text-2xl pt-4 border-t border-white/10"><span>Total</span><span id="total-val">$0</span></div>
+                </div>
+                <button onclick="changeStep(2)" class="w-full kyto-gradient py-5 rounded-2xl font-black text-lg shadow-xl shadow-red-900/40 active:scale-95 transition uppercase tracking-widest">Pagar Ahora</button>
+            </div>
         </div>
 
-        <div id="checkout-form-container" class="p-6 border-t border-white/10 bg-black/40">
-            <div class="flex justify-between text-xl font-black mb-4"><span>Total:</span><span id="final-total">$0</span></div>
-            <form id="order-form" class="space-y-3">
-                <input required type="text" placeholder="NOMBRE COMPLETO" class="w-full bg-zinc-900 border border-zinc-700 p-3 rounded-xl text-sm outline-none focus:border-red-600">
-                <input required type="tel" placeholder="TELÉFONO" class="w-full bg-zinc-900 border border-zinc-700 p-3 rounded-xl text-sm outline-none focus:border-red-600">
-                <input required type="text" placeholder="DIRECCIÓN EN TEZIUTLÁN" class="w-full bg-zinc-900 border border-zinc-700 p-3 rounded-xl text-sm outline-none focus:border-red-600">
-                <div class="flex gap-2">
-                    <select class="w-full bg-zinc-900 border border-zinc-700 p-3 rounded-xl text-xs font-bold uppercase">
-                        <option>Efectivo</option>
-                        <option>Transferencia</option>
-                    </select>
+        <div id="step-2" class="step flex flex-col h-full">
+            <div class="p-8 border-b border-white/5 flex items-center gap-6">
+                <button onclick="changeStep(1)" class="text-xl text-gray-500 hover:text-white"><i class="fa-solid fa-arrow-left"></i></button>
+                <h2 class="text-2xl font-black italic uppercase">Finalizar Pedido</h2>
+            </div>
+            
+            <form id="checkout-form" class="p-8 space-y-6 flex-grow overflow-y-auto">
+                <div class="space-y-4">
+                    <div class="group">
+                        <label class="text-[10px] font-black text-red-600 uppercase tracking-widest ml-1">Nombre Completo</label>
+                        <input required type="text" placeholder="Ej. Juan Pérez" class="w-full bg-white/5 border border-white/10 p-4 rounded-xl outline-none focus:border-red-600 transition">
+                    </div>
+                    <div class="group">
+                        <label class="text-[10px] font-black text-red-600 uppercase tracking-widest ml-1">Teléfono (WhatsApp)</label>
+                        <input required type="tel" placeholder="231 000 0000" class="w-full bg-white/5 border border-white/10 p-4 rounded-xl outline-none focus:border-red-600 transition">
+                    </div>
+                    <div class="group">
+                        <label class="text-[10px] font-black text-red-600 uppercase tracking-widest ml-1">Dirección en Teziutlán</label>
+                        <input required type="text" placeholder="Calle, Número, Colonia" class="w-full bg-white/5 border border-white/10 p-4 rounded-xl outline-none focus:border-red-600 transition">
+                    </div>
+                    <div>
+                        <label class="text-[10px] font-black text-red-600 uppercase tracking-widest ml-1">Forma de Pago</label>
+                        <select class="w-full bg-white/5 border border-white/10 p-4 rounded-xl outline-none font-bold uppercase text-xs mt-2">
+                            <option class="bg-black">Efectivo al Recibir</option>
+                            <option class="bg-black">Transferencia Bancaria</option>
+                        </select>
+                    </div>
                 </div>
-                <button type="submit" class="w-full red-gradient py-4 rounded-2xl font-black text-lg shadow-xl shadow-red-900/50 mt-4">COMPRAR AHORA</button>
             </form>
+
+            <div class="p-8 border-t border-white/5">
+                <button type="submit" form="checkout-form" class="w-full kyto-gradient py-5 rounded-2xl font-black text-lg">Confirmar Pedido</button>
+            </div>
+        </div>
+
+        <div id="step-3" class="step h-full flex flex-col items-center justify-center p-12 text-center">
+            <div class="relative w-40 h-40 mb-8">
+                <svg class="w-full h-full" viewBox="0 0 100 100">
+                    <circle cx="50" cy="50" r="45" stroke="rgba(255,255,255,0.1)" stroke-width="5" fill="none"/>
+                    <circle id="timer-circle" cx="50" cy="50" r="45" stroke="#E31C24" stroke-width="5" fill="none" stroke-dasharray="283" stroke-linecap="round"/>
+                </svg>
+                <div class="absolute inset-0 flex flex-col items-center justify-center">
+                    <span id="timer-num" class="text-4xl font-black">05:00</span>
+                </div>
+            </div>
+            <h3 class="text-2xl font-black italic mb-2">¡PEDIDO RECIBIDO!</h3>
+            <p class="text-gray-400 text-sm mb-10 italic">Tienes 5 minutos para cancelar tu orden si te equivocaste en algo.</p>
+            
+            <button onclick="cancelOrder()" class="text-xs font-black uppercase tracking-[0.3em] text-red-600 border-b border-red-600 pb-1 hover:text-white hover:border-white transition">Cancelar Pedido</button>
+            <button onclick="toggleCart()" class="mt-12 w-full bg-white/5 py-4 rounded-xl text-xs font-bold uppercase border border-white/10">Seguir Navegando</button>
         </div>
     </div>
 
     <script>
-        // DATOS COMPLETOS DE IMÁGENES
-        const data11 = [
-            { n: "Avocado Roll", p: 120, d: "Aguacate por fuera" },
-            { n: "Filadelfia Roll", p: 105, d: "Salmón y Queso" },
-            { n: "California Roll", p: 105, d: "Surimi y Pepino" },
-            { n: "Tampico Roll", p: 110, d: "Salsa Tampico especial" },
-            { n: "Hannibal Roll", p: 250, d: "Creación del Cheff" },
-            { n: "Mar y Tierra", p: 215, d: "Camarón y Arrachera" }
-        ];
+        // --- BASE DE DATOS COMPLETA (Mapeo de tus imágenes) ---
+        const menuData = {
+            paquetes: [
+                { id: 101, name: "Mini Paquete", price: 120, img: "21653.png", desc: "5 pzas Empanizado, 1 Brocheta, Pasta/Arroz" },
+                { id: 102, name: "Kyto Box", price: 530, img: "21654.png", desc: "3 Rollos, Yakimeshi, Brochetas, Onigiris, Postre" },
+                { id: 103, name: "Paquete 2 Personas", price: 340, img: "21655.png", desc: "2 Rollos Especiales + 2 Entradas + Bebidas" }
+            ],
+            rollos: [
+                { id: 201, name: "Hannibal Roll", price: 250, desc: "Creación Premium del Cheff" },
+                { id: 202, name: "Mar y Tierra", price: 215, desc: "Camarón, Arrachera y Queso" },
+                { id: 203, name: "Avocado Roll", price: 120, desc: "Cubierto de finas lajas de aguacate" },
+                { id: 204, name: "Filadelfia Roll", price: 105, desc: "El clásico con Queso y Salmón" },
+                { id: 205, name: "Eby Furay", price: 145, desc: "Camarón empanizado por fuera" },
+                { id: 206, name: "Tampico Especial", price: 110, desc: "Coronado con salsa tampico" },
+                { id: 207, name: "California Roll", price: 105, desc: "Pepino, Queso y Surimi" },
+                { id: 208, name: "Dragon Roll", price: 180, desc: "Anguila y Aguacate" }
+            ]
+        };
 
         let cart = [];
-        let orderTimer = null;
         let timeLeft = 300;
+        let timerInterval = null;
 
-        function init() {
-            const container = document.getElementById('rollos-1-1');
-            container.innerHTML = data11.map(r => `
-                <div class="glass-dark p-4 rounded-2xl border border-zinc-800 flex flex-col justify-between">
+        // --- RENDERIZADO ---
+        function renderMenu() {
+            const packGrid = document.getElementById('grid-1-3');
+            const rollGrid = document.getElementById('grid-1-1');
+
+            packGrid.innerHTML = menuData.paquetes.map(p => `
+                <div class="glass p-5 rounded-[2.5rem] hover:border-red-600 transition duration-500 group">
+                    <div class="rounded-[1.8rem] overflow-hidden bg-zinc-900 aspect-video mb-5">
+                        <img src="fotos/${p.img}" class="w-full h-full object-cover group-hover:scale-110 transition duration-700">
+                    </div>
+                    <div class="px-2">
+                        <h3 class="text-xl font-black italic uppercase">${p.name}</h3>
+                        <p class="text-gray-500 text-xs mt-2 line-clamp-2">${p.desc}</p>
+                        <div class="mt-6 flex justify-between items-center">
+                            <span class="text-3xl font-black italic text-red-600">$${p.price}</span>
+                            <button onclick="addToCart(${p.id}, 'paquetes')" class="bg-white text-black w-12 h-12 rounded-full flex items-center justify-center hover:bg-red-600 hover:text-white transition">
+                                <i class="fa-solid fa-plus"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+
+            rollGrid.innerHTML = menuData.rollos.map(r => `
+                <div class="glass p-4 rounded-3xl border-white/5 flex flex-col justify-between">
                     <div>
-                        <h4 class="font-bold text-sm uppercase">${r.n}</h4>
-                        <p class="text-[10px] text-gray-500">${r.d}</p>
+                        <h4 class="font-bold text-sm uppercase italic">${r.name}</h4>
+                        <p class="text-[10px] text-gray-500 mt-1">${r.desc}</p>
                     </div>
                     <div class="flex justify-between items-center mt-4">
-                        <span class="font-black text-red-600">$${r.p}</span>
-                        <button onclick="addToCart('${r.n}', ${r.p})" class="bg-zinc-800 hover:bg-red-600 w-8 h-8 rounded-full transition">+</button>
+                        <span class="font-black text-red-600">$${r.price}</span>
+                        <button onclick="addToCart(${r.id}, 'rollos')" class="bg-white/5 w-8 h-8 rounded-lg flex items-center justify-center hover:bg-red-600 transition">+</button>
                     </div>
                 </div>
             `).join('');
         }
 
-        function addToCart(name, price) {
-            cart.push({ id: Date.now(), name, price });
-            updateCart();
+        // --- LÓGICA CARRITO ---
+        function addToCart(id, type) {
+            const item = menuData[type].find(x => x.id === id);
+            cart.push({...item, cartId: Date.now()});
+            updateCartUI();
+            
+            // Efecto visual en el botón del carrito
+            const btn = document.querySelector('nav button .fa-bag-shopping').parentElement;
+            btn.classList.add('scale-125', 'bg-white', 'text-red-600');
+            setTimeout(() => btn.classList.remove('scale-125', 'bg-white', 'text-red-600'), 200);
         }
 
-        function updateCart() {
-            const list = document.getElementById('cart-items');
-            const total = document.getElementById('final-total');
-            document.getElementById('cart-count').innerText = cart.length;
-            
-            const subtotal = cart.reduce((s, i) => s + i.price, 0);
+        function removeFromCart(cartId) {
+            cart = cart.filter(i => i.cartId !== cartId);
+            updateCartUI();
+        }
+
+        function updateCartUI() {
+            const list = document.getElementById('cart-content');
+            const sub = document.getElementById('sub-val');
+            const total = document.getElementById('total-val');
+            const count = document.getElementById('cart-count');
+
+            count.innerText = cart.length;
+            const subtotal = cart.reduce((acc, i) => acc + i.price, 0);
+            sub.innerText = `$${subtotal}`;
             total.innerText = `$${subtotal > 0 ? subtotal + 40 : 0}`;
 
+            if(cart.length === 0) {
+                list.innerHTML = `<div class="h-full flex flex-col items-center justify-center text-gray-600 italic"><i class="fa-solid fa-cookie-bite text-4xl mb-4"></i><p>Tu bolsa está vacía</p></div>`;
+                return;
+            }
+
             list.innerHTML = cart.map(item => `
-                <div class="flex justify-between items-center bg-zinc-900/50 p-3 rounded-xl border border-white/5">
-                    <span class="text-xs font-bold uppercase">${item.name}</span>
-                    <button onclick="removeFromCart(${item.id})" class="text-red-500"><i class="fa-solid fa-trash"></i></button>
+                <div class="flex justify-between items-center bg-white/5 p-4 rounded-2xl border border-white/5 animate-slideIn">
+                    <div>
+                        <p class="font-bold text-sm uppercase italic">${item.name}</p>
+                        <p class="text-red-600 font-black text-xs">$${item.price}</p>
+                    </div>
+                    <button onclick="removeFromCart(${item.cartId})" class="text-gray-500 hover:text-red-600 transition"><i class="fa-solid fa-trash-can text-xs"></i></button>
                 </div>
             `).join('');
-        }
-
-        function removeFromCart(id) {
-            cart = cart.filter(i => i.id !== id);
-            updateCart();
         }
 
         function toggleCart() {
-            const side = document.getElementById('cart-sidebar');
-            side.style.right = side.style.right === "0px" ? "-100%" : "0px";
+            const sidebar = document.getElementById('cart-sidebar');
+            sidebar.style.right = sidebar.style.right === "0px" ? "-100%" : "0px";
+            if(sidebar.style.right === "-100%") setTimeout(() => changeStep(1), 500);
         }
 
-        function googleLogin() {
-            alert("Conectando con Google Firebase Auth...");
+        function changeStep(n) {
+            if(n === 2 && cart.length === 0) return alert("¡Agrega algo delicioso primero!");
+            document.querySelectorAll('.step').forEach(s => s.classList.remove('step-active'));
+            document.getElementById(`step-${n}`).classList.add('step-active');
         }
 
-        document.getElementById('order-form').onsubmit = function(e) {
+        // --- LOGIN GOOGLE ---
+        function handleGoogleLogin() {
+            const btn = document.getElementById('login-btn');
+            btn.innerHTML = '<i class="fa-solid fa-circle-notch animate-spin"></i>';
+            setTimeout(() => {
+                btn.style.display = 'none';
+                document.getElementById('user-profile').classList.remove('hidden');
+                document.getElementById('user-name').innerText = "Rembrant YT";
+                document.getElementById('user-img').src = "https://ui-avatars.com/api/?name=Rembrant+YT&background=E31C24&color=fff";
+            }, 1500);
+        }
+
+        // --- TIMER & PEDIDO ---
+        document.getElementById('checkout-form').onsubmit = function(e) {
             e.preventDefault();
-            document.getElementById('order-form').classList.add('hidden');
-            document.getElementById('timer-box').classList.remove('hidden');
+            changeStep(3);
             startTimer();
-            alert("Pedido enviado. Tienes 5 minutos para cancelar si hay un error.");
         };
 
         function startTimer() {
-            orderTimer = setInterval(() => {
+            timeLeft = 300;
+            const circle = document.getElementById('timer-circle');
+            timerInterval = setInterval(() => {
                 timeLeft--;
-                let min = Math.floor(timeLeft / 60);
-                let sec = timeLeft % 60;
-                document.getElementById('cancel-timer').innerText = `${min}:${sec < 10 ? '0' : ''}${sec}`;
+                const min = Math.floor(timeLeft / 60);
+                const sec = timeLeft % 60;
+                document.getElementById('timer-num').innerText = `${min}:${sec < 10 ? '0' : ''}${sec}`;
+                
+                // Animación círculo
+                const offset = 283 - (timeLeft / 300) * 283;
+                circle.style.strokeDashoffset = offset;
+
                 if(timeLeft <= 0) {
-                    clearInterval(orderTimer);
-                    document.getElementById('timer-box').innerHTML = "<p class='text-center text-green-500 font-bold uppercase text-[10px]'>PEDIDO CONFIRMADO Y EN COCINA</p>";
+                    clearInterval(timerInterval);
+                    document.getElementById('step-3').innerHTML = `
+                        <i class="fa-solid fa-fire-burner text-6xl text-red-600 mb-6"></i>
+                        <h3 class="text-3xl font-black italic">¡EN COCINA!</h3>
+                        <p class="text-gray-400 mt-4">Tu pedido ha sido confirmado y el Cheff está trabajando en él.</p>
+                        <button onclick="toggleCart()" class="mt-10 bg-white text-black px-10 py-4 rounded-full font-bold">Entendido</button>
+                    `;
                 }
             }, 1000);
         }
 
         function cancelOrder() {
-            clearInterval(orderTimer);
-            timeLeft = 300;
-            document.getElementById('order-form').classList.remove('hidden');
-            document.getElementById('timer-box').classList.add('hidden');
-            alert("PEDIDO CANCELADO CON ÉXITO.");
+            if(confirm("¿Estás seguro de cancelar tu orden?")) {
+                clearInterval(timerInterval);
+                cart = [];
+                updateCartUI();
+                changeStep(1);
+                alert("Orden cancelada satisfactoriamente.");
+            }
         }
 
-        // --- MINIJUEGO KYTO ---
-        const canvas = document.getElementById('game-canvas');
+        // --- MINIJUEGO: SUSHI CATCHER ---
+        const canvas = document.getElementById('gameCanvas');
         const ctx = canvas.getContext('2d');
-        let gameRunning = false;
-        let sushiX = 110, score = 0;
+        let gameActive = false;
+        let score = 0;
+        let playerX = 125;
+        let sushis = [];
 
-        function toggleGame() {
-            gameRunning = !gameRunning;
-            document.getElementById('game-ui').classList.toggle('hidden');
-            if(gameRunning) gameLoop();
+        function toggleSushiGame() {
+            const container = document.getElementById('game-container');
+            gameActive = !gameActive;
+            container.classList.toggle('hidden');
+            if(gameActive) {
+                score = 0;
+                sushis = [];
+                gameLoop();
+            }
         }
 
         function gameLoop() {
-            if(!gameRunning) return;
-            ctx.clearRect(0,0,220,300);
-            ctx.fillStyle = "red";
-            ctx.font = "20px Arial";
-            ctx.fillText("Score: " + score, 10, 30);
-            ctx.fillStyle = "white";
-            ctx.fillRect(sushiX - 20, 250, 40, 20); // El "plato"
+            if(!gameActive) return;
+            ctx.clearRect(0,0,250,350);
+            
+            // Jugador (Gato)
+            ctx.fillStyle = "#D4AF37";
+            ctx.fillRect(playerX - 25, 300, 50, 20);
+            
+            // Sushi cayendo
+            if(Math.random() < 0.05) sushis.push({x: Math.random() * 230, y: 0});
+            
+            sushis.forEach((s, i) => {
+                s.y += 3;
+                ctx.fillStyle = "#E31C24";
+                ctx.beginPath();
+                ctx.arc(s.x, s.y, 8, 0, Math.PI*2);
+                ctx.fill();
+                
+                // Colisión
+                if(s.y > 300 && s.y < 320 && s.x > playerX - 25 && s.x < playerX + 25) {
+                    score++;
+                    document.getElementById('score').innerText = "Score: " + score;
+                    sushis.splice(i, 1);
+                }
+                if(s.y > 350) sushis.splice(i, 1);
+            });
+
             requestAnimationFrame(gameLoop);
         }
 
-        canvas.addEventListener('touchmove', (e) => {
-            let rect = canvas.getBoundingClientRect();
-            sushiX = e.touches[0].clientX - rect.left;
+        canvas.addEventListener('mousemove', (e) => {
+            const rect = canvas.getBoundingClientRect();
+            playerX = e.clientX - rect.left;
         });
 
-        init();
+        // Touch support
+        canvas.addEventListener('touchmove', (e) => {
+            const rect = canvas.getBoundingClientRect();
+            playerX = e.touches[0].clientX - rect.left;
+            e.preventDefault();
+        });
+
+        // Iniciar
+        renderMenu();
     </script>
 </body>
 </html>
