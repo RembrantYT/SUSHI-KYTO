@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>SUSHI-KYTO | NEXO PRO SYSTEM</title>
+    <title>SUSHI-KYTO | NEXO EXPERIENCE</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
@@ -11,330 +11,296 @@
         
         :root {
             --kyto-red: #E31C24;
-            --nexo-blue: #00D2FF;
-            --nexo-purple: #3A7BD5;
-            --glass: rgba(15, 15, 15, 0.95);
+            --nexo-blue: #007AFF;
+            --nexo-green: #34C759;
+            --apple-bg-light: #F5F5F7;
+            --apple-bg-dark: #0D0D0D;
         }
 
-        * { -webkit-tap-highlight-color: transparent; }
-        body { font-family: 'Outfit', sans-serif; transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1); scroll-behavior: smooth; }
+        body { font-family: 'Outfit', sans-serif; transition: all 0.4s ease; overflow-x: hidden; }
         
-        /* NEXO BRANDING THEME */
-        .nexo-gradient-text { background: linear-gradient(90deg, var(--nexo-blue), var(--nexo-purple)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .nexo-border { border: 1px solid rgba(0, 210, 255, 0.3); }
+        /* THEMES */
+        body.dark-mode { background-color: var(--apple-bg-dark); color: white; }
+        body.light-mode { background-color: var(--apple-bg-light); color: #1D1D1F; }
 
-        /* MODO OSCURO / CLARO */
-        body.dark { background-color: #050505; color: #ffffff; }
-        body.light { background-color: #f2f2f7; color: #1c1c1e; }
+        /* CONTRASTE MODO CLARO CORREGIDO */
+        body.light-mode .glass-card { background: rgba(255, 255, 255, 0.8); border: 1px solid rgba(0,0,0,0.1); color: #1D1D1F; }
+        body.dark-mode .glass-card { background: rgba(20, 20, 20, 0.7); border: 1px solid rgba(255,255,255,0.05); color: white; }
 
-        /* ANIMACIONES JAPONESAS */
-        @keyframes pataWave {
-            0%, 100% { transform: rotate(0deg); }
-            50% { transform: rotate(-25deg); }
+        /* RELOJ NEXO IMPACTO */
+        .nexo-clock-container { background: linear-gradient(90deg, var(--nexo-blue), var(--nexo-green)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: 900; filter: drop-shadow(0 0 10px rgba(0,122,255,0.3)); }
+
+        /* CELULAR NEXO (GAME HARDWARE) */
+        .nexo-phone {
+            width: 300px; height: 550px; border-radius: 45px; padding: 12px;
+            background: linear-gradient(135deg, var(--nexo-blue) 0%, var(--nexo-green) 100%);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            position: relative; border: 4px solid rgba(255,255,255,0.2);
         }
-        .pata-anim { animation: pataWave 1.2s infinite ease-in-out; transform-origin: 80% 80%; }
+        .phone-screen { background: black; width: 100%; height: 100%; border-radius: 35px; overflow: hidden; position: relative; }
 
-        /* SCROLL PROFESIONAL */
+        /* ANIMACIONES APPLE */
+        .apple-slide { animation: appleSlide 0.6s cubic-bezier(0.23, 1, 0.32, 1) both; }
+        @keyframes appleSlide { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* BOTÓN FLOTANTE WHATSAPP */
+        .wa-float { position: fixed; bottom: 30px; left: 30px; background: #25D366; color: white; width: 60px; height: 60px; border-radius: 50%; display: flex; items-center: center; justify-content: center; font-size: 30px; box-shadow: 0 10px 20px rgba(0,0,0,0.2); z-index: 999; }
+        
         .no-scrollbar::-webkit-scrollbar { display: none; }
-        .custom-scroll::-webkit-scrollbar { width: 4px; }
-        .custom-scroll::-webkit-scrollbar-thumb { background: var(--kyto-red); border-radius: 10px; }
-
-        /* GLASSMORPHISM */
-        .glass-panel { backdrop-filter: blur(25px); background: var(--glass); border: 1px solid rgba(255,255,255,0.05); }
-        
-        /* TRANSICIONES DE PASOS */
-        .step-content { display: none; opacity: 0; transform: translateY(10px); transition: all 0.4s ease; }
-        .step-content.active { display: block; opacity: 1; transform: translateY(0); }
     </style>
 </head>
-<body class="dark no-scrollbar">
+<body class="dark-mode">
 
-    <div class="fixed top-0 w-full z-[200] px-6 py-2 flex justify-between items-center glass-panel border-b border-white/5">
-        <div class="flex flex-col">
-            <span class="text-[8px] font-black tracking-[3px] text-gray-500 uppercase">System Status</span>
-            <span class="text-[9px] font-bold nexo-gradient-text uppercase">NEXO OS v2.6 • Terminal</span>
-        </div>
-        <div class="text-right">
-            <div id="nexo-clock" class="text-sm font-black tracking-tighter nexo-gradient-text">00:00:00</div>
-            <div class="text-[7px] text-gray-400 font-bold uppercase tracking-widest">Reloj importado por el Equipo NEXO</div>
+    <div class="fixed top-0 w-full z-[200] p-6 flex justify-center items-center backdrop-blur-xl">
+        <div class="text-center">
+            <div id="big-clock" class="text-5xl md:text-7xl nexo-clock-container tracking-tighter">00:00</div>
+            <div class="text-[9px] font-black uppercase tracking-[5px] opacity-60">Reloj importado por el Equipo NEXO</div>
         </div>
     </div>
 
-    <nav class="fixed top-11 w-full z-[150] px-6 py-4 transition-all duration-300">
-        <div class="container mx-auto flex justify-between items-center">
-            <div class="flex items-center gap-4">
-                <div class="text-3xl font-black italic tracking-tighter uppercase">Sushi-<span class="text-red-600">Kyto</span></div>
-            </div>
-
-            <div class="flex items-center gap-5">
-                <button onclick="toggleTheme()" class="w-10 h-10 rounded-2xl glass-panel flex items-center justify-center hover:bg-white/10 transition">
-                    <i id="theme-icon" class="fa-solid fa-moon"></i>
-                </button>
-
-                <div id="google-auth-container">
-                    <button onclick="simulateGoogleLogin()" class="flex items-center gap-3 bg-white text-black px-5 py-2.5 rounded-2xl font-bold text-xs hover:scale-105 transition shadow-lg">
-                        <img src="https://www.google.com/favicon.ico" class="w-4"> Acceder con Google
+    <nav class="fixed top-28 w-full z-[150] px-10">
+        <div class="container mx-auto flex justify-between items-center glass-card p-4 rounded-[2rem]">
+            <div class="text-2xl font-black italic">KYTO<span class="text-red-600">.</span></div>
+            
+            <div class="flex items-center gap-6">
+                <button onclick="toggleTheme()" class="text-xl"><i id="t-icon" class="fa-solid fa-sun"></i></button>
+                
+                <div id="auth-box">
+                    <button onclick="mockGoogleLogin()" class="flex items-center gap-2 bg-white text-black px-5 py-2 rounded-full font-bold text-xs">
+                        <img src="https://www.google.com/favicon.ico" class="w-3"> Google
                     </button>
                 </div>
 
-                <div id="user-display" class="hidden flex items-center gap-3 glass-panel p-1 pr-4 rounded-2xl border border-white/10 cursor-pointer" onclick="openProfile()">
-                    <img id="user-pfp" src="" class="w-8 h-8 rounded-xl object-cover border border-red-600/50">
-                    <span id="user-alias" class="text-[10px] font-black uppercase tracking-widest">Invitado</span>
+                <div id="user-pill" class="hidden flex items-center gap-3 bg-red-600/10 p-1 pr-4 rounded-full border border-red-600/20 cursor-pointer" onclick="openProfile()">
+                    <img id="u-img" src="" class="w-8 h-8 rounded-full border-2 border-red-600">
+                    <span id="u-name" class="text-[10px] font-bold">Iniciando...</span>
                 </div>
 
-                <button onclick="toggleCart()" class="relative bg-red-600 w-12 h-12 rounded-2xl shadow-lg shadow-red-900/30 flex items-center justify-center">
-                    <i class="fa-solid fa-cart-shopping"></i>
-                    <span id="cart-badge" class="absolute -top-2 -right-2 bg-white text-red-600 text-[10px] font-black px-1.5 py-0.5 rounded-md border-2 border-red-600">0</span>
+                <button onclick="toggleCart()" class="relative text-xl">
+                    <i class="fa-solid fa-bag-shopping"></i>
+                    <span id="cart-count" class="absolute -top-2 -right-2 bg-red-600 text-white text-[10px] px-1.5 rounded-full">0</span>
                 </button>
             </div>
         </div>
     </nav>
 
-    <main class="container mx-auto px-6 pt-44 pb-32">
+    <main class="container mx-auto px-6 pt-72 pb-40">
         
-        <header class="mb-20">
-            <h1 class="text-6xl md:text-8xl font-black italic leading-none mb-4 uppercase tracking-tighter">
-                <span class="text-red-600">寿司</span> KYTO <br> ARTE EN CADA BOCADO.
-            </h1>
-            <p class="text-gray-500 max-w-lg font-medium text-sm border-l-2 border-red-600 pl-4 uppercase tracking-widest">
-                Tradición milenaria fusionada con el estilo de Teziutlán. <br>
-                Empresa mexicana con corazón japonés.
-            </p>
-        </header>
-
-        <section class="mb-24">
-            <div class="flex justify-between items-end mb-10">
-                <div>
-                    <span class="text-xs font-black text-red-600 uppercase tracking-[5px]">Categoría 1.3</span>
-                    <h2 class="text-4xl font-black italic uppercase">セット (Paquetes Especiales)</h2>
-                </div>
-            </div>
-            <div id="grid-paquetes" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <section class="mb-20 apple-slide">
+            <h2 class="text-4xl font-black mb-10 italic uppercase tracking-tighter">セット Paquetes Especiales</h2>
+            <div id="paquetes-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 </div>
         </section>
 
-        <section class="mb-24">
-            <div class="flex justify-between items-end mb-10">
-                <div>
-                    <span class="text-xs font-black text-red-600 uppercase tracking-[5px]">Categoría 1.1</span>
-                    <h2 class="text-4xl font-black italic uppercase">巻き寿司 (Rollos de Autor)</h2>
-                </div>
-            </div>
-            <div id="grid-rollos" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <section class="mb-20 apple-slide">
+            <h2 class="text-4xl font-black mb-10 italic uppercase tracking-tighter">巻き寿司 Los Rollos</h2>
+            <div id="rollos-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                 </div>
         </section>
     </main>
 
-    <div class="fixed bottom-10 right-10 z-[250]">
-        <div id="game-ui" class="absolute bottom-24 right-0 w-80 glass-panel p-6 rounded-[3rem] border border-red-600/20 hidden">
-            <div class="flex justify-between items-center mb-4">
-                <h4 class="text-xs font-black italic text-red-600">NEKO-SENSEI GAME</h4>
-                <div class="bg-black/50 px-3 py-1 rounded-full text-[10px] font-bold">Nivel <span id="game-lv">1</span></div>
+    <a href="https://wa.me/522311511435?text=Hola!%20Vengo%20desde%20el%20sitio%20web%20Kyto,%20tengo%20una%20duda." target="_blank" class="wa-float">
+        <i class="fa-brands fa-whatsapp"></i>
+    </a>
+
+    <div id="game-modal" class="fixed inset-0 z-[500] hidden items-center justify-center bg-black/90 backdrop-blur-md p-6">
+        <div class="nexo-phone">
+            <div class="phone-screen">
+                <div class="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-6 bg-black rounded-b-2xl z-20"></div>
+                
+                <canvas id="gameCanvas" width="276" height="526"></canvas>
+                
+                <div id="game-over" class="absolute inset-0 bg-black/80 hidden flex-col items-center justify-center text-center p-6">
+                    <h3 class="text-4xl font-black text-red-600 mb-2">GAME OVER</h3>
+                    <p class="text-white text-xs mb-8 font-bold">¡Sensei, se te cayó el sushi!</p>
+                    <button onclick="startGame()" class="bg-white text-black px-10 py-3 rounded-full font-black text-xs uppercase">Reintentar</button>
+                </div>
+
+                <div id="score-ui" class="absolute bottom-10 left-0 w-full text-center text-white font-black italic">
+                    Puntos: 0
+                </div>
             </div>
-            <canvas id="sushiCanvas" width="280" height="350" class="bg-black/40 rounded-[2rem] border border-white/5"></canvas>
-            <div class="mt-4 flex justify-between items-center">
-                <span id="game-score" class="text-xl font-black italic">PTS: 0</span>
-                <button onclick="toggleGame()" class="text-[10px] font-bold text-gray-500 uppercase underline">Cerrar</button>
-            </div>
-        </div>
-        
-        <div onclick="toggleGame()" class="relative group cursor-pointer scale-110">
-            <div class="absolute -inset-4 bg-red-600/20 blur-2xl group-hover:bg-red-600/40 transition"></div>
-            <div class="relative bg-gradient-to-br from-yellow-300 via-yellow-500 to-yellow-700 w-24 h-24 rounded-full border-4 border-white/20 shadow-2xl flex items-center justify-center">
-                <i class="fa-solid fa-cat text-5xl text-yellow-900"></i>
-                <div class="pata-anim absolute top-4 right-2 text-3xl text-yellow-100"><i class="fa-solid fa-hand-peace"></i></div>
-            </div>
+            <button onclick="toggleGame()" class="absolute -bottom-16 left-1/2 -translate-x-1/2 text-gray-500 font-bold uppercase text-[10px] tracking-widest">Cerrar Celular NEXO</button>
         </div>
     </div>
 
-    <div id="cart-sidebar" class="fixed inset-y-0 right-[-100%] w-full md:w-[550px] glass-panel z-[300] shadow-[0_0_100px_rgba(0,0,0,0.8)] transition-all duration-700 flex flex-col border-l border-white/10">
-        
-        <div class="p-8 border-b border-white/5 flex justify-between items-center">
-            <div>
-                <h2 class="text-3xl font-black italic uppercase">Bolsa de Pedido</h2>
-                <p class="text-[10px] font-bold text-red-600 tracking-widest">SUSHI-KYTO</p>
-            </div>
-            <button onclick="toggleCart()" class="w-12 h-12 glass-panel rounded-2xl flex items-center justify-center text-3xl">&times;</button>
+    <div onclick="toggleGame()" class="fixed bottom-10 right-10 z-[250] cursor-pointer hover:scale-110 transition active:scale-90">
+        <div class="bg-gradient-to-br from-yellow-400 to-yellow-700 w-24 h-24 rounded-full flex items-center justify-center shadow-2xl border-4 border-white/20">
+            <i class="fa-solid fa-cat text-5xl text-yellow-900"></i>
+            <div class="absolute -top-2 -right-2 bg-red-600 text-white text-[10px] font-black p-2 rounded-full">JUGAR</div>
+        </div>
+    </div>
+
+    <div id="cart-sidebar" class="fixed inset-y-0 right-[-100%] w-full md:w-[500px] glass-card z-[300] shadow-2xl transition-all duration-700 flex flex-col">
+        <div class="p-8 border-b border-white/10 flex justify-between items-center">
+            <h2 class="text-3xl font-black italic uppercase">Tu Bolsa</h2>
+            <button onclick="toggleCart()" class="text-4xl">&times;</button>
         </div>
 
-        <div class="flex-grow overflow-y-auto custom-scroll p-8">
+        <div class="flex-grow overflow-y-auto p-8 no-scrollbar">
+            <div id="cart-items" class="space-y-4 mb-10"></div>
             
-            <div id="cart-step-1" class="step-content active">
-                <div id="cart-list" class="space-y-4 mb-10">
-                    </div>
-            </div>
-
-            <div id="cart-step-2" class="step-content">
-                <h3 class="text-xl font-black italic uppercase mb-6 border-b border-red-600 pb-2">Información de Entrega</h3>
-                <form id="shipping-form" class="space-y-6">
-                    <div class="grid grid-cols-1 gap-6">
-                        <div class="space-y-2">
-                            <label class="text-[10px] font-black uppercase text-gray-500 ml-1">Nombre Completo del Cliente</label>
-                            <input type="text" id="ship-name" required class="w-full bg-white/5 border border-white/10 p-4 rounded-2xl focus:border-red-600 outline-none transition text-sm">
-                        </div>
-                        <div class="space-y-2">
-                            <label class="text-[10px] font-black uppercase text-gray-500 ml-1">Teléfono Móvil (WhatsApp)</label>
-                            <input type="tel" id="ship-tel" required class="w-full bg-white/5 border border-white/10 p-4 rounded-2xl focus:border-red-600 outline-none transition text-sm">
-                        </div>
-                        <div class="space-y-2">
-                            <label class="text-[10px] font-black uppercase text-gray-500 ml-1">Dirección de Entrega en Teziutlán</label>
-                            <textarea id="ship-address" required rows="3" class="w-full bg-white/5 border border-white/10 p-4 rounded-2xl focus:border-red-600 outline-none transition text-sm"></textarea>
-                        </div>
-                        <div class="space-y-2">
-                            <label class="text-[10px] font-black uppercase text-gray-500 ml-1">Método de Pago Preferido</label>
-                            <select id="ship-pay" class="w-full bg-white/5 border border-white/10 p-4 rounded-2xl focus:border-red-600 outline-none text-sm appearance-none">
-                                <option class="bg-black" value="efectivo">Efectivo al recibir</option>
-                                <option class="bg-black" value="transferencia">Transferencia Bancaria</option>
-                                <option class="bg-black" value="tarjeta">Terminal (Moto-repartidor)</option>
-                            </select>
-                        </div>
-                    </div>
-                </form>
-            </div>
-
-            <div id="cart-step-3" class="step-content text-center py-10">
-                <div class="relative w-48 h-48 mx-auto mb-8">
-                    <svg class="w-full h-full transform -rotate-90">
-                        <circle cx="96" cy="96" r="88" stroke="rgba(255,255,255,0.05)" stroke-width="8" fill="none"/>
-                        <circle id="grace-circle" cx="96" cy="96" r="88" stroke="#E31C24" stroke-width="8" fill="none" stroke-dasharray="552" stroke-dashoffset="0" stroke-linecap="round"/>
-                    </svg>
-                    <div class="absolute inset-0 flex flex-col items-center justify-center">
-                        <span id="grace-timer" class="text-4xl font-black italic">05:00</span>
-                        <span class="text-[8px] font-bold uppercase text-gray-500">Tiempo de Gracia</span>
+            <div id="shipping-section" class="space-y-6 pt-6 border-t border-white/10">
+                <h3 class="text-xs font-black text-red-600 uppercase tracking-widest">Información de Entrega</h3>
+                <div class="space-y-4">
+                    <input type="text" id="cust-name" placeholder="Nombre completo" class="w-full bg-white/5 border border-white/10 p-5 rounded-2xl outline-none focus:border-red-600 transition">
+                    <input type="tel" id="cust-phone" placeholder="Número de Celular" class="w-full bg-white/5 border border-white/10 p-5 rounded-2xl outline-none focus:border-red-600 transition">
+                    <textarea id="cust-dir" placeholder="Dirección en Teziutlán" class="w-full bg-white/5 border border-white/10 p-5 rounded-2xl outline-none focus:border-red-600 transition" rows="3"></textarea>
+                    
+                    <div class="space-y-2">
+                        <p class="text-[10px] font-bold text-gray-500 uppercase ml-2">Método de Pago</p>
+                        <select id="cust-pay" class="w-full bg-white/5 border border-white/10 p-5 rounded-2xl outline-none text-sm appearance-none">
+                            <option class="bg-black" value="Efectivo">Efectivo al recibir</option>
+                            <option class="bg-black" value="Transferencia">Transferencia</option>
+                            <option class="bg-black" value="Terminal">Terminal con repartidor</option>
+                        </select>
                     </div>
                 </div>
-                <h3 class="text-2xl font-black italic mb-4 uppercase">Pedido en Firme</h3>
-                <p class="text-xs text-gray-400 mb-10 leading-relaxed px-10">Tu orden ha sido enviada a la sucursal. Si te equivocaste, puedes cancelar presionando el botón de abajo.</p>
-                <button onclick="cancelOrder()" class="bg-white/5 border border-red-600 text-red-600 px-8 py-3 rounded-2xl text-[10px] font-black uppercase hover:bg-red-600 hover:text-white transition">Cancelar Pedido</button>
             </div>
         </div>
 
-        <div id="cart-footer" class="p-8 border-t border-white/5 bg-black/30">
-            <div class="space-y-3 mb-8">
-                <div class="flex justify-between text-xs font-bold uppercase text-gray-500"><span>Subtotal</span><span id="sub-price">$0</span></div>
-                <div class="flex justify-between text-xs font-bold uppercase text-red-600"><span>Servicio Domicilio (Teziutlán)</span><span>$40</span></div>
-                <div class="flex justify-between text-3xl font-black italic pt-4 border-t border-white/10 uppercase"><span>Total</span><span id="total-price">$0</span></div>
+        <div class="p-8 border-t border-white/10 bg-black/20">
+            <div class="flex justify-between text-3xl font-black italic mb-6">
+                <span>Total:</span>
+                <span id="final-total">$0</span>
             </div>
-            <button id="main-cart-btn" onclick="nextStep()" class="w-full bg-red-600 py-6 rounded-3xl font-black text-lg shadow-xl shadow-red-900/40 uppercase tracking-widest hover:scale-[1.02] active:scale-95 transition">
-                Siguiente
-            </button>
+            <button id="buy-btn" onclick="processOrder()" class="w-full bg-red-600 py-6 rounded-[2rem] font-black uppercase tracking-widest text-lg shadow-xl shadow-red-900/40">Pedir a Domicilio</button>
         </div>
     </div>
 
-    <div id="profile-modal" class="fixed inset-0 z-[500] hidden flex items-center justify-center p-6 bg-black/80 backdrop-blur-md">
-        <div class="bg-zinc-950 w-full max-w-xl rounded-[4rem] border border-white/10 overflow-hidden shadow-2xl animate-slideUp">
-            <div class="p-10 text-center bg-gradient-to-b from-red-600/20 to-transparent">
-                <img id="prof-pfp" src="" class="w-28 h-28 rounded-[2.5rem] mx-auto border-4 border-red-600 mb-6 shadow-2xl">
-                <h3 id="prof-name" class="text-3xl font-black italic uppercase tracking-tighter">Usuario</h3>
-                <p id="prof-email" class="text-[10px] text-gray-500 font-black tracking-[4px] uppercase"></p>
+    <div id="profile-modal" class="fixed inset-0 z-[600] hidden flex items-center justify-center p-6 bg-black/90">
+        <div class="glass-card w-full max-w-md rounded-[3rem] overflow-hidden">
+            <div class="p-10 text-center bg-gradient-to-b from-red-600/10 to-transparent">
+                <img id="p-img" class="w-24 h-24 rounded-full mx-auto border-4 border-red-600 mb-4" src="">
+                <h3 id="p-name" class="text-2xl font-black italic">Usuario</h3>
             </div>
-            <div class="p-10 space-y-8">
-                <div>
-                    <h4 class="text-[10px] font-black text-red-600 uppercase mb-4 tracking-widest">Historial de Compras Recientes</h4>
-                    <div id="order-history" class="space-y-3 max-h-40 overflow-y-auto custom-scroll pr-4">
-                        <p class="text-[10px] italic text-gray-600">No hay transacciones registradas.</p>
-                    </div>
+            <div class="p-8 space-y-4">
+                <div class="bg-white/5 p-5 rounded-2xl">
+                    <p class="text-[10px] font-black text-red-600 uppercase">Mis Pedidos Recientes</p>
+                    <div id="p-history" class="text-xs mt-4 space-y-2">Sin pedidos aún.</div>
                 </div>
-                <div class="grid grid-cols-2 gap-4">
-                    <button onclick="logout()" class="bg-white/5 border border-white/10 py-5 rounded-3xl text-[10px] font-black uppercase hover:bg-white/10 transition">Cerrar Sesión</button>
-                    <button onclick="closeProfile()" class="bg-red-600 py-5 rounded-3xl text-[10px] font-black uppercase hover:shadow-lg transition">Cerrar Panel</button>
-                </div>
+                <button onclick="logout()" class="w-full bg-white/5 py-4 rounded-xl font-bold uppercase text-[10px]">Cerrar Sesión</button>
+                <button onclick="openProfile()" class="w-full text-xs font-bold text-gray-500">Volver al Menú</button>
             </div>
         </div>
     </div>
 
     <script>
-        // --- DATABASE COMPLETA SUSHI-KYTO (DIGITALIZADA DE TUS IMÁGENES) ---
+        // --- BASE DE DATOS MASIVA (MAPEADA A TUS IMÁGENES) ---
         const DATABASE = {
             paquetes: [
-                {id: 1, name: "Mini Paquete", price: 120, img: "21653.png", desc: "5 pzas Roll Empanizado + 1 Brocheta Manchego + 120g Pasta o Arroz."},
-                {id: 2, name: "Kyto Box", price: 530, img: "21654.png", desc: "3 Rollos Especiales + Yakimeshi + Brochetas + Onigiris + Postre."},
-                {id: 3, name: "Paquete Familiar", price: 420, img: "21655.png", desc: "4 Rollos a elegir + 2 Entradas + Bebida Familiar."}
+                {id: 1, name: "Mini Paquete", price: 120, img: "21653.png", desc: "Roll Empanizado + Brocheta + Pasta/Arroz"},
+                {id: 2, name: "Kyto Box", price: 530, img: "21654.png", desc: "3 Rollos + Yakimeshi + Brochetas + Onigiris"},
+                {id: 3, name: "Paquete 2 Personas", price: 340, img: "21655.png", desc: "2 Rollos Especiales + Entradas + Bebida"},
+                {id: 4, name: "Kyto Party", price: 850, img: "21656.png", desc: "5 Rollos a elegir + Charola de Entradas"},
+                {id: 5, name: "Set Familiar", price: 420, img: "21657.png", desc: "4 Rollos clásicos + Arroz Familiar"}
             ],
             rollos: [
-                {id: 101, name: "Avocado Roll", price: 120, desc: "Envuelto en aguacate por fuera con surimi."},
-                {id: 102, name: "Filadelfia Roll", price: 105, desc: "El clásico con Queso Crema y Salmón fresco."},
-                {id: 103, name: "Hannibal Roll", price: 250, desc: "Creación premium con Arrachera y Camarón frito."},
-                {id: 104, name: "Mar y Tierra", price: 215, desc: "Combinación de proteínas terrestres y marinas."},
-                {id: 105, name: "Eby Furay Roll", price: 145, desc: "Camarón empanizado por fuera con salsa dulce."},
-                {id: 106, name: "Dragon Roll", price: 180, desc: "Cubierto de anguila y aguacate, salsa unagi."},
-                {id: 107, name: "Tampico Special", price: 110, desc: "Roll de pepino coronado con pasta Tampico."},
-                {id: 108, name: "California Maki", price: 105, desc: "Pepino, aguacate y surimi por dentro."}
+                {id: 101, name: "Avocado Roll", price: 120, desc: "Láminas de aguacate por fuera"},
+                {id: 102, name: "Filadelfia Roll", price: 105, desc: "Queso Crema y Salmón"},
+                {id: 103, name: "Hannibal Roll", price: 250, desc: "Especialidad Premium Arrachera"},
+                {id: 104, name: "Mar y Tierra", price: 215, desc: "Res, Camarón y Queso"},
+                {id: 105, name: "Eby Furay", price: 145, desc: "Camarón empanizado por fuera"},
+                {id: 106, name: "Dragon Roll", price: 180, desc: "Anguila y Aguacate"},
+                {id: 107, name: "California", price: 105, desc: "Pepino, Cangrejo y Queso"},
+                {id: 108, name: "Tampico Especial", price: 110, desc: "Topping de salsa tampico"},
+                {id: 109, name: "Nexo Roll", price: 230, desc: "Roll de autor inspirado en el equipo"},
+                {id: 110, name: "Spicy Tuna", price: 160, desc: "Atún fresco con salsa picante"}
             ]
         };
 
         let cart = [];
         let currentUser = null;
-        let currentStep = 1;
-        let graceTimer = null;
-        let ordersHistory = [];
 
-        // --- INICIALIZACIÓN ---
+        // --- INICIAR ---
         function init() {
             renderMenu();
-            updateClock();
             setInterval(updateClock, 1000);
+            updateClock();
         }
 
-        function renderMenu() {
-            const pGrid = document.getElementById('grid-paquetes');
-            const rGrid = document.getElementById('grid-rollos');
-
-            pGrid.innerHTML = DATABASE.paquetes.map(p => `
-                <div class="glass-panel p-6 rounded-[3.5rem] hover:border-red-600 transition duration-500 group relative overflow-hidden">
-                    <div class="absolute top-4 right-6 text-[10px] font-black text-white/20 italic">KYTO-SET</div>
-                    <div class="aspect-square rounded-[2.5rem] overflow-hidden mb-6 bg-zinc-900 border border-white/5">
-                        <img src="${p.img}" class="w-full h-full object-cover group-hover:scale-110 transition duration-1000">
-                    </div>
-                    <h3 class="text-2xl font-black italic uppercase mb-2">${p.name}</h3>
-                    <p class="text-[10px] text-gray-500 font-bold uppercase tracking-widest mb-6">${p.desc}</p>
-                    <div class="flex justify-between items-center">
-                        <span class="text-4xl font-black text-red-600 italic tracking-tighter">$${p.price}</span>
-                        <button onclick="addToCart('${p.name}', ${p.price})" class="bg-red-600 w-16 h-16 rounded-[1.8rem] flex items-center justify-center shadow-lg shadow-red-900/40 active:scale-90 transition">
-                            <i class="fa-solid fa-plus text-xl"></i>
-                        </button>
-                    </div>
-                </div>
-            `).join('');
-
-            rGrid.innerHTML = DATABASE.rollos.map(r => `
-                <div class="glass-panel p-5 rounded-[2.5rem] flex flex-col justify-between border-white/5 hover:bg-white/[0.02] transition">
-                    <div>
-                        <div class="flex justify-between mb-2">
-                            <h4 class="font-bold uppercase text-[11px] italic">${r.name}</h4>
-                            <span class="text-red-600 font-black text-xs">$${r.price}</span>
-                        </div>
-                        <p class="text-[9px] text-gray-500 font-medium">${r.desc}</p>
-                    </div>
-                    <button onclick="addToCart('${r.name}', ${r.price})" class="mt-4 w-full bg-white/5 py-3 rounded-2xl text-[10px] font-black uppercase hover:bg-red-600 transition">Añadir</button>
-                </div>
-            `).join('');
-        }
-
-        // --- RELOJ NEXO ---
+        // --- RELOJ GIGANTE ---
         function updateClock() {
             const now = new Date();
-            document.getElementById('nexo-clock').innerText = now.toLocaleTimeString('es-MX', { hour12: false });
+            const time = now.toLocaleTimeString('es-MX', { hour: '2-digit', minute: '2-digit', hour12: false });
+            document.getElementById('big-clock').innerText = time;
         }
 
-        // --- GOOGLE AUTH REAL MOCK ---
-        function simulateGoogleLogin() {
-            const randomID = Math.floor(Math.random() * 9999);
-            currentUser = {
-                id: randomID,
-                name: `Cliente #${randomID}`,
-                email: `usuario${randomID}@gmail.com`,
-                pfp: `https://ui-avatars.com/api/?name=Cliente+${randomID}&background=random&color=fff&size=128&bold=true`
-            };
-            
-            document.getElementById('google-auth-container').classList.add('hidden');
-            const display = document.getElementById('user-display');
-            display.classList.remove('hidden');
-            document.getElementById('user-pfp').src = currentUser.pfp;
-            document.getElementById('user-alias').innerText = currentUser.name;
+        // --- RENDERIZADO ---
+        function renderMenu() {
+            const pCont = document.getElementById('paquetes-container');
+            const rCont = document.getElementById('rollos-container');
 
-            // Pre-llenado de formulario
-            document.getElementById('ship-name').value = currentUser.name;
+            pCont.innerHTML = DATABASE.paquetes.map(p => `
+                <div class="glass-card p-6 rounded-[3rem] hover:border-red-600 transition group relative overflow-hidden">
+                    <img src="fotos/${p.img}" class="w-full h-48 object-cover rounded-[2rem] mb-6 group-hover:scale-105 transition">
+                    <h3 class="text-2xl font-black italic uppercase">${p.name}</h3>
+                    <p class="text-[10px] text-gray-500 font-bold uppercase mt-2">${p.desc}</p>
+                    <div class="flex justify-between items-center mt-6">
+                        <span class="text-3xl font-black text-red-600">$${p.price}</span>
+                        <button onclick="addToCart('${p.name}', ${p.price})" class="bg-red-600 w-12 h-12 rounded-2xl flex items-center justify-center shadow-lg"><i class="fa-solid fa-plus"></i></button>
+                    </div>
+                </div>
+            `).join('');
+
+            rCont.innerHTML = DATABASE.rollos.map(r => `
+                <div class="glass-card p-4 rounded-3xl flex flex-col justify-between hover:bg-white/5 transition">
+                    <div>
+                        <div class="flex justify-between items-center mb-2">
+                            <h4 class="font-black text-[11px] uppercase italic">${r.name}</h4>
+                            <span class="text-red-600 font-black text-xs">$${r.price}</span>
+                        </div>
+                        <p class="text-[9px] text-gray-500 leading-tight">${r.desc}</p>
+                    </div>
+                    <button onclick="addToCart('${r.name}', ${r.price})" class="mt-4 bg-white/5 py-2 rounded-xl text-[9px] font-black uppercase hover:bg-red-600 transition">Añadir</button>
+                </div>
+            `).join('');
+        }
+
+        // --- CARRITO ---
+        function addToCart(name, price) {
+            cart.push({id: Date.now(), name, price});
+            updateCartUI();
+        }
+
+        function removeFromCart(id) {
+            cart = cart.filter(i => i.id !== id);
+            updateCartUI();
+        }
+
+        function updateCartUI() {
+            const list = document.getElementById('cart-items');
+            const total = document.getElementById('final-total');
+            document.getElementById('cart-count').innerText = cart.length;
+            
+            const sub = cart.reduce((acc, i) => acc + i.price, 0);
+            total.innerText = `$${sub > 0 ? sub + 40 : 0}`;
+
+            list.innerHTML = cart.map(i => `
+                <div class="bg-white/5 p-4 rounded-2xl flex justify-between items-center border border-white/5">
+                    <div><p class="font-bold text-xs uppercase">${i.name}</p><p class="text-red-600 font-black text-sm">$${i.price}</p></div>
+                    <button onclick="removeFromCart(${i.id})" class="text-gray-500 hover:text-red-600"><i class="fa-solid fa-trash-can"></i></button>
+                </div>
+            `).join('');
+        }
+
+        function toggleCart() {
+            const side = document.getElementById('cart-sidebar');
+            side.style.right = side.style.right === "0px" ? "-100%" : "0px";
+        }
+
+        // --- AUTH GOOGLE REAL MOCK ---
+        function mockGoogleLogin() {
+            // Simulamos el evento de inicio de sesión real
+            currentUser = {
+                name: "Cliente Nexo",
+                img: "https://ui-avatars.com/api/?name=Cliente+Nexo&background=007AFF&color=fff&bold=true"
+            };
+            document.getElementById('auth-box').classList.add('hidden');
+            document.getElementById('user-pill').classList.remove('hidden');
+            document.getElementById('u-img').src = currentUser.img;
+            document.getElementById('u-name').innerText = currentUser.name;
+            document.getElementById('cust-name').value = currentUser.name;
         }
 
         function logout() {
@@ -342,225 +308,104 @@
             location.reload();
         }
 
-        // --- PERFIL & HISTORIAL ---
         function openProfile() {
-            if(!currentUser) return;
-            document.getElementById('prof-pfp').src = currentUser.pfp;
-            document.getElementById('prof-name').innerText = currentUser.name;
-            document.getElementById('prof-email').innerText = currentUser.email;
-            
-            const historyList = document.getElementById('order-history');
-            if(ordersHistory.length > 0) {
-                historyList.innerHTML = ordersHistory.map(o => `
-                    <div class="bg-white/5 p-4 rounded-2xl border border-white/5 flex justify-between items-center">
-                        <div class="text-[10px] font-bold">
-                            <p class="text-red-600 uppercase tracking-widest">${o.date}</p>
-                            <p class="text-white">${o.items} Productos</p>
-                        </div>
-                        <span class="font-black italic text-lg">$${o.total}</span>
-                    </div>
-                `).join('');
-            }
-
-            document.getElementById('profile-modal').classList.remove('hidden');
-        }
-
-        function closeProfile() {
-            document.getElementById('profile-modal').classList.add('hidden');
-        }
-
-        // --- LÓGICA DE COMPRA ---
-        function addToCart(name, price) {
-            cart.push({id: Date.now(), name, price});
-            updateCartUI();
-            
-            // Animación de feedback
-            const badge = document.getElementById('cart-badge');
-            badge.classList.add('scale-150');
-            setTimeout(() => badge.classList.remove('scale-150'), 300);
-        }
-
-        function removeFromCart(id) {
-            cart = cart.filter(item => item.id !== id);
-            updateCartUI();
-        }
-
-        function updateCartUI() {
-            const list = document.getElementById('cart-list');
-            const sub = document.getElementById('sub-price');
-            const total = document.getElementById('total-price');
-            document.getElementById('cart-badge').innerText = cart.length;
-
-            const subtotal = cart.reduce((acc, i) => acc + i.price, 0);
-            sub.innerText = `$${subtotal}`;
-            total.innerText = `$${subtotal > 0 ? subtotal + 40 : 0}`;
-
-            if(cart.length === 0) {
-                list.innerHTML = `<div class="py-20 text-center opacity-20"><i class="fa-solid fa-cookie-bite text-6xl mb-4"></i><p class="text-xs font-black uppercase">Tu bolsa está vacía</p></div>`;
-                return;
-            }
-
-            list.innerHTML = cart.map(item => `
-                <div class="glass-panel p-5 rounded-3xl border-white/5 flex justify-between items-center animate-slideIn">
-                    <div>
-                        <p class="text-xs font-black uppercase italic">${item.name}</p>
-                        <p class="text-red-600 font-black tracking-tighter">$${item.price}</p>
-                    </div>
-                    <button onclick="removeFromCart(${item.id})" class="text-gray-500 hover:text-red-600"><i class="fa-solid fa-trash-can"></i></button>
-                </div>
-            `).join('');
-        }
-
-        function toggleCart() {
-            const side = document.getElementById('cart-sidebar');
-            side.style.right = (side.style.right === "0px") ? "-100%" : "0px";
-            if(side.style.right === "-100%") setTimeout(() => setStep(1), 500);
-        }
-
-        function setStep(n) {
-            currentStep = n;
-            document.querySelectorAll('.step-content').forEach(s => s.classList.remove('active'));
-            document.getElementById(`cart-step-${n}`).classList.add('active');
-            
-            const btn = document.getElementById('main-cart-btn');
-            const footer = document.getElementById('cart-footer');
-            
-            if(n === 1) btn.innerText = "Confirmar Pedido";
-            if(n === 2) btn.innerText = "Enviar Orden Ahora";
-            if(n === 3) footer.classList.add('hidden');
-            else footer.classList.remove('hidden');
-        }
-
-        function nextStep() {
-            if(cart.length === 0) return alert("Agregue productos a la bolsa.");
-            if(currentStep === 1) {
-                if(!currentUser) {
-                    alert("Por favor, inicie sesión con Google para continuar.");
-                    simulateGoogleLogin();
-                }
-                setStep(2);
-            } else if(currentStep === 2) {
-                const form = document.getElementById('shipping-form');
-                if(!form.checkValidity()) return alert("Por favor complete todos los datos de envío.");
-                
-                // Finalizar Orden
-                const finalT = document.getElementById('total-price').innerText;
-                ordersHistory.push({
-                    date: new Date().toLocaleDateString(),
-                    items: cart.length,
-                    total: finalT.replace('$','')
-                });
-                
-                setStep(3);
-                startGraceTimer();
+            const modal = document.getElementById('profile-modal');
+            if(modal.classList.contains('hidden')) {
+                document.getElementById('p-img').src = currentUser.img;
+                document.getElementById('p-name').innerText = currentUser.name;
+                modal.classList.remove('hidden');
+            } else {
+                modal.classList.add('hidden');
             }
         }
 
-        function startGraceTimer() {
-            let left = 300;
-            const circle = document.getElementById('grace-circle');
-            graceTimer = setInterval(() => {
-                left--;
-                let m = Math.floor(left/60);
-                let s = left % 60;
-                document.getElementById('grace-timer').innerText = `${m}:${s < 10 ? '0' : ''}${s}`;
-                
-                // Animación SVG
-                const offset = 552 - (left / 300) * 552;
-                circle.style.strokeDashoffset = offset;
-
-                if(left <= 0) {
-                    clearInterval(graceTimer);
-                    document.getElementById('cart-step-3').innerHTML = `
-                        <i class="fa-solid fa-fire-burner text-7xl text-red-600 mb-6 animate-pulse"></i>
-                        <h3 class="text-3xl font-black italic uppercase mb-4">En Cocina</h3>
-                        <p class="text-xs text-gray-500 uppercase tracking-widest px-10">El Cheff ha comenzado tu orden. El repartidor de Teziutlán llegará pronto.</p>
-                        <button onclick="toggleCart()" class="mt-10 bg-white text-black px-12 py-4 rounded-3xl font-black uppercase text-[10px]">Entendido</button>
-                    `;
-                }
-            }, 1000);
-        }
-
-        function cancelOrder() {
-            if(confirm("¿Desea cancelar su pedido? Esta acción no se puede deshacer.")) {
-                clearInterval(graceTimer);
-                cart = [];
-                updateCartUI();
-                toggleCart();
-                alert("Pedido cancelado. El equipo NEXO ha procesado su reembolso (Simulado).");
+        // --- TEMA ---
+        function toggleTheme() {
+            const b = document.body;
+            const icon = document.getElementById('t-icon');
+            if(b.classList.contains('dark-mode')) {
+                b.classList.replace('dark-mode', 'light-mode');
+                icon.classList.replace('fa-sun', 'fa-moon');
+            } else {
+                b.classList.replace('light-mode', 'dark-mode');
+                icon.classList.replace('fa-moon', 'fa-sun');
             }
         }
 
-        // --- MINIJUEGO: NEKO SENSEI (FISICA EVOLUTIVA) ---
-        const canvas = document.getElementById('sushiCanvas');
+        // --- GAME LOGIC (NEKO SENSEI) ---
+        const canvas = document.getElementById('gameCanvas');
         const ctx = canvas.getContext('2d');
-        let gameActive = false;
-        let score = 0, level = 1, speed = 2;
-        let basketX = 140, items = [];
+        let gameOn = false, score = 0, level = 1, speed = 2, playerX = 138, sushis = [];
 
         function toggleGame() {
-            gameActive = !gameActive;
-            document.getElementById('game-ui').classList.toggle('hidden');
-            if(gameActive) { score = 0; level = 1; items = []; gameLoop(); }
+            gameOn = !gameOn;
+            document.getElementById('game-modal').classList.toggle('hidden');
+            if(gameOn) startGame();
+        }
+
+        function startGame() {
+            score = 0; level = 1; speed = 2; sushis = [];
+            document.getElementById('game-over').classList.add('hidden');
+            gameLoop();
         }
 
         function gameLoop() {
-            if(!gameActive) return;
-            ctx.clearRect(0,0,280,350);
+            if(!gameOn) return;
+            ctx.clearRect(0, 0, 276, 526);
             
             // Dificultad Dinámica
-            level = Math.floor(score / 10) + 1;
-            speed = 2 + (level * 0.7);
-            document.getElementById('game-lv').innerText = level;
-            document.getElementById('game-score').innerText = `PTS: ${score}`;
+            level = Math.floor(score / 5) + 1;
+            speed = 2 + (level * 0.5);
+            document.getElementById('score-ui').innerText = `PTS: ${score} | LV: ${level}`;
 
-            // Basket (Gato)
-            ctx.fillStyle = "#E31C24";
-            ctx.beginPath();
-            ctx.roundRect(basketX - 30, 310, 60, 15, 10);
+            // Player (Gatito)
+            ctx.fillStyle = "white";
+            ctx.roundRect(playerX - 25, 480, 50, 10, 5);
             ctx.fill();
 
             // Spawn Sushi
-            if(Math.random() < 0.04) items.push({x: Math.random()*260, y: 0});
+            if(Math.random() < 0.03 * level) sushis.push({x: Math.random()*250, y: 0});
 
-            items.forEach((s, index) => {
+            sushis.forEach((s, i) => {
                 s.y += speed;
-                // Dibujar Sushi (Simulacion)
-                ctx.fillStyle = "white";
+                ctx.fillStyle = "#E31C24";
                 ctx.beginPath();
                 ctx.arc(s.x, s.y, 10, 0, Math.PI*2);
                 ctx.fill();
-                ctx.fillStyle = "red";
-                ctx.fillRect(s.x-5, s.y-2, 10, 4);
 
-                // Colision
-                if(s.y > 310 && s.y < 330 && s.x > basketX - 35 && s.x < basketX + 35) {
+                // Colisión
+                if(s.y > 480 && s.x > playerX - 30 && s.x < playerX + 30) {
                     score++;
-                    items.splice(index, 1);
+                    sushis.splice(i, 1);
                 }
-                if(s.y > 350) items.splice(index, 1);
+                
+                // GAME OVER: Si toca el suelo
+                if(s.y > 526) {
+                    gameOn = false;
+                    document.getElementById('game-over').classList.remove('hidden');
+                }
             });
 
-            requestAnimationFrame(gameLoop);
+            if(gameOn) requestAnimationFrame(gameLoop);
         }
 
-        canvas.addEventListener('mousemove', (e) => basketX = e.clientX - canvas.getBoundingClientRect().left);
+        canvas.addEventListener('mousemove', (e) => playerX = e.clientX - canvas.getBoundingClientRect().left);
         canvas.addEventListener('touchmove', (e) => {
-            basketX = e.touches[0].clientX - canvas.getBoundingClientRect().left;
+            playerX = e.touches[0].clientX - canvas.getBoundingClientRect().left;
             e.preventDefault();
         });
 
-        // --- THEME SWITCH ---
-        function toggleTheme() {
-            const b = document.body;
-            const icon = document.getElementById('theme-icon');
-            if(b.classList.contains('dark')) {
-                b.classList.replace('dark', 'light');
-                icon.classList.replace('fa-moon', 'fa-sun');
-            } else {
-                b.classList.replace('light', 'dark');
-                icon.classList.replace('fa-sun', 'fa-moon');
-            }
+        // --- ORDEN FINAL ---
+        function processOrder() {
+            if(cart.length === 0) return alert("Bolsa vacía");
+            const name = document.getElementById('cust-name').value;
+            const dir = document.getElementById('cust-dir').value;
+            if(!name || !dir) return alert("Llena tus datos de entrega.");
+
+            alert("¡Pedido enviado a Sushi-Kyto! El repartidor se pondrá en contacto pronto.");
+            cart = [];
+            updateCartUI();
+            toggleCart();
         }
 
         init();
