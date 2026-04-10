@@ -3,242 +3,239 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kyto Sushi | Sabor Premium</title>
+    <title>Kyto Sushi & Salads | Pedidos</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/scrollreveal"></script>
-    
     <style>
-        :root {
-            --kyto-red: #E31C24;
-            --apple-gray: #f5f5f7;
-        }
-        body { font-family: 'Inter', sans-serif; background-color: var(--apple-gray); overflow-x: hidden; }
+        body { font-family: 'Inter', sans-serif; background-color: #f4f4f7; color: #1d1d1f; }
+        .apple-blur { backdrop-filter: blur(15px); background: rgba(255, 255, 255, 0.8); }
+        .kyto-red { color: #E31C24; }
+        .bg-kyto-red { background-color: #E31C24; }
         
-        /* Fondo de ondas japonesas (Seigaiha) de las fotos */
-        .bg-waves {
-            background-color: #ffffff;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='40' viewBox='0 0 80 40'%3E%3Cpath fill='%23d1d1d6' fill-opacity='0.3' d='M0 40a19.96 19.96 0 0 1 10-17.32 20 20 0 0 1 20 0V40H0zM20 20a19.96 19.96 0 0 1 10-17.32 20 20 0 0 1 20 0V20H20zM40 40a19.96 19.96 0 0 1 10-17.32 20 20 0 0 1 20 0V40H40zM60 20a19.96 19.96 0 0 1 10-17.32 20 20 0 0 1 20 0V20H60zM0 0a19.96 19.96 0 0 1 10 17.32 20 20 0 0 1 20 0V0H0zM40 0a19.96 19.96 0 0 1 10 17.32 20 20 0 0 1 20 0V0H40zM20 40a19.96 19.96 0 0 1 10-17.32 20 20 0 0 1 20 0V40H20zM60 40a19.96 19.96 0 0 1 10-17.32 20 20 0 0 1 20 0V40H60z'/%3E%3C/svg%3E");
-        }
-
-        /* Animación del Gato Dorado */
-        @keyframes fortune-wave {
+        /* Animación Gato Dorado */
+        @keyframes wave-gold {
             0% { transform: rotate(0deg); }
-            50% { transform: rotate(-25deg); }
+            50% { transform: rotate(-20deg); }
             100% { transform: rotate(0deg); }
         }
-        .cat-arm {
-            animation: fortune-wave 1.2s infinite ease-in-out;
-            transform-origin: 80% 80%;
-        }
-        .blur-nav {
-            backdrop-filter: blur(20px);
-            background-color: rgba(0,0,0,0.8);
-        }
-        .card-apple {
-            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        .card-apple:hover {
-            transform: scale(1.03);
+        .gold-arm { animation: wave-gold 1s infinite ease-in-out; transform-origin: bottom right; }
+        
+        /* Estilo de franjas japonesas */
+        .pattern-bg {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 40 40'%3E%3Cpath fill='%23d1d1d6' fill-opacity='0.2' d='M0 38.59l2.83-2.83 1.41 1.41L1.41 40H0v-1.41zM0 1.41L1.41 0h1.41L0 2.83V1.41zm40 37.18L38.59 40H37.17l2.83-2.83v1.41zM40 1.41V0h-1.41l2.83 2.83v-1.41zM20 18.59l2.83-2.83 1.41 1.41L21.41 20H20v-1.41zM20 1.41L21.41 0h1.41L20 2.83V1.41z'/%3E%3C/svg%3E");
         }
     </style>
 </head>
-<body class="bg-waves">
+<body class="pattern-bg">
 
-    <nav class="blur-nav text-white p-4 fixed w-full top-0 z-[100] transition-all">
-        <div class="container mx-auto flex justify-between items-center px-4">
-            <div class="flex items-center gap-4">
-                <h1 class="text-xl font-extrabold tracking-tighter">KYTO<span class="font-light text-gray-400">|SUSHI</span></h1>
-            </div>
-            <div class="flex items-center gap-8 text-sm font-medium">
-                <button onclick="toggleCart()" class="relative hover:text-red-500 transition">
-                    <i class="fa-solid fa-bag-shopping text-xl"></i>
-                    <span id="cart-dot" class="absolute -top-1 -right-1 bg-red-600 w-2 h-2 rounded-full hidden"></span>
+    <nav class="apple-blur fixed w-full top-0 z-[100] border-b border-gray-200">
+        <div class="container mx-auto flex justify-between items-center p-4">
+            <div class="text-2xl font-black tracking-tighter">KYTO <span class="kyto-red">SUSHI</span></div>
+            <div class="flex gap-6 items-center">
+                <button onclick="toggleCart()" class="relative">
+                    <i class="fa-solid fa-cart-shopping text-xl"></i>
+                    <span id="cart-count" class="absolute -top-2 -right-2 bg-red-600 text-white text-[10px] rounded-full px-1.5 font-bold">0</span>
                 </button>
-                <button class="bg-white text-black px-4 py-1.5 rounded-full hover:bg-gray-200 transition">Perfil</button>
+                <i class="fa-solid fa-circle-user text-2xl cursor-pointer"></i>
             </div>
         </div>
     </nav>
 
-    <header class="pt-32 pb-20 text-center px-4">
-        <h2 class="text-5xl md:text-7xl font-extrabold mb-4 tracking-tight reveal">Kyto Box.</h2>
-        <p class="text-xl text-gray-500 max-w-2xl mx-auto reveal">Increíble por fuera. Delicioso por dentro. Disponible en Teziutlán.</p>
+    <header class="pt-28 pb-10 text-center px-4">
+        <h1 class="text-4xl md:text-6xl font-black mb-2 reveal">MENÚ OFICIAL</h1>
+        <p class="text-gray-500 font-medium reveal">Díaz Mirón 306 Esquina, Teziutlán | 1:00 PM - 9:00 PM</p>
     </header>
 
-    <main class="container mx-auto px-4 pb-20">
+    <main class="container mx-auto px-4 space-y-12 pb-24">
         
-        <div class="mb-20">
-            <h3 class="text-3xl font-bold mb-10 reveal">Paquetes Kyto <span class="text-gray-400">1.3</span></h3>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <div class="card-apple bg-white rounded-[2rem] p-8 shadow-sm border border-gray-100 reveal">
-                    <span class="text-red-600 font-bold">Popular</span>
-                    <h4 class="text-2xl font-bold mt-2">Mini Paquete</h4>
-                    <ul class="text-gray-500 mt-4 space-y-2 text-sm">
-                        <li>• 5 Pzas de Empanizado Roll</li>
-                        <li>• Una brocheta de Manchego</li>
-                        <li>• 120grs de Pasta o Arroz</li>
-                    </ul>
-                    <div class="mt-8 flex justify-between items-center">
-                        <span class="text-3xl font-bold text-black">$120</span>
-                        <button onclick="addToCart('Mini Paquete', 120)" class="bg-black text-white px-6 py-2 rounded-full hover:bg-zinc-800 transition">Añadir</button>
+        <section class="reveal">
+            <h2 class="text-2xl font-black border-l-4 border-red-600 pl-4 mb-6 italic">CATEGORÍA 1.3 - PAQUETES</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition border border-gray-100">
+                    <div class="h-48 bg-gray-200 overflow-hidden cursor-pointer" onclick="viewImage('1.3 - Mini Paquete')">
+                        <img src="https://via.placeholder.com/400x300?text=Imagen+1.3+Paquetes" class="w-full h-full object-cover hover:scale-105 transition">
+                    </div>
+                    <div class="p-6">
+                        <h3 class="font-bold text-lg">Mini Paquete</h3>
+                        <p class="text-xs text-gray-400 mb-4 font-bold">REF: 1.3</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-2xl font-black kyto-red">$120</span>
+                            <button onclick="addToCart('Mini Paquete', 120)" class="bg-black text-white px-6 py-2 rounded-full font-bold text-sm">Añadir</button>
+                        </div>
                     </div>
                 </div>
 
-                <div class="card-apple bg-black text-white rounded-[2rem] p-8 shadow-2xl reveal">
-                    <span class="text-yellow-500 font-bold">Familiar</span>
-                    <h4 class="text-2xl font-bold mt-2 text-white">Kyto Box Premium</h4>
-                    <p class="text-gray-400 mt-4 text-sm">3 Rollos Especiales + Yakimeshi + Brochetas + Onigiris + 3 Galletas.</p>
-                    <div class="mt-8 flex justify-between items-center">
-                        <span class="text-3xl font-bold">$530</span>
-                        <button onclick="addToCart('Kyto Box Premium', 530)" class="bg-white text-black px-6 py-2 rounded-full hover:bg-gray-200 transition">Añadir</button>
+                <div class="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition border border-gray-100">
+                    <div class="h-48 bg-gray-200 overflow-hidden cursor-pointer" onclick="viewImage('1.3 - Kyto Box')">
+                        <img src="https://via.placeholder.com/400x300?text=Imagen+1.3+Kyto+Box" class="w-full h-full object-cover">
+                    </div>
+                    <div class="p-6">
+                        <h3 class="font-bold text-lg">Kyto Box</h3>
+                        <p class="text-xs text-gray-400 mb-4 font-bold">REF: 1.3</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-2xl font-black kyto-red">$530</span>
+                            <button onclick="addToCart('Kyto Box', 530)" class="bg-black text-white px-6 py-2 rounded-full font-bold text-sm">Añadir</button>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </section>
 
-        <div class="mb-20">
-            <h3 class="text-3xl font-bold mb-10 reveal">Especialidades <span class="text-gray-400">1.1 & 1.2</span></h3>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div class="card-apple bg-white rounded-[2rem] p-8 reveal flex justify-between items-center">
+        <section class="reveal">
+            <h2 class="text-2xl font-black border-l-4 border-red-600 pl-4 mb-6 italic">CATEGORÍA 1.1 - ROLLOS</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div class="bg-white p-4 rounded-xl flex justify-between items-center shadow-sm border border-gray-50">
                     <div>
-                        <h4 class="text-xl font-bold">Ramen Arrachera</h4>
-                        <p class="text-gray-500 text-sm mt-1">Pasta, zanahoria, huevo, naruto...</p>
-                        <span class="block mt-4 text-2xl font-bold">$160</span>
+                        <p class="font-bold text-sm uppercase">Avocado Roll</p>
+                        <p class="text-lg font-black kyto-red">$120</p>
                     </div>
-                    <button onclick="addToCart('Ramen Arrachera', 160)" class="bg-zinc-100 p-4 rounded-full hover:bg-zinc-200 transition"><i class="fa-solid fa-plus"></i></button>
+                    <button onclick="addToCart('Avocado Roll', 120)" class="bg-gray-100 p-3 rounded-full hover:bg-red-50 hover:text-red-600 transition"><i class="fa-solid fa-plus"></i></button>
                 </div>
-                <div class="card-apple bg-white rounded-[2rem] p-8 reveal flex justify-between items-center">
+                <div class="bg-white p-4 rounded-xl flex justify-between items-center shadow-sm border border-gray-50">
                     <div>
-                        <h4 class="text-xl font-bold">Poke Bowl Camarón</h4>
-                        <p class="text-gray-500 text-sm mt-1">Base + Proteína + 4 Complementos</p>
-                        <span class="block mt-4 text-2xl font-bold">$165</span>
+                        <p class="font-bold text-sm uppercase">Filadelfia Roll</p>
+                        <p class="text-lg font-black kyto-red">$105</p>
                     </div>
-                    <button onclick="addToCart('Poke Bowl Camarón', 165)" class="bg-zinc-100 p-4 rounded-full hover:bg-zinc-200 transition"><i class="fa-solid fa-plus"></i></button>
+                    <button onclick="addToCart('Filadelfia Roll', 105)" class="bg-gray-100 p-3 rounded-full hover:bg-red-50 hover:text-red-600 transition"><i class="fa-solid fa-plus"></i></button>
                 </div>
             </div>
-        </div>
+        </section>
+
     </main>
 
-    <div id="maneki" class="fixed bottom-8 right-8 z-[200] cursor-pointer group scale-100 active:scale-90 transition-transform">
-        <div class="relative">
-            <div id="cat-bubble" class="absolute -top-16 right-0 bg-white px-4 py-2 rounded-2xl shadow-xl text-xs font-semibold opacity-0 group-hover:opacity-100 transition-all border border-gray-100 pointer-events-none">
-                ¿Buscas algo especial? 🍣
-            </div>
-            <div class="bg-gradient-to-b from-yellow-300 to-yellow-600 p-4 rounded-full shadow-2xl border-2 border-yellow-200 w-20 h-20 flex flex-col items-center justify-center relative">
-                <i class="fa-solid fa-cat text-4xl text-yellow-900"></i>
-                <div class="cat-arm absolute top-2 right-1 text-2xl text-yellow-100">
-                    <i class="fa-solid fa-hand-back-fist"></i>
+    <div onclick="catAction()" class="fixed bottom-6 left-6 z-[200] cursor-pointer group">
+        <div class="bg-gradient-to-br from-yellow-300 via-yellow-500 to-yellow-700 p-3 rounded-full shadow-2xl border-2 border-yellow-200 w-16 h-16 flex items-center justify-center">
+            <div class="relative">
+                <i class="fa-solid fa-cat text-3xl text-yellow-900"></i>
+                <div class="gold-arm absolute -top-1 -right-2 text-xl text-yellow-100">
+                    <i class="fa-solid fa-hand-peace"></i>
                 </div>
-                <div class="text-[8px] font-black text-yellow-900 mt-1">KYTO</div>
             </div>
         </div>
     </div>
 
-    <div id="cart-panel" class="fixed top-0 right-[-100%] w-full md:w-96 h-full bg-white z-[300] shadow-2xl transition-all duration-500 flex flex-col">
-        <div class="p-8 flex justify-between items-center border-b">
-            <h3 class="text-2xl font-bold">Tu Pedido</h3>
-            <button onclick="toggleCart()" class="text-2xl">&times;</button>
+    <div id="cart-panel" class="fixed top-0 right-[-100%] w-full md:w-[400px] h-full bg-white z-[300] shadow-2xl transition-all duration-300 flex flex-col">
+        <div class="p-6 border-b flex justify-between items-center">
+            <h2 class="font-black text-xl italic uppercase">Tu Orden</h2>
+            <button onclick="toggleCart()" class="text-3xl font-light">&times;</button>
         </div>
-        <div id="cart-items" class="flex-grow p-8 overflow-y-auto space-y-4">
-            <p class="text-gray-400 text-center mt-20 italic font-light">Tu bolsa está vacía.</p>
-        </div>
-        <div class="p-8 border-t bg-gray-50">
-            <div class="flex justify-between text-sm mb-2 text-gray-500">
-                <span>Subtotal</span>
-                <span id="subtotal">$0.00</span>
+        
+        <div id="cart-items" class="flex-grow overflow-y-auto p-6 space-y-4">
             </div>
-            <div class="flex justify-between text-sm mb-4 text-gray-500">
-                <span>Envío Moto (Teziutlán)</span>
-                <span id="shipping-cost">$0.00</span>
+
+        <div class="p-6 bg-gray-50 border-t space-y-4">
+            <div class="flex justify-between text-sm font-bold">
+                <span>SUBTOTAL:</span>
+                <span id="subtotal">$0</span>
             </div>
-            <div class="flex justify-between text-xl font-bold mb-6">
-                <span>Total</span>
-                <span id="total">$0.00</span>
+            <div class="flex justify-between text-sm font-bold text-blue-600">
+                <span>ENVÍO MOTO:</span>
+                <span id="shipping">$40</span>
             </div>
-            <button class="w-full bg-black text-white py-4 rounded-full font-bold hover:bg-zinc-800 transition shadow-lg">Finalizar Pedido</button>
+            <div class="flex justify-between text-2xl font-black border-t pt-4">
+                <span>TOTAL:</span>
+                <span id="total" class="kyto-red">$0</span>
+            </div>
+            
+            <div class="pt-4 border-t">
+                <p class="text-[10px] font-black text-gray-400 mb-2 uppercase tracking-widest">Método de Pago</p>
+                <div class="grid grid-cols-2 gap-2">
+                    <button class="border-2 border-black rounded-lg py-2 text-xs font-bold hover:bg-black hover:text-white transition">Efectivo</button>
+                    <button class="border border-gray-200 rounded-lg py-2 text-xs font-bold flex items-center justify-center gap-1 opacity-50 cursor-not-allowed">
+                        <i class="fa-brands fa-google-pay text-lg"></i> Pay
+                    </button>
+                </div>
+            </div>
+
+            <button onclick="finishOrder()" class="w-full bg-kyto-red text-white py-4 rounded-xl font-black shadow-lg hover:shadow-red-200 transition">ORDENAR AHORA</button>
         </div>
     </div>
 
-    <footer class="bg-white p-20 text-center border-t border-gray-100">
-        <p class="text-sm text-gray-400">Kyto Sushi & Salads • Teziutlán, Puebla</p>
-        <p class="text-[10px] text-gray-300 mt-4 uppercase tracking-[0.2em]">Designed with Apple Philosophy in mind</p>
-    </footer>
+    <div id="modal-img" class="fixed inset-0 bg-black/90 z-[500] hidden flex items-center justify-center p-4">
+        <button onclick="closeImage()" class="absolute top-10 right-10 text-white text-4xl">&times;</button>
+        <div class="max-w-4xl w-full text-center">
+            <h3 id="modal-title" class="text-white mb-4 font-bold"></h3>
+            <img id="full-img" src="" class="max-h-[80vh] mx-auto rounded-lg">
+            <p class="text-gray-400 mt-4 text-sm italic">Desliza para ver detalles del paquete o especialidad.</p>
+        </div>
+    </div>
 
     <script>
-        // Lógica de Carrito
         let cart = [];
-        const shippingFee = 40;
+        const shippingCost = 40;
 
         function addToCart(name, price) {
-            cart.push({ name, price });
-            updateCartUI();
-            
-            // Animación gato al comprar
-            const bubble = document.getElementById('cat-bubble');
-            bubble.innerText = "¡Excelente elección! 🍱";
-            bubble.style.opacity = 1;
-            setTimeout(() => bubble.style.opacity = 0, 2000);
-
-            // Mostrar punto rojo en bolsa
-            document.getElementById('cart-dot').classList.remove('hidden');
+            cart.push({ id: Date.now(), name, price });
+            updateUI();
+            if (window.innerWidth > 768) toggleCart(true);
         }
 
-        function updateCartUI() {
-            const container = document.getElementById('cart-items');
+        function removeFromCart(id) {
+            cart = cart.filter(item => item.id !== id);
+            updateUI();
+        }
+
+        function updateUI() {
+            const list = document.getElementById('cart-items');
             const subtotalEl = document.getElementById('subtotal');
-            const shippingEl = document.getElementById('shipping-cost');
             const totalEl = document.getElementById('total');
-            
+            const countEl = document.getElementById('cart-count');
+
+            countEl.innerText = cart.length;
+
             if (cart.length === 0) {
-                container.innerHTML = `<p class="text-gray-400 text-center mt-20 italic">Tu bolsa está vacía.</p>`;
-                subtotalEl.innerText = `$0.00`;
-                shippingEl.innerText = `$0.00`;
-                totalEl.innerText = `$0.00`;
+                list.innerHTML = `<div class="text-center py-20 text-gray-300 italic">No hay productos</div>`;
+                subtotalEl.innerText = "$0";
+                totalEl.innerText = "$0";
                 return;
             }
 
-            container.innerHTML = cart.map((item, index) => `
-                <div class="flex justify-between items-center bg-white border-b pb-4">
+            list.innerHTML = cart.map(item => `
+                <div class="flex justify-between items-center bg-gray-50 p-4 rounded-xl animate-fade-in">
                     <div>
-                        <p class="font-semibold">${item.name}</p>
-                        <p class="text-gray-400 text-xs">$${item.price}</p>
+                        <p class="font-bold text-sm uppercase">${item.name}</p>
+                        <p class="kyto-red font-black">$${item.price}</p>
                     </div>
-                    <button onclick="removeFromCart(${index})" class="text-red-500 text-xs uppercase font-bold">Eliminar</button>
+                    <button onclick="removeFromCart(${item.id})" class="text-gray-400 hover:text-red-600 transition">
+                        <i class="fa-solid fa-trash-can"></i>
+                    </button>
                 </div>
             `).join('');
 
-            const subtotal = cart.reduce((sum, item) => sum + item.price, 0);
+            const subtotal = cart.reduce((acc, item) => acc + item.price, 0);
             subtotalEl.innerText = `$${subtotal}`;
-            shippingEl.innerText = `$${shippingFee}`;
-            totalEl.innerText = `$${subtotal + shippingFee}`;
+            totalEl.innerText = `$${subtotal + shippingCost}`;
         }
 
-        function removeFromCart(index) {
-            cart.splice(index, 1);
-            updateCartUI();
-            if(cart.length === 0) document.getElementById('cart-dot').classList.add('hidden');
-        }
-
-        function toggleCart() {
+        function toggleCart(forceOpen = false) {
             const panel = document.getElementById('cart-panel');
-            panel.style.right = panel.style.right === '0px' ? '-100%' : '0px';
+            if (forceOpen) panel.style.right = "0px";
+            else panel.style.right = panel.style.right === "0px" ? "-100%" : "0px";
         }
 
-        // Interacción Gato
-        document.getElementById('maneki').onclick = () => {
-            alert("Soy el Gato de la Fortuna de Kyto. Recuerda que abrimos de 1:00 PM a 9:00 PM.");
-        };
+        function viewImage(title) {
+            document.getElementById('modal-img').classList.remove('hidden');
+            document.getElementById('modal-title').innerText = title;
+            // Aquí deberás poner la URL real de la imagen cuando la subas a GitHub
+            document.getElementById('full-img').src = "https://via.placeholder.com/800x1000?text=Menu+Real+Kyto+" + title;
+        }
 
-        // Inicializar Animaciones tipo Apple
-        ScrollReveal().reveal('.reveal', {
-            delay: 200,
-            distance: '50px',
-            origin: 'bottom',
-            duration: 1000,
-            easing: 'cubic-bezier(0.5, 0, 0, 1)',
-            interval: 100
-        });
+        function closeImage() {
+            document.getElementById('modal-img').classList.add('hidden');
+        }
+
+        function catAction() {
+            alert("¡Irasshaimase! Kyto Teziutlán te saluda. ¿Listo para pedir?");
+        }
+
+        function finishOrder() {
+            if(cart.length === 0) return alert("Agrega algo al carrito primero.");
+            alert("Redirigiendo a inicio de sesión de Google para confirmar dirección...");
+        }
+
+        ScrollReveal().reveal('.reveal', { delay: 100, distance: '20px', origin: 'bottom', duration: 800 });
     </script>
 </body>
 </html>
