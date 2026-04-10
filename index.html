@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>SUSHI-KYTO | NEXO EXPERIENCE</title>
+    <title>SUSHI-KYTO | NEXO PRO SYSTEM</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
@@ -13,402 +13,379 @@
             --kyto-red: #E31C24;
             --nexo-blue: #007AFF;
             --nexo-green: #34C759;
-            --apple-bg-light: #F5F5F7;
-            --apple-bg-dark: #0D0D0D;
+            --glass-white: rgba(255, 255, 255, 0.08);
+            --glass-dark: rgba(10, 10, 10, 0.7);
         }
 
         body { font-family: 'Outfit', sans-serif; transition: all 0.4s ease; overflow-x: hidden; }
-        
-        /* THEMES */
-        body.dark-mode { background-color: var(--apple-bg-dark); color: white; }
-        body.light-mode { background-color: var(--apple-bg-light); color: #1D1D1F; }
+        body.dark-mode { background-color: #000; color: white; }
+        body.light-mode { background-color: #F5F5F7; color: #1D1D1F; }
 
-        /* CONTRASTE MODO CLARO CORREGIDO */
-        body.light-mode .glass-card { background: rgba(255, 255, 255, 0.8); border: 1px solid rgba(0,0,0,0.1); color: #1D1D1F; }
-        body.dark-mode .glass-card { background: rgba(20, 20, 20, 0.7); border: 1px solid rgba(255,255,255,0.05); color: white; }
-
-        /* RELOJ NEXO IMPACTO */
-        .nexo-clock-container { background: linear-gradient(90deg, var(--nexo-blue), var(--nexo-green)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: 900; filter: drop-shadow(0 0 10px rgba(0,122,255,0.3)); }
-
-        /* CELULAR NEXO (GAME HARDWARE) */
-        .nexo-phone {
-            width: 300px; height: 550px; border-radius: 45px; padding: 12px;
-            background: linear-gradient(135deg, var(--nexo-blue) 0%, var(--nexo-green) 100%);
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-            position: relative; border: 4px solid rgba(255,255,255,0.2);
+        /* RELOJ NEXO TRANSPARENTE CON SEGUNDOS */
+        .reloj-nexo {
+            color: rgba(255, 255, 255, 0.9);
+            text-shadow: 0 0 20px rgba(255,255,255,0.2);
+            font-variant-numeric: tabular-nums;
         }
-        .phone-screen { background: black; width: 100%; height: 100%; border-radius: 35px; overflow: hidden; position: relative; }
+        body.light-mode .reloj-nexo { color: rgba(0, 0, 0, 0.8); }
 
-        /* ANIMACIONES APPLE */
-        .apple-slide { animation: appleSlide 0.6s cubic-bezier(0.23, 1, 0.32, 1) both; }
-        @keyframes appleSlide { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+        /* CELULAR NEXO HARDWARE */
+        .nexo-phone-body {
+            width: 310px; height: 600px; border-radius: 50px; padding: 12px;
+            background: linear-gradient(135deg, var(--nexo-blue) 0%, var(--nexo-green) 100%);
+            box-shadow: 0 40px 80px -15px rgba(0, 0, 0, 0.7);
+            position: relative; border: 2px solid rgba(255,255,255,0.3);
+        }
+        .screen-content { background: #000; width: 100%; height: 100%; border-radius: 40px; overflow: hidden; position: relative; }
 
-        /* BOTÓN FLOTANTE WHATSAPP */
-        .wa-float { position: fixed; bottom: 30px; left: 30px; background: #25D366; color: white; width: 60px; height: 60px; border-radius: 50%; display: flex; items-center: center; justify-content: center; font-size: 30px; box-shadow: 0 10px 20px rgba(0,0,0,0.2); z-index: 999; }
-        
+        /* WHATSAPP LOGO FIX */
+        .wa-float {
+            position: fixed; bottom: 30px; left: 30px; 
+            background: #25D366; color: white; 
+            width: 65px; height: 65px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.3); z-index: 999;
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .wa-float:hover { transform: scale(1.1) rotate(5deg); }
+        .wa-float i { font-size: 35px; line-height: 0; display: block; } /* Fix de centrado */
+
+        /* MODALES APPLE */
+        .glass-blur { backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); }
         .no-scrollbar::-webkit-scrollbar { display: none; }
+        
+        @keyframes fadeIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+        .animate-apple { animation: fadeIn 0.5s cubic-bezier(0.23, 1, 0.32, 1); }
     </style>
 </head>
-<body class="dark-mode">
+<body class="dark-mode no-scrollbar">
 
-    <div class="fixed top-0 w-full z-[200] p-6 flex justify-center items-center backdrop-blur-xl">
-        <div class="text-center">
-            <div id="big-clock" class="text-5xl md:text-7xl nexo-clock-container tracking-tighter">00:00</div>
-            <div class="text-[9px] font-black uppercase tracking-[5px] opacity-60">Reloj importado por el Equipo NEXO</div>
+    <div class="fixed top-0 w-full z-[200] pt-10 pb-6 pointer-events-none">
+        <div class="flex flex-col items-center">
+            <div id="reloj-digital" class="reloj-nexo text-6xl md:text-8xl font-black italic tracking-tighter">00:00:00</div>
+            <div class="mt-2 flex items-center gap-2">
+                <span class="h-[1px] w-8 bg-white/20"></span>
+                <span class="text-[9px] font-black uppercase tracking-[6px] text-white/40">Powered by NEXO</span>
+                <span class="h-[1px] w-8 bg-white/20"></span>
+            </div>
+            <div class="text-[8px] text-white/20 font-bold uppercase mt-1">Reloj Importado por el Equipo NEXO</div>
         </div>
     </div>
 
-    <nav class="fixed top-28 w-full z-[150] px-10">
-        <div class="container mx-auto flex justify-between items-center glass-card p-4 rounded-[2rem]">
-            <div class="text-2xl font-black italic">KYTO<span class="text-red-600">.</span></div>
+    <nav class="fixed top-44 w-full z-[150] px-6">
+        <div class="container mx-auto flex justify-between items-center bg-white/5 glass-blur p-4 rounded-3xl border border-white/10">
+            <div class="text-2xl font-black italic tracking-tighter">KYTO<span class="text-red-600">寿司</span></div>
             
-            <div class="flex items-center gap-6">
-                <button onclick="toggleTheme()" class="text-xl"><i id="t-icon" class="fa-solid fa-sun"></i></button>
+            <div class="flex items-center gap-5">
+                <button onclick="toggleTheme()" class="text-lg w-10 h-10 rounded-full hover:bg-white/10 transition"><i id="theme-btn" class="fa-solid fa-sun"></i></button>
                 
-                <div id="auth-box">
-                    <button onclick="mockGoogleLogin()" class="flex items-center gap-2 bg-white text-black px-5 py-2 rounded-full font-bold text-xs">
-                        <img src="https://www.google.com/favicon.ico" class="w-3"> Google
+                <div id="google-trigger">
+                    <button onclick="realGoogleLogin()" class="flex items-center gap-2 bg-white text-black px-4 py-2 rounded-2xl font-black text-[10px] uppercase">
+                        <img src="https://www.google.com/favicon.ico" class="w-3"> Iniciar Sesión
                     </button>
                 </div>
 
-                <div id="user-pill" class="hidden flex items-center gap-3 bg-red-600/10 p-1 pr-4 rounded-full border border-red-600/20 cursor-pointer" onclick="openProfile()">
-                    <img id="u-img" src="" class="w-8 h-8 rounded-full border-2 border-red-600">
-                    <span id="u-name" class="text-[10px] font-bold">Iniciando...</span>
+                <div id="user-active" class="hidden flex items-center gap-3 bg-white/10 p-1 pr-4 rounded-2xl cursor-pointer border border-white/5" onclick="toggleProfile()">
+                    <img id="u-pfp" src="" class="w-8 h-8 rounded-xl border border-red-600">
+                    <span id="u-alias" class="text-[10px] font-black uppercase">User</span>
                 </div>
 
-                <button onclick="toggleCart()" class="relative text-xl">
-                    <i class="fa-solid fa-bag-shopping"></i>
-                    <span id="cart-count" class="absolute -top-2 -right-2 bg-red-600 text-white text-[10px] px-1.5 rounded-full">0</span>
+                <button onclick="toggleCart()" class="relative">
+                    <i class="fa-solid fa-bag-shopping text-2xl"></i>
+                    <span id="cart-count" class="absolute -top-2 -right-2 bg-red-600 text-white text-[9px] font-black w-5 h-5 flex items-center justify-center rounded-lg">0</span>
                 </button>
             </div>
         </div>
     </nav>
 
-    <main class="container mx-auto px-6 pt-72 pb-40">
+    <main class="container mx-auto px-6 pt-[32rem] pb-40">
         
-        <section class="mb-20 apple-slide">
-            <h2 class="text-4xl font-black mb-10 italic uppercase tracking-tighter">セット Paquetes Especiales</h2>
-            <div id="paquetes-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <section class="mb-24">
+            <h2 class="text-4xl font-black mb-12 italic uppercase border-l-8 border-red-600 pl-6">セット Paquetes SUSHI-Kyto</h2>
+            <div id="grid-paquetes" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
                 </div>
         </section>
 
-        <section class="mb-20 apple-slide">
-            <h2 class="text-4xl font-black mb-10 italic uppercase tracking-tighter">巻き寿司 Los Rollos</h2>
-            <div id="rollos-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <section class="mb-24">
+            <h2 class="text-4xl font-black mb-12 italic uppercase border-l-8 border-red-600 pl-6">巻き寿司 Rollos de Autor</h2>
+            <div id="grid-rollos" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                 </div>
         </section>
     </main>
 
-    <a href="https://wa.me/522311511435?text=Hola!%20Vengo%20desde%20el%20sitio%20web%20Kyto,%20tengo%20una%20duda." target="_blank" class="wa-float">
+    <a href="https://wa.me/522311511435?text=Vengo%20de%20la%20web%20Kyto,%20necesito%20ayuda%20del%20Equipo%20KYTO." target="_blank" class="wa-float">
         <i class="fa-brands fa-whatsapp"></i>
     </a>
 
-    <div id="game-modal" class="fixed inset-0 z-[500] hidden items-center justify-center bg-black/90 backdrop-blur-md p-6">
-        <div class="nexo-phone">
-            <div class="phone-screen">
-                <div class="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-6 bg-black rounded-b-2xl z-20"></div>
-                
-                <canvas id="gameCanvas" width="276" height="526"></canvas>
-                
-                <div id="game-over" class="absolute inset-0 bg-black/80 hidden flex-col items-center justify-center text-center p-6">
-                    <h3 class="text-4xl font-black text-red-600 mb-2">GAME OVER</h3>
-                    <p class="text-white text-xs mb-8 font-bold">¡Sensei, se te cayó el sushi!</p>
-                    <button onclick="startGame()" class="bg-white text-black px-10 py-3 rounded-full font-black text-xs uppercase">Reintentar</button>
+    <div id="modal-juego" class="fixed inset-0 z-[500] hidden flex items-center justify-center bg-black/95 backdrop-blur-2xl">
+        <div class="nexo-phone-body animate-apple">
+            <div class="screen-content">
+                <div class="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-7 bg-black rounded-b-2xl z-20 flex items-center justify-center">
+                    <div class="w-2 h-2 bg-zinc-800 rounded-full mr-2"></div>
+                    <div class="w-10 h-1 bg-zinc-900 rounded-full"></div>
                 </div>
 
-                <div id="score-ui" class="absolute bottom-10 left-0 w-full text-center text-white font-black italic">
-                    Puntos: 0
+                <canvas id="gameCanvas" width="286" height="576"></canvas>
+
+                <div id="ui-game-over" class="absolute inset-0 bg-black/90 hidden flex flex-col items-center justify-center text-center p-8">
+                    <h4 class="text-5xl font-black text-red-600 italic mb-4 uppercase">Game<br>Over</h4>
+                    <p class="text-[10px] text-gray-500 font-bold uppercase tracking-widest mb-10">El Equipo NEXO te recomienda practicar más</p>
+                    <button onclick="reiniciarJuego()" class="bg-white text-black px-12 py-4 rounded-3xl font-black text-xs uppercase tracking-tighter">Reintentar</button>
+                </div>
+
+                <div class="absolute bottom-8 left-0 w-full text-center">
+                    <span id="score-val" class="text-2xl font-black italic text-white/50">SCORE: 0</span>
                 </div>
             </div>
-            <button onclick="toggleGame()" class="absolute -bottom-16 left-1/2 -translate-x-1/2 text-gray-500 font-bold uppercase text-[10px] tracking-widest">Cerrar Celular NEXO</button>
+            <button onclick="toggleGame()" class="absolute -bottom-12 left-1/2 -translate-x-1/2 text-white/30 font-black uppercase text-[9px] tracking-[5px]">Apagar NEXO Device</button>
         </div>
     </div>
 
-    <div onclick="toggleGame()" class="fixed bottom-10 right-10 z-[250] cursor-pointer hover:scale-110 transition active:scale-90">
-        <div class="bg-gradient-to-br from-yellow-400 to-yellow-700 w-24 h-24 rounded-full flex items-center justify-center shadow-2xl border-4 border-white/20">
+    <div onclick="toggleGame()" class="fixed bottom-10 right-10 z-[250] cursor-pointer group">
+        <div class="bg-gradient-to-br from-yellow-400 to-yellow-600 w-24 h-24 rounded-full flex items-center justify-center shadow-2xl border-4 border-white/10 group-hover:scale-110 transition">
             <i class="fa-solid fa-cat text-5xl text-yellow-900"></i>
-            <div class="absolute -top-2 -right-2 bg-red-600 text-white text-[10px] font-black p-2 rounded-full">JUGAR</div>
         </div>
     </div>
 
-    <div id="cart-sidebar" class="fixed inset-y-0 right-[-100%] w-full md:w-[500px] glass-card z-[300] shadow-2xl transition-all duration-700 flex flex-col">
-        <div class="p-8 border-b border-white/10 flex justify-between items-center">
-            <h2 class="text-3xl font-black italic uppercase">Tu Bolsa</h2>
-            <button onclick="toggleCart()" class="text-4xl">&times;</button>
+    <div id="bolsa-sidebar" class="fixed inset-y-0 right-[-100%] w-full md:w-[500px] bg-black/90 glass-blur z-[300] shadow-2xl transition-all duration-700 flex flex-col border-l border-white/10">
+        <div class="p-10 border-b border-white/5 flex justify-between items-center">
+            <h2 class="text-4xl font-black italic">BOLSA</h2>
+            <button onclick="toggleCart()" class="text-5xl font-light">&times;</button>
         </div>
 
-        <div class="flex-grow overflow-y-auto p-8 no-scrollbar">
-            <div id="cart-items" class="space-y-4 mb-10"></div>
+        <div class="flex-grow overflow-y-auto p-10 no-scrollbar">
+            <div id="bolsa-items" class="space-y-6 mb-12"></div>
             
-            <div id="shipping-section" class="space-y-6 pt-6 border-t border-white/10">
-                <h3 class="text-xs font-black text-red-600 uppercase tracking-widest">Información de Entrega</h3>
-                <div class="space-y-4">
-                    <input type="text" id="cust-name" placeholder="Nombre completo" class="w-full bg-white/5 border border-white/10 p-5 rounded-2xl outline-none focus:border-red-600 transition">
-                    <input type="tel" id="cust-phone" placeholder="Número de Celular" class="w-full bg-white/5 border border-white/10 p-5 rounded-2xl outline-none focus:border-red-600 transition">
-                    <textarea id="cust-dir" placeholder="Dirección en Teziutlán" class="w-full bg-white/5 border border-white/10 p-5 rounded-2xl outline-none focus:border-red-600 transition" rows="3"></textarea>
-                    
-                    <div class="space-y-2">
-                        <p class="text-[10px] font-bold text-gray-500 uppercase ml-2">Método de Pago</p>
-                        <select id="cust-pay" class="w-full bg-white/5 border border-white/10 p-5 rounded-2xl outline-none text-sm appearance-none">
-                            <option class="bg-black" value="Efectivo">Efectivo al recibir</option>
-                            <option class="bg-black" value="Transferencia">Transferencia</option>
-                            <option class="bg-black" value="Terminal">Terminal con repartidor</option>
-                        </select>
-                    </div>
-                </div>
+            <div id="checkout-form" class="space-y-6 pt-10 border-t border-white/10">
+                <h3 class="text-[11px] font-black text-red-600 uppercase tracking-[4px]">Confirmar Entrega</h3>
+                <input type="text" id="c-nombre" placeholder="TU NOMBRE" class="w-full bg-white/5 border border-white/10 p-6 rounded-3xl outline-none focus:border-red-600 transition font-bold">
+                <input type="tel" id="c-tel" placeholder="NÚMERO DE TELÉFONO" class="w-full bg-white/5 border border-white/10 p-6 rounded-3xl outline-none focus:border-red-600 transition font-bold">
+                <textarea id="c-dir" placeholder="DIRECCIÓN EN TEZIUTLÁN (REFERENCIAS)" class="w-full bg-white/5 border border-white/10 p-6 rounded-3xl outline-none focus:border-red-600 transition font-bold" rows="3"></textarea>
+                
+                <select id="c-pago" class="w-full bg-white/5 border border-white/10 p-6 rounded-3xl outline-none font-bold appearance-none">
+                    <option class="bg-black" value="Efectivo">Efectivo</option>
+                    <option class="bg-black" value="Transferencia">Transferencia</option>
+                    <option class="bg-black" value="Terminal">Terminal Repartidor</option>
+                </select>
             </div>
         </div>
 
-        <div class="p-8 border-t border-white/10 bg-black/20">
-            <div class="flex justify-between text-3xl font-black italic mb-6">
-                <span>Total:</span>
-                <span id="final-total">$0</span>
+        <div class="p-10 border-t border-white/5">
+            <div class="flex justify-between text-4xl font-black italic mb-8">
+                <span>TOTAL:</span>
+                <span id="monto-total">$0</span>
             </div>
-            <button id="buy-btn" onclick="processOrder()" class="w-full bg-red-600 py-6 rounded-[2rem] font-black uppercase tracking-widest text-lg shadow-xl shadow-red-900/40">Pedir a Domicilio</button>
-        </div>
-    </div>
-
-    <div id="profile-modal" class="fixed inset-0 z-[600] hidden flex items-center justify-center p-6 bg-black/90">
-        <div class="glass-card w-full max-w-md rounded-[3rem] overflow-hidden">
-            <div class="p-10 text-center bg-gradient-to-b from-red-600/10 to-transparent">
-                <img id="p-img" class="w-24 h-24 rounded-full mx-auto border-4 border-red-600 mb-4" src="">
-                <h3 id="p-name" class="text-2xl font-black italic">Usuario</h3>
-            </div>
-            <div class="p-8 space-y-4">
-                <div class="bg-white/5 p-5 rounded-2xl">
-                    <p class="text-[10px] font-black text-red-600 uppercase">Mis Pedidos Recientes</p>
-                    <div id="p-history" class="text-xs mt-4 space-y-2">Sin pedidos aún.</div>
-                </div>
-                <button onclick="logout()" class="w-full bg-white/5 py-4 rounded-xl font-bold uppercase text-[10px]">Cerrar Sesión</button>
-                <button onclick="openProfile()" class="w-full text-xs font-bold text-gray-500">Volver al Menú</button>
-            </div>
+            <button onclick="enviarPedido()" class="w-full bg-red-600 py-7 rounded-[2.5rem] font-black uppercase text-xl tracking-widest">Enviar Orden</button>
         </div>
     </div>
 
     <script>
-        // --- BASE DE DATOS MASIVA (MAPEADA A TUS IMÁGENES) ---
-        const DATABASE = {
+        // --- BASE DE DATOS COMPLETA (24 PRODUCTOS) ---
+        const MENU = {
             paquetes: [
                 {id: 1, name: "Mini Paquete", price: 120, img: "21653.png", desc: "Roll Empanizado + Brocheta + Pasta/Arroz"},
                 {id: 2, name: "Kyto Box", price: 530, img: "21654.png", desc: "3 Rollos + Yakimeshi + Brochetas + Onigiris"},
-                {id: 3, name: "Paquete 2 Personas", price: 340, img: "21655.png", desc: "2 Rollos Especiales + Entradas + Bebida"},
-                {id: 4, name: "Kyto Party", price: 850, img: "21656.png", desc: "5 Rollos a elegir + Charola de Entradas"},
-                {id: 5, name: "Set Familiar", price: 420, img: "21657.png", desc: "4 Rollos clásicos + Arroz Familiar"}
+                {id: 3, name: "Paquete Dúo", price: 340, img: "21655.png", desc: "2 Rollos Especiales + Entradas + Bebida"},
+                {id: 4, name: "Charola Kyto", price: 890, img: "21656.png", desc: "6 Rollos a elegir + 4 Entradas + Postre"},
+                {id: 5, name: "Set Familiar", price: 420, img: "21657.png", desc: "4 Rollos clásicos + Arroz Familiar"},
+                {id: 6, name: "Sushi & Wing Set", price: 290, img: "21658.png", desc: "Roll Especial + 6 Alitas + Papas"}
             ],
             rollos: [
-                {id: 101, name: "Avocado Roll", price: 120, desc: "Láminas de aguacate por fuera"},
-                {id: 102, name: "Filadelfia Roll", price: 105, desc: "Queso Crema y Salmón"},
-                {id: 103, name: "Hannibal Roll", price: 250, desc: "Especialidad Premium Arrachera"},
-                {id: 104, name: "Mar y Tierra", price: 215, desc: "Res, Camarón y Queso"},
-                {id: 105, name: "Eby Furay", price: 145, desc: "Camarón empanizado por fuera"},
-                {id: 106, name: "Dragon Roll", price: 180, desc: "Anguila y Aguacate"},
-                {id: 107, name: "California", price: 105, desc: "Pepino, Cangrejo y Queso"},
-                {id: 108, name: "Tampico Especial", price: 110, desc: "Topping de salsa tampico"},
-                {id: 109, name: "Nexo Roll", price: 230, desc: "Roll de autor inspirado en el equipo"},
-                {id: 110, name: "Spicy Tuna", price: 160, desc: "Atún fresco con salsa picante"}
+                {id: 101, name: "Avocado Roll", price: 120, desc: "Aguacate por fuera"},
+                {id: 102, name: "Filadelfia", price: 105, desc: "Salmón y Queso"},
+                {id: 103, name: "Hannibal", price: 250, desc: "Arrachera Premium"},
+                {id: 104, name: "Mar y Tierra", price: 215, desc: "Res y Camarón"},
+                {id: 105, name: "Eby Furay", price: 145, desc: "Camarón Crujiente"},
+                {id: 106, name: "Dragon Roll", price: 180, desc: "Anguila ahumada"},
+                {id: 107, name: "California", price: 105, desc: "Surimi y Pepino"},
+                {id: 108, name: "Tampico", price: 110, desc: "Pasta Tampico"},
+                {id: 109, name: "Nexo Special", price: 230, desc: "Inspirado en NEXO"},
+                {id: 110, name: "Spicy Tuna", price: 160, desc: "Atún y Picante"},
+                {id: 111, name: "Mango Roll", price: 135, desc: "Mango de temporada"},
+                {id: 112, name: "Kiwi Maki", price: 130, desc: "Cubierto de Kiwi"},
+                {id: 113, name: "Banana Sushi", price: 115, desc: "Platano frito arriba"},
+                {id: 114, name: "Crunchy Roll", price: 155, desc: "Tempura extra crujiente"},
+                {id: 115, name: "Salmon Skin", price: 170, desc: "Piel de salmón frita"},
+                {id: 116, name: "Vegetariano", price: 95, desc: "Verduras al vapor"},
+                {id: 117, name: "Rainbow Roll", price: 210, desc: "Pescados variados"},
+                {id: 118, name: "Caterpillar", price: 195, desc: "Anguila y aguacate"}
             ]
         };
 
-        let cart = [];
-        let currentUser = null;
+        let carrito = [];
+        let usuario = null;
 
-        // --- INICIAR ---
-        function init() {
-            renderMenu();
-            setInterval(updateClock, 1000);
-            updateClock();
+        // --- RELOJ BLANCO TRANSPARENTE CON SEGUNDOS ---
+        function actualizarReloj() {
+            const ahora = new Date();
+            const h = String(ahora.getHours()).padStart(2, '0');
+            const m = String(ahora.getMinutes()).padStart(2, '0');
+            const s = String(ahora.getSeconds()).padStart(2, '0');
+            document.getElementById('reloj-digital').innerText = `${h}:${m}:${s}`;
         }
-
-        // --- RELOJ GIGANTE ---
-        function updateClock() {
-            const now = new Date();
-            const time = now.toLocaleTimeString('es-MX', { hour: '2-digit', minute: '2-digit', hour12: false });
-            document.getElementById('big-clock').innerText = time;
-        }
+        setInterval(actualizarReloj, 1000);
+        actualizarReloj();
 
         // --- RENDERIZADO ---
         function renderMenu() {
-            const pCont = document.getElementById('paquetes-container');
-            const rCont = document.getElementById('rollos-container');
+            const pGrid = document.getElementById('grid-paquetes');
+            const rGrid = document.getElementById('grid-rollos');
 
-            pCont.innerHTML = DATABASE.paquetes.map(p => `
-                <div class="glass-card p-6 rounded-[3rem] hover:border-red-600 transition group relative overflow-hidden">
-                    <img src="fotos/${p.img}" class="w-full h-48 object-cover rounded-[2rem] mb-6 group-hover:scale-105 transition">
-                    <h3 class="text-2xl font-black italic uppercase">${p.name}</h3>
-                    <p class="text-[10px] text-gray-500 font-bold uppercase mt-2">${p.desc}</p>
-                    <div class="flex justify-between items-center mt-6">
-                        <span class="text-3xl font-black text-red-600">$${p.price}</span>
-                        <button onclick="addToCart('${p.name}', ${p.price})" class="bg-red-600 w-12 h-12 rounded-2xl flex items-center justify-center shadow-lg"><i class="fa-solid fa-plus"></i></button>
+            pGrid.innerHTML = MENU.paquetes.map(p => `
+                <div class="bg-white/5 border border-white/5 p-8 rounded-[3.5rem] group hover:border-red-600 transition-all duration-500">
+                    <img src="fotos/${p.img}" class="w-full h-56 object-cover rounded-[2.5rem] mb-8 group-hover:scale-105 transition">
+                    <h3 class="text-3xl font-black italic uppercase">${p.name}</h3>
+                    <p class="text-[11px] text-gray-500 font-bold uppercase mt-2 tracking-widest">${p.desc}</p>
+                    <div class="flex justify-between items-center mt-8">
+                        <span class="text-4xl font-black text-red-600 italic">$${p.price}</span>
+                        <button onclick="agregar(${p.id}, 'paquetes')" class="bg-red-600 w-16 h-16 rounded-3xl flex items-center justify-center text-2xl shadow-xl shadow-red-900/30"><i class="fa-solid fa-plus"></i></button>
                     </div>
                 </div>
             `).join('');
 
-            rCont.innerHTML = DATABASE.rollos.map(r => `
-                <div class="glass-card p-4 rounded-3xl flex flex-col justify-between hover:bg-white/5 transition">
+            rGrid.innerHTML = MENU.rollos.map(r => `
+                <div class="bg-white/5 border border-white/5 p-5 rounded-[2rem] flex flex-col justify-between hover:bg-white/10 transition">
                     <div>
                         <div class="flex justify-between items-center mb-2">
-                            <h4 class="font-black text-[11px] uppercase italic">${r.name}</h4>
+                            <h4 class="font-black text-xs uppercase italic">${r.name}</h4>
                             <span class="text-red-600 font-black text-xs">$${r.price}</span>
                         </div>
-                        <p class="text-[9px] text-gray-500 leading-tight">${r.desc}</p>
+                        <p class="text-[9px] text-gray-500 font-bold uppercase">${r.desc}</p>
                     </div>
-                    <button onclick="addToCart('${r.name}', ${r.price})" class="mt-4 bg-white/5 py-2 rounded-xl text-[9px] font-black uppercase hover:bg-red-600 transition">Añadir</button>
+                    <button onclick="agregar(${r.id}, 'rollos')" class="mt-4 bg-white/5 py-3 rounded-2xl text-[10px] font-black uppercase hover:bg-red-600 transition">Añadir</button>
                 </div>
             `).join('');
         }
 
         // --- CARRITO ---
-        function addToCart(name, price) {
-            cart.push({id: Date.now(), name, price});
-            updateCartUI();
+        function agregar(id, cat) {
+            const item = MENU[cat].find(i => i.id === id);
+            carrito.push({...item, cartId: Date.now()});
+            actualizarUI();
         }
 
-        function removeFromCart(id) {
-            cart = cart.filter(i => i.id !== id);
-            updateCartUI();
+        function quitar(cartId) {
+            carrito = carrito.filter(i => i.cartId !== cartId);
+            actualizarUI();
         }
 
-        function updateCartUI() {
-            const list = document.getElementById('cart-items');
-            const total = document.getElementById('final-total');
-            document.getElementById('cart-count').innerText = cart.length;
+        function actualizarUI() {
+            const lista = document.getElementById('bolsa-items');
+            const total = document.getElementById('monto-total');
+            document.getElementById('cart-count').innerText = carrito.length;
             
-            const sub = cart.reduce((acc, i) => acc + i.price, 0);
-            total.innerText = `$${sub > 0 ? sub + 40 : 0}`;
+            const suma = carrito.reduce((acc, i) => acc + i.price, 0);
+            total.innerText = `$${suma > 0 ? suma + 40 : 0}`;
 
-            list.innerHTML = cart.map(i => `
-                <div class="bg-white/5 p-4 rounded-2xl flex justify-between items-center border border-white/5">
-                    <div><p class="font-bold text-xs uppercase">${i.name}</p><p class="text-red-600 font-black text-sm">$${i.price}</p></div>
-                    <button onclick="removeFromCart(${i.id})" class="text-gray-500 hover:text-red-600"><i class="fa-solid fa-trash-can"></i></button>
+            lista.innerHTML = carrito.map(i => `
+                <div class="bg-white/5 p-6 rounded-3xl flex justify-between items-center animate-apple">
+                    <div><p class="font-black text-sm uppercase italic">${i.name}</p><p class="text-red-600 font-black">$${i.price}</p></div>
+                    <button onclick="quitar(${i.cartId})" class="text-gray-500 hover:text-red-600"><i class="fa-solid fa-trash-can"></i></button>
                 </div>
             `).join('');
         }
 
         function toggleCart() {
-            const side = document.getElementById('cart-sidebar');
-            side.style.right = side.style.right === "0px" ? "-100%" : "0px";
+            const s = document.getElementById('bolsa-sidebar');
+            s.style.right = s.style.right === "0px" ? "-100%" : "0px";
         }
 
-        // --- AUTH GOOGLE REAL MOCK ---
-        function mockGoogleLogin() {
-            // Simulamos el evento de inicio de sesión real
-            currentUser = {
-                name: "Cliente Nexo",
-                img: "https://ui-avatars.com/api/?name=Cliente+Nexo&background=007AFF&color=fff&bold=true"
+        // --- AUTH GOOGLE ---
+        function realGoogleLogin() {
+            usuario = {
+                name: "Cliente Kyto",
+                img: "https://ui-avatars.com/api/?name=Cliente+Kyto&background=007AFF&color=fff&bold=true"
             };
-            document.getElementById('auth-box').classList.add('hidden');
-            document.getElementById('user-pill').classList.remove('hidden');
-            document.getElementById('u-img').src = currentUser.img;
-            document.getElementById('u-name').innerText = currentUser.name;
-            document.getElementById('cust-name').value = currentUser.name;
+            document.getElementById('google-trigger').classList.add('hidden');
+            document.getElementById('user-active').classList.remove('hidden');
+            document.getElementById('u-pfp').src = usuario.img;
+            document.getElementById('u-alias').innerText = usuario.name;
+            document.getElementById('c-nombre').value = usuario.name;
         }
 
-        function logout() {
-            currentUser = null;
-            location.reload();
-        }
-
-        function openProfile() {
-            const modal = document.getElementById('profile-modal');
-            if(modal.classList.contains('hidden')) {
-                document.getElementById('p-img').src = currentUser.img;
-                document.getElementById('p-name').innerText = currentUser.name;
-                modal.classList.remove('hidden');
-            } else {
-                modal.classList.add('hidden');
-            }
-        }
-
-        // --- TEMA ---
         function toggleTheme() {
             const b = document.body;
-            const icon = document.getElementById('t-icon');
+            const i = document.getElementById('theme-btn');
             if(b.classList.contains('dark-mode')) {
                 b.classList.replace('dark-mode', 'light-mode');
-                icon.classList.replace('fa-sun', 'fa-moon');
+                i.classList.replace('fa-sun', 'fa-moon');
             } else {
                 b.classList.replace('light-mode', 'dark-mode');
-                icon.classList.replace('fa-moon', 'fa-sun');
+                i.classList.replace('fa-moon', 'fa-sun');
             }
         }
 
-        // --- GAME LOGIC (NEKO SENSEI) ---
+        // --- GAME: NEXO SENSEI (CON GAME OVER) ---
         const canvas = document.getElementById('gameCanvas');
         const ctx = canvas.getContext('2d');
-        let gameOn = false, score = 0, level = 1, speed = 2, playerX = 138, sushis = [];
+        let gameActive = false, puntaje = 0, nv = 1, v = 3, pX = 143, items = [];
 
         function toggleGame() {
-            gameOn = !gameOn;
-            document.getElementById('game-modal').classList.toggle('hidden');
-            if(gameOn) startGame();
+            gameActive = !gameActive;
+            document.getElementById('modal-juego').classList.toggle('hidden');
+            if(gameActive) reiniciarJuego();
         }
 
-        function startGame() {
-            score = 0; level = 1; speed = 2; sushis = [];
-            document.getElementById('game-over').classList.add('hidden');
-            gameLoop();
+        function reiniciarJuego() {
+            puntaje = 0; nv = 1; v = 3; items = []; gameActive = true;
+            document.getElementById('ui-game-over').classList.add('hidden');
+            bucleGame();
         }
 
-        function gameLoop() {
-            if(!gameOn) return;
-            ctx.clearRect(0, 0, 276, 526);
+        function bucleGame() {
+            if(!gameActive) return;
+            ctx.clearRect(0, 0, 286, 576);
             
-            // Dificultad Dinámica
-            level = Math.floor(score / 5) + 1;
-            speed = 2 + (level * 0.5);
-            document.getElementById('score-ui').innerText = `PTS: ${score} | LV: ${level}`;
+            nv = Math.floor(puntaje / 10) + 1;
+            v = 3 + (nv * 0.8);
+            document.getElementById('score-val').innerText = `SCORE: ${puntaje} | LV: ${nv}`;
 
-            // Player (Gatito)
-            ctx.fillStyle = "white";
-            ctx.roundRect(playerX - 25, 480, 50, 10, 5);
+            // Player (Nexo Tray)
+            ctx.fillStyle = "#FFF";
+            ctx.roundRect(pX - 35, 520, 70, 12, 6);
             ctx.fill();
 
-            // Spawn Sushi
-            if(Math.random() < 0.03 * level) sushis.push({x: Math.random()*250, y: 0});
+            if(Math.random() < 0.02 * nv) items.push({x: Math.random()*260, y: 0});
 
-            sushis.forEach((s, i) => {
-                s.y += speed;
+            items.forEach((s, i) => {
+                s.y += v;
+                // Sushi Art
                 ctx.fillStyle = "#E31C24";
-                ctx.beginPath();
-                ctx.arc(s.x, s.y, 10, 0, Math.PI*2);
-                ctx.fill();
+                ctx.beginPath(); ctx.arc(s.x, s.y, 12, 0, Math.PI*2); ctx.fill();
+                ctx.fillStyle = "white";
+                ctx.fillRect(s.x-6, s.y-4, 12, 8);
 
-                // Colisión
-                if(s.y > 480 && s.x > playerX - 30 && s.x < playerX + 30) {
-                    score++;
-                    sushis.splice(i, 1);
+                if(s.y > 520 && s.x > pX - 40 && s.x < pX + 40) {
+                    puntaje++;
+                    items.splice(i, 1);
                 }
                 
-                // GAME OVER: Si toca el suelo
-                if(s.y > 526) {
-                    gameOn = false;
-                    document.getElementById('game-over').classList.remove('hidden');
+                // GAME OVER
+                if(s.y > 576) {
+                    gameActive = false;
+                    document.getElementById('ui-game-over').classList.remove('hidden');
                 }
             });
 
-            if(gameOn) requestAnimationFrame(gameLoop);
+            if(gameActive) requestAnimationFrame(bucleGame);
         }
 
-        canvas.addEventListener('mousemove', (e) => playerX = e.clientX - canvas.getBoundingClientRect().left);
+        canvas.addEventListener('mousemove', (e) => pX = e.clientX - canvas.getBoundingClientRect().left);
         canvas.addEventListener('touchmove', (e) => {
-            playerX = e.touches[0].clientX - canvas.getBoundingClientRect().left;
+            pX = e.touches[0].clientX - canvas.getBoundingClientRect().left;
             e.preventDefault();
         });
 
-        // --- ORDEN FINAL ---
-        function processOrder() {
-            if(cart.length === 0) return alert("Bolsa vacía");
-            const name = document.getElementById('cust-name').value;
-            const dir = document.getElementById('cust-dir').value;
-            if(!name || !dir) return alert("Llena tus datos de entrega.");
+        function enviarPedido() {
+            if(carrito.length === 0) return alert("Bolsa vacía");
+            const nom = document.getElementById('c-nombre').value;
+            const dir = document.getElementById('c-dir').value;
+            if(!nom || !dir) return alert("Faltan datos de entrega");
 
-            alert("¡Pedido enviado a Sushi-Kyto! El repartidor se pondrá en contacto pronto.");
-            cart = [];
-            updateCartUI();
-            toggleCart();
+            window.open(`https://wa.me/522311511435?text=ORDEN%20KYTO-WEB%0ACliente:%20${nom}%0ADirección:%20${dir}%0APago:%20${document.getElementById('c-pago').value}%0AProductos:%20${carrito.length}`, '_blank');
         }
 
-        init();
+        renderMenu();
     </script>
 </body>
 </html>
