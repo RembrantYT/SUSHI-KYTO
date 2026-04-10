@@ -3,239 +3,240 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kyto Sushi & Salads | Pedidos</title>
+    <title>Kyto Sushi & Salads | Sistema de Pedidos</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
-    <script src="https://unpkg.com/scrollreveal"></script>
     <style>
-        body { font-family: 'Inter', sans-serif; background-color: #f4f4f7; color: #1d1d1f; }
-        .apple-blur { backdrop-filter: blur(15px); background: rgba(255, 255, 255, 0.8); }
-        .kyto-red { color: #E31C24; }
-        .bg-kyto-red { background-color: #E31C24; }
+        :root { --kyto-red: #E31C24; }
+        body { font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif; background: #f5f5f7; }
+        .glass { backdrop-filter: blur(20px); background: rgba(255, 255, 255, 0.8); }
+        .bg-kyto { background-color: var(--kyto-red); }
         
-        /* Animación Gato Dorado */
-        @keyframes wave-gold {
+        /* Animación Pata del Gato */
+        @keyframes wave-pata {
             0% { transform: rotate(0deg); }
-            50% { transform: rotate(-20deg); }
+            50% { transform: rotate(-25deg); }
             100% { transform: rotate(0deg); }
         }
-        .gold-arm { animation: wave-gold 1s infinite ease-in-out; transform-origin: bottom right; }
+        .pata-anim { animation: wave-pata 1.2s infinite ease-in-out; transform-origin: 80% 80%; }
         
-        /* Estilo de franjas japonesas */
-        .pattern-bg {
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 40 40'%3E%3Cpath fill='%23d1d1d6' fill-opacity='0.2' d='M0 38.59l2.83-2.83 1.41 1.41L1.41 40H0v-1.41zM0 1.41L1.41 0h1.41L0 2.83V1.41zm40 37.18L38.59 40H37.17l2.83-2.83v1.41zM40 1.41V0h-1.41l2.83 2.83v-1.41zM20 18.59l2.83-2.83 1.41 1.41L21.41 20H20v-1.41zM20 1.41L21.41 0h1.41L20 2.83V1.41z'/%3E%3C/svg%3E");
-        }
+        /* Checkout step */
+        .step-hidden { display: none; }
     </style>
 </head>
-<body class="pattern-bg">
+<body>
 
-    <nav class="apple-blur fixed w-full top-0 z-[100] border-b border-gray-200">
+    <nav class="glass fixed w-full top-0 z-[100] border-b border-gray-200">
         <div class="container mx-auto flex justify-between items-center p-4">
-            <div class="text-2xl font-black tracking-tighter">KYTO <span class="kyto-red">SUSHI</span></div>
-            <div class="flex gap-6 items-center">
-                <button onclick="toggleCart()" class="relative">
-                    <i class="fa-solid fa-cart-shopping text-xl"></i>
-                    <span id="cart-count" class="absolute -top-2 -right-2 bg-red-600 text-white text-[10px] rounded-full px-1.5 font-bold">0</span>
+            <div class="text-2xl font-black italic tracking-tighter">KYTO <span class="text-red-600 underline">SUSHI</span></div>
+            <div class="flex items-center gap-4">
+                <button class="text-xs font-bold border border-gray-300 px-3 py-2 rounded-lg flex items-center gap-2 hover:bg-white transition">
+                    <img src="https://www.google.com/favicon.ico" class="w-3"> Login con Google
                 </button>
-                <i class="fa-solid fa-circle-user text-2xl cursor-pointer"></i>
+                <div onclick="toggleCart()" class="relative cursor-pointer bg-black text-white p-2 rounded-full w-10 h-10 flex items-center justify-center">
+                    <i class="fa-solid fa-bag-shopping"></i>
+                    <span id="cart-count" class="absolute -top-1 -right-1 bg-red-600 text-[10px] rounded-full px-1.5 border-2 border-white">0</span>
+                </div>
             </div>
         </div>
     </nav>
 
-    <header class="pt-28 pb-10 text-center px-4">
-        <h1 class="text-4xl md:text-6xl font-black mb-2 reveal">MENÚ OFICIAL</h1>
-        <p class="text-gray-500 font-medium reveal">Díaz Mirón 306 Esquina, Teziutlán | 1:00 PM - 9:00 PM</p>
-    </header>
-
-    <main class="container mx-auto px-4 space-y-12 pb-24">
+    <main class="container mx-auto px-4 pt-28 pb-20">
         
-        <section class="reveal">
-            <h2 class="text-2xl font-black border-l-4 border-red-600 pl-4 mb-6 italic">CATEGORÍA 1.3 - PAQUETES</h2>
+        <section class="mb-16">
+            <h2 class="text-xs font-black text-gray-400 tracking-[0.3em] mb-4 uppercase">Categoría 1.3 • Promociones</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <div class="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition border border-gray-100">
-                    <div class="h-48 bg-gray-200 overflow-hidden cursor-pointer" onclick="viewImage('1.3 - Mini Paquete')">
-                        <img src="https://via.placeholder.com/400x300?text=Imagen+1.3+Paquetes" class="w-full h-full object-cover hover:scale-105 transition">
+                <div class="bg-white rounded-3xl p-6 shadow-sm border border-gray-100 hover:shadow-xl transition">
+                    <div class="aspect-video bg-gray-100 rounded-2xl mb-4 flex items-center justify-center overflow-hidden">
+                        <img src="https://via.placeholder.com/400x250?text=Foto+Paquete+1.3" class="w-full h-full object-cover">
                     </div>
-                    <div class="p-6">
-                        <h3 class="font-bold text-lg">Mini Paquete</h3>
-                        <p class="text-xs text-gray-400 mb-4 font-bold">REF: 1.3</p>
-                        <div class="flex justify-between items-center">
-                            <span class="text-2xl font-black kyto-red">$120</span>
-                            <button onclick="addToCart('Mini Paquete', 120)" class="bg-black text-white px-6 py-2 rounded-full font-bold text-sm">Añadir</button>
-                        </div>
+                    <h3 class="text-xl font-bold">Mini Paquete</h3>
+                    <p class="text-gray-500 text-xs mt-2">5 pzas empanizado, 1 brocheta manchego, 120grs pasta/arroz.</p>
+                    <div class="mt-6 flex justify-between items-center">
+                        <span class="text-2xl font-black">$120</span>
+                        <button onclick="addToCart('Mini Paquete', 120)" class="bg-kyto text-white px-6 py-2 rounded-xl font-bold active:scale-95 transition">Añadir</button>
                     </div>
                 </div>
-
-                <div class="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition border border-gray-100">
-                    <div class="h-48 bg-gray-200 overflow-hidden cursor-pointer" onclick="viewImage('1.3 - Kyto Box')">
-                        <img src="https://via.placeholder.com/400x300?text=Imagen+1.3+Kyto+Box" class="w-full h-full object-cover">
+                <div class="bg-white rounded-3xl p-6 shadow-sm border border-gray-100 hover:shadow-xl transition">
+                    <div class="aspect-video bg-gray-100 rounded-2xl mb-4 flex items-center justify-center overflow-hidden">
+                        <img src="https://via.placeholder.com/400x250?text=Foto+Kyto+Box" class="w-full h-full object-cover">
                     </div>
-                    <div class="p-6">
-                        <h3 class="font-bold text-lg">Kyto Box</h3>
-                        <p class="text-xs text-gray-400 mb-4 font-bold">REF: 1.3</p>
-                        <div class="flex justify-between items-center">
-                            <span class="text-2xl font-black kyto-red">$530</span>
-                            <button onclick="addToCart('Kyto Box', 530)" class="bg-black text-white px-6 py-2 rounded-full font-bold text-sm">Añadir</button>
-                        </div>
+                    <h3 class="text-xl font-bold">Kyto Box</h3>
+                    <p class="text-gray-500 text-xs mt-2">3 Rollos Especiales + Yakimeshi + Brochetas + Onigiris + Postre.</p>
+                    <div class="mt-6 flex justify-between items-center">
+                        <span class="text-2xl font-black">$530</span>
+                        <button onclick="addToCart('Kyto Box', 530)" class="bg-kyto text-white px-6 py-2 rounded-xl font-bold active:scale-95 transition">Añadir</button>
                     </div>
                 </div>
             </div>
         </section>
 
-        <section class="reveal">
-            <h2 class="text-2xl font-black border-l-4 border-red-600 pl-4 mb-6 italic">CATEGORÍA 1.1 - ROLLOS</h2>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div class="bg-white p-4 rounded-xl flex justify-between items-center shadow-sm border border-gray-50">
-                    <div>
-                        <p class="font-bold text-sm uppercase">Avocado Roll</p>
-                        <p class="text-lg font-black kyto-red">$120</p>
+        <section class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+            <div>
+                <h2 class="text-xs font-black text-gray-400 tracking-[0.3em] mb-4 uppercase">1.1 • Rollos & Especialidades</h2>
+                <div class="space-y-3">
+                    <div class="bg-white p-4 rounded-2xl flex justify-between items-center border border-gray-50">
+                        <div><p class="font-bold">Avocado Roll</p><p class="text-xs text-gray-400">Aguacate, Queso, Surimi</p></div>
+                        <div class="flex items-center gap-4"><span class="font-bold">$120</span><button onclick="addToCart('Avocado Roll', 120)" class="text-red-600 bg-red-50 w-8 h-8 rounded-full font-bold">+</button></div>
                     </div>
-                    <button onclick="addToCart('Avocado Roll', 120)" class="bg-gray-100 p-3 rounded-full hover:bg-red-50 hover:text-red-600 transition"><i class="fa-solid fa-plus"></i></button>
+                    <div class="bg-white p-4 rounded-2xl flex justify-between items-center border border-gray-50">
+                        <div><p class="font-bold">Filadelfia Roll</p><p class="text-xs text-gray-400">Salmón, Pepino, Queso</p></div>
+                        <div class="flex items-center gap-4"><span class="font-bold">$105</span><button onclick="addToCart('Filadelfia Roll', 105)" class="text-red-600 bg-red-50 w-8 h-8 rounded-full font-bold">+</button></div>
+                    </div>
                 </div>
-                <div class="bg-white p-4 rounded-xl flex justify-between items-center shadow-sm border border-gray-50">
-                    <div>
-                        <p class="font-bold text-sm uppercase">Filadelfia Roll</p>
-                        <p class="text-lg font-black kyto-red">$105</p>
+            </div>
+            <div>
+                <h2 class="text-xs font-black text-gray-400 tracking-[0.3em] mb-4 uppercase">1.2 • Entradas & Arroces</h2>
+                <div class="space-y-3">
+                    <div class="bg-white p-4 rounded-2xl flex justify-between items-center border border-gray-50">
+                        <div><p class="font-bold">Yakimeshi con Verduras</p><p class="text-xs text-gray-400">Arroz frito estilo japonés</p></div>
+                        <div class="flex items-center gap-4"><span class="font-bold">$85</span><button onclick="addToCart('Yakimeshi Verduras', 85)" class="text-red-600 bg-red-50 w-8 h-8 rounded-full font-bold">+</button></div>
                     </div>
-                    <button onclick="addToCart('Filadelfia Roll', 105)" class="bg-gray-100 p-3 rounded-full hover:bg-red-50 hover:text-red-600 transition"><i class="fa-solid fa-plus"></i></button>
+                    <div class="bg-white p-4 rounded-2xl flex justify-between items-center border border-gray-50">
+                        <div><p class="font-bold">Kushiage de Queso</p><p class="text-xs text-gray-400">3 piezas brocheta empanizada</p></div>
+                        <div class="flex items-center gap-4"><span class="font-bold">$65</span><button onclick="addToCart('Kushiage Queso', 65)" class="text-red-600 bg-red-50 w-8 h-8 rounded-full font-bold">+</button></div>
+                    </div>
                 </div>
             </div>
         </section>
-
     </main>
 
-    <div onclick="catAction()" class="fixed bottom-6 left-6 z-[200] cursor-pointer group">
-        <div class="bg-gradient-to-br from-yellow-300 via-yellow-500 to-yellow-700 p-3 rounded-full shadow-2xl border-2 border-yellow-200 w-16 h-16 flex items-center justify-center">
-            <div class="relative">
-                <i class="fa-solid fa-cat text-3xl text-yellow-900"></i>
-                <div class="gold-arm absolute -top-1 -right-2 text-xl text-yellow-100">
-                    <i class="fa-solid fa-hand-peace"></i>
+    <div id="cart-sidebar" class="fixed inset-y-0 right-[-100%] w-full md:w-[450px] bg-white z-[200] shadow-2xl transition-all duration-500 flex flex-col">
+        <div id="step-cart" class="flex flex-col h-full">
+            <div class="p-6 border-b flex justify-between items-center bg-gray-50">
+                <h2 class="font-black text-xl uppercase italic">Tu Bolsa</h2>
+                <button onclick="toggleCart()" class="text-3xl">&times;</button>
+            </div>
+            <div id="cart-items" class="flex-grow overflow-y-auto p-6 space-y-4"></div>
+            <div class="p-6 border-t space-y-4 bg-white">
+                <div class="flex justify-between font-bold"><span>Subtotal:</span><span id="sub-total">$0</span></div>
+                <div class="flex justify-between text-blue-600"><span>Envío (Moto):</span><span>$40</span></div>
+                <div class="flex justify-between text-2xl font-black border-t pt-4"><span>Total:</span><span id="final-total">$0</span></div>
+                <button onclick="goToCheckout()" class="w-full bg-black text-white py-4 rounded-2xl font-bold hover:bg-zinc-800 transition">Continuar al Pago</button>
+            </div>
+        </div>
+
+        <div id="step-checkout" class="step-hidden flex flex-col h-full">
+            <div class="p-6 border-b flex items-center gap-4 bg-gray-50">
+                <button onclick="goToCart()" class="text-xl"><i class="fa-solid fa-arrow-left"></i></button>
+                <h2 class="font-black text-xl uppercase italic">Datos de Envío</h2>
+            </div>
+            <form id="checkout-form" class="p-6 space-y-4 flex-grow overflow-y-auto">
+                <div><label class="text-[10px] font-bold text-gray-400 uppercase">Nombre Completo *</label>
+                <input required type="text" class="w-full border-b-2 border-gray-100 p-2 focus:border-black outline-none transition"></div>
+                <div><label class="text-[10px] font-bold text-gray-400 uppercase">Teléfono de Contacto *</label>
+                <input required type="tel" class="w-full border-b-2 border-gray-100 p-2 focus:border-black outline-none transition"></div>
+                <div><label class="text-[10px] font-bold text-gray-400 uppercase">Dirección Exacta (Teziutlán) *</label>
+                <input required type="text" class="w-full border-b-2 border-gray-100 p-2 focus:border-black outline-none transition"></div>
+                <div><label class="text-[10px] font-bold text-gray-400 uppercase">Correo Electrónico *</label>
+                <input required type="email" class="w-full border-b-2 border-gray-100 p-2 focus:border-black outline-none transition"></div>
+                
+                <div class="pt-6">
+                    <label class="text-[10px] font-bold text-gray-400 uppercase">Método de Pago</label>
+                    <div class="grid grid-cols-2 gap-3 mt-2">
+                        <label class="cursor-pointer">
+                            <input type="radio" name="pay" value="efectivo" checked class="hidden peer">
+                            <div class="border-2 p-3 rounded-xl text-center peer-checked:border-red-600 peer-checked:bg-red-50 transition">
+                                <i class="fa-solid fa-money-bill-1-wave mb-1 block"></i> <span class="text-xs font-bold uppercase tracking-tight">Efectivo</span>
+                            </div>
+                        </label>
+                        <label class="cursor-pointer">
+                            <input type="radio" name="pay" value="tarjeta" class="hidden peer">
+                            <div class="border-2 p-3 rounded-xl text-center peer-checked:border-red-600 peer-checked:bg-red-50 transition">
+                                <i class="fa-solid fa-credit-card mb-1 block"></i> <span class="text-xs font-bold uppercase tracking-tight">Tarjeta</span>
+                            </div>
+                        </label>
+                    </div>
                 </div>
+            </form>
+            <div class="p-6 border-t">
+                <button type="submit" form="checkout-form" class="w-full bg-red-600 text-white py-4 rounded-2xl font-bold shadow-lg shadow-red-200">Confirmar y Pagar</button>
             </div>
         </div>
     </div>
 
-    <div id="cart-panel" class="fixed top-0 right-[-100%] w-full md:w-[400px] h-full bg-white z-[300] shadow-2xl transition-all duration-300 flex flex-col">
-        <div class="p-6 border-b flex justify-between items-center">
-            <h2 class="font-black text-xl italic uppercase">Tu Orden</h2>
-            <button onclick="toggleCart()" class="text-3xl font-light">&times;</button>
-        </div>
-        
-        <div id="cart-items" class="flex-grow overflow-y-auto p-6 space-y-4">
-            </div>
-
-        <div class="p-6 bg-gray-50 border-t space-y-4">
-            <div class="flex justify-between text-sm font-bold">
-                <span>SUBTOTAL:</span>
-                <span id="subtotal">$0</span>
-            </div>
-            <div class="flex justify-between text-sm font-bold text-blue-600">
-                <span>ENVÍO MOTO:</span>
-                <span id="shipping">$40</span>
-            </div>
-            <div class="flex justify-between text-2xl font-black border-t pt-4">
-                <span>TOTAL:</span>
-                <span id="total" class="kyto-red">$0</span>
-            </div>
-            
-            <div class="pt-4 border-t">
-                <p class="text-[10px] font-black text-gray-400 mb-2 uppercase tracking-widest">Método de Pago</p>
-                <div class="grid grid-cols-2 gap-2">
-                    <button class="border-2 border-black rounded-lg py-2 text-xs font-bold hover:bg-black hover:text-white transition">Efectivo</button>
-                    <button class="border border-gray-200 rounded-lg py-2 text-xs font-bold flex items-center justify-center gap-1 opacity-50 cursor-not-allowed">
-                        <i class="fa-brands fa-google-pay text-lg"></i> Pay
-                    </button>
-                </div>
-            </div>
-
-            <button onclick="finishOrder()" class="w-full bg-kyto-red text-white py-4 rounded-xl font-black shadow-lg hover:shadow-red-200 transition">ORDENAR AHORA</button>
-        </div>
-    </div>
-
-    <div id="modal-img" class="fixed inset-0 bg-black/90 z-[500] hidden flex items-center justify-center p-4">
-        <button onclick="closeImage()" class="absolute top-10 right-10 text-white text-4xl">&times;</button>
-        <div class="max-w-4xl w-full text-center">
-            <h3 id="modal-title" class="text-white mb-4 font-bold"></h3>
-            <img id="full-img" src="" class="max-h-[80vh] mx-auto rounded-lg">
-            <p class="text-gray-400 mt-4 text-sm italic">Desliza para ver detalles del paquete o especialidad.</p>
+    <div onclick="catChat()" class="fixed bottom-6 right-6 z-[250] cursor-pointer group">
+        <div id="cat-msg" class="absolute -top-12 right-0 bg-white border border-gray-200 px-3 py-1.5 rounded-xl shadow-lg text-[10px] font-bold opacity-0 transition-all pointer-events-none"></div>
+        <div class="bg-gradient-to-br from-yellow-300 via-yellow-500 to-yellow-600 w-16 h-16 rounded-full border-2 border-white shadow-2xl flex items-center justify-center relative scale-110">
+            <i class="fa-solid fa-cat text-3xl text-yellow-900"></i>
+            <div class="pata-anim absolute top-2 right-1 text-2xl text-yellow-100"><i class="fa-solid fa-hand-peace"></i></div>
+            <div class="absolute bottom-1 bg-white/20 text-[6px] font-black rounded-full px-2">KYTO</div>
         </div>
     </div>
 
     <script>
         let cart = [];
-        const shippingCost = 40;
+        const shipping = 40;
 
         function addToCart(name, price) {
             cart.push({ id: Date.now(), name, price });
-            updateUI();
-            if (window.innerWidth > 768) toggleCart(true);
+            updateCart();
+            showCatMsg("¡Miau! Agregado con éxito 🍱");
         }
 
         function removeFromCart(id) {
             cart = cart.filter(item => item.id !== id);
-            updateUI();
+            updateCart();
         }
 
-        function updateUI() {
+        function updateCart() {
             const list = document.getElementById('cart-items');
-            const subtotalEl = document.getElementById('subtotal');
-            const totalEl = document.getElementById('total');
-            const countEl = document.getElementById('cart-count');
+            const count = document.getElementById('cart-count');
+            const sub = document.getElementById('sub-total');
+            const total = document.getElementById('final-total');
 
-            countEl.innerText = cart.length;
-
+            count.innerText = cart.length;
             if (cart.length === 0) {
-                list.innerHTML = `<div class="text-center py-20 text-gray-300 italic">No hay productos</div>`;
-                subtotalEl.innerText = "$0";
-                totalEl.innerText = "$0";
+                list.innerHTML = `<p class="text-center text-gray-400 mt-20 italic">Tu bolsa está vacía</p>`;
+                sub.innerText = "$0"; total.innerText = "$0";
                 return;
             }
 
             list.innerHTML = cart.map(item => `
-                <div class="flex justify-between items-center bg-gray-50 p-4 rounded-xl animate-fade-in">
-                    <div>
-                        <p class="font-bold text-sm uppercase">${item.name}</p>
-                        <p class="kyto-red font-black">$${item.price}</p>
-                    </div>
-                    <button onclick="removeFromCart(${item.id})" class="text-gray-400 hover:text-red-600 transition">
-                        <i class="fa-solid fa-trash-can"></i>
-                    </button>
+                <div class="flex justify-between items-center bg-gray-50 p-4 rounded-2xl border border-gray-100">
+                    <div><p class="font-bold text-sm uppercase">${item.name}</p><p class="text-red-600 font-black">$${item.price}</p></div>
+                    <button onclick="removeFromCart(${item.id})" class="text-gray-300 hover:text-red-600"><i class="fa-solid fa-trash-can"></i></button>
                 </div>
             `).join('');
 
-            const subtotal = cart.reduce((acc, item) => acc + item.price, 0);
-            subtotalEl.innerText = `$${subtotal}`;
-            totalEl.innerText = `$${subtotal + shippingCost}`;
+            const subtotal = cart.reduce((s, i) => s + i.price, 0);
+            sub.innerText = `$${subtotal}`;
+            total.innerText = `$${subtotal + shipping}`;
         }
 
-        function toggleCart(forceOpen = false) {
-            const panel = document.getElementById('cart-panel');
-            if (forceOpen) panel.style.right = "0px";
-            else panel.style.right = panel.style.right === "0px" ? "-100%" : "0px";
+        function toggleCart() {
+            const side = document.getElementById('cart-sidebar');
+            side.style.right = side.style.right === "0px" ? "-100%" : "0px";
+            if(side.style.right === "-100%") goToCart(); 
         }
 
-        function viewImage(title) {
-            document.getElementById('modal-img').classList.remove('hidden');
-            document.getElementById('modal-title').innerText = title;
-            // Aquí deberás poner la URL real de la imagen cuando la subas a GitHub
-            document.getElementById('full-img').src = "https://via.placeholder.com/800x1000?text=Menu+Real+Kyto+" + title;
+        function goToCheckout() {
+            if(cart.length === 0) return alert("Tu bolsa está vacía");
+            document.getElementById('step-cart').classList.add('step-hidden');
+            document.getElementById('step-checkout').classList.remove('step-hidden');
         }
 
-        function closeImage() {
-            document.getElementById('modal-img').classList.add('hidden');
+        function goToCart() {
+            document.getElementById('step-checkout').classList.add('step-hidden');
+            document.getElementById('step-cart').classList.remove('step-hidden');
         }
 
-        function catAction() {
-            alert("¡Irasshaimase! Kyto Teziutlán te saluda. ¿Listo para pedir?");
+        function showCatMsg(txt) {
+            const msg = document.getElementById('cat-msg');
+            msg.innerText = txt;
+            msg.style.opacity = "1";
+            setTimeout(() => msg.style.opacity = "0", 2000);
         }
 
-        function finishOrder() {
-            if(cart.length === 0) return alert("Agrega algo al carrito primero.");
-            alert("Redirigiendo a inicio de sesión de Google para confirmar dirección...");
+        function catChat() {
+            const lines = ["¡Bienvenido a Kyto!", "Abrimos de 1 PM a 9 PM", "¿Ya probaste el Ramen?", "Envíos en Teziutlán: $40"];
+            showCatMsg(lines[Math.floor(Math.random()*lines.length)]);
         }
 
-        ScrollReveal().reveal('.reveal', { delay: 100, distance: '20px', origin: 'bottom', duration: 800 });
+        document.getElementById('checkout-form').onsubmit = (e) => {
+            e.preventDefault();
+            alert("¡Orden recibida! El restaurante se pondrá en contacto contigo para confirmar el envío.");
+        }
     </script>
 </body>
 </html>
