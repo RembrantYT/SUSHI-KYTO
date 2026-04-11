@@ -20,7 +20,7 @@
             background-color: #000; 
             color: white; 
             overflow-x: hidden;
-            background-image: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)), url('https://images.unsplash.com/photo-1524413840807-0c3cb6fa808d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+            background-image: linear-gradient(rgba(0,0,0,0.85), rgba(0,0,0,0.85)), url('https://images.unsplash.com/photo-1524413840807-0c3cb6fa808d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
             background-attachment: fixed;
             background-size: cover;
         }
@@ -36,50 +36,45 @@
             100% { transform: translateY(110vh) translateX(100px) rotate(360deg); }
         }
 
-        /* RELOJ FLOTANTE FIEL A FOTO */
-        .reloj-flotante {
-            position: fixed; top: 25px; left: 50%; transform: translateX(-50%);
-            z-index: 1000; background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-            padding: 12px 40px; border-radius: 40px;
-            border: 1px solid rgba(255,255,255,0.3);
-            box-shadow: 0 15px 35px rgba(0,0,0,0.6);
+        /* RELOJ EN LA ESQUINA (NO ESTORBA) */
+        .reloj-corner {
+            position: absolute; top: 20px; right: 20px;
+            z-index: 200; background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px); padding: 10px 20px;
+            border-radius: 20px; border: 1px solid rgba(255,255,255,0.1);
+            text-align: right;
         }
-        .reloj-txt { font-weight: 900; font-size: 2.5rem; letter-spacing: -1px; color: white; }
-        .reloj-sub { font-size: 8px; text-transform: uppercase; letter-spacing: 4px; color: rgba(255,255,255,0.6); display: block; text-align: center; }
+        .reloj-txt { font-weight: 800; font-size: 1.5rem; color: white; display: block; line-height: 1; }
+        .reloj-sub { font-size: 7px; text-transform: uppercase; letter-spacing: 2px; color: var(--kyto-red); font-weight: 900; }
 
-        /* CELULAR NEXO PARA JUEGO */
-        .nexo-hw {
-            width: 310px; height: 620px; border-radius: 55px; padding: 12px;
-            background: linear-gradient(135deg, var(--nexo-blue) 0%, var(--nexo-green) 100%);
-            border: 2px solid rgba(255,255,255,0.4); position: relative;
+        /* NAV ESTATICO (CORREGIDO: SE QUEDA ARRIBA) */
+        .nav-static {
+            position: absolute; top: 120px; width: 100%; z-index: 150; padding: 0 24px;
         }
-        .nexo-in { background: #000; width: 100%; height: 100%; border-radius: 45px; overflow: hidden; position: relative; }
 
-        /* MANEKI NEKO REALISTA */
+        /* GATO 3D REALISTA SVG */
         .maneki-trigger {
             position: fixed; bottom: 20px; right: 20px; z-index: 500;
-            cursor: pointer; transition: transform 0.3s;
+            cursor: pointer; transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
-        .maneki-trigger:hover { transform: scale(1.1) rotate(-5deg); }
-        .gato-svg { width: 100px; filter: drop-shadow(0 10px 20px rgba(0,0,0,0.5)); }
+        .maneki-trigger:hover { transform: scale(1.1) rotate(-10deg); filter: brightness(1.2); }
+        .gato-3d { width: 110px; filter: drop-shadow(0 15px 30px rgba(0,0,0,0.8)); }
 
-        /* WHATSAPP AYUDA CENTRADO */
-        .help-pill {
-            position: fixed; bottom: 30px; left: 30px; z-index: 500;
-            background: #25D366; color: white; display: flex; align-items: center;
-            gap: 12px; padding: 12px 25px; border-radius: 100px;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.4); font-weight: 900;
-        }
-        .help-pill i { font-size: 28px; }
-
-        /* TARJETAS MENU KYTO */
+        /* TARJETAS MENU */
         .kyto-item {
-            background: rgba(20, 20, 20, 0.6); border: 1px solid rgba(255,255,255,0.1);
-            backdrop-filter: blur(10px); border-radius: 35px; overflow: hidden;
-            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+            background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255,255,255,0.08);
+            backdrop-filter: blur(15px); border-radius: 40px; overflow: hidden;
+            transition: all 0.4s ease;
         }
-        .kyto-item:hover { transform: translateY(-10px); border-color: var(--kyto-red); }
+        .kyto-item:hover { transform: scale(1.02); border-color: var(--kyto-red); background: rgba(255, 255, 255, 0.06); }
+
+        /* CELULAR NEXO */
+        .nexo-hw {
+            width: 310px; height: 620px; border-radius: 55px; padding: 12px;
+            background: #111; border: 4px solid #333; position: relative;
+            box-shadow: 0 0 50px rgba(0,122,255,0.3);
+        }
+        .nexo-in { background: #000; width: 100%; height: 100%; border-radius: 45px; overflow: hidden; position: relative; }
 
         .no-scrollbar::-webkit-scrollbar { display: none; }
     </style>
@@ -88,163 +83,172 @@
 
     <div id="pétalos-container"></div>
 
-    <div class="reloj-flotante">
-        <span id="reloj-h" class="reloj-txt">00:00:00</span>
-        <span class="reloj-sub">NEXO TIME SYSTEM</span>
+    <div class="reloj-corner">
+        <span id="reloj-h" class="reloj-txt">00:00</span>
+        <span class="reloj-sub">Kyto Time</span>
     </div>
 
-    <nav class="fixed top-32 w-full z-[150] px-6">
-        <div class="container mx-auto flex justify-between items-center bg-black/40 backdrop-blur-xl p-5 rounded-[2.5rem] border border-white/10">
+    <nav class="nav-static">
+        <div class="container mx-auto flex justify-between items-center bg-white/5 backdrop-blur-2xl p-6 rounded-[3rem] border border-white/10 shadow-2xl">
             <div class="flex flex-col">
-                <h1 class="text-3xl font-black italic tracking-tighter uppercase">Sushi Kyto</h1>
-                <span class="text-[8px] font-bold tracking-[4px] text-red-600">MENÚ OFICIAL</span>
+                <h1 class="text-4xl font-black italic tracking-tighter uppercase leading-none">Sushi Kyto</h1>
+                <span class="text-[9px] font-black tracking-[5px] text-red-600 mt-1">MENU REAL</span>
             </div>
 
             <div class="flex items-center gap-6">
-                <div id="perfil-status" class="flex items-center gap-3 bg-white/5 px-4 py-2 rounded-2xl cursor-pointer" onclick="abrirPerfil()">
+                <div onclick="abrirPerfil()" class="flex items-center gap-3 bg-white/10 px-5 py-3 rounded-2xl cursor-pointer hover:bg-white/20 transition">
                     <i class="fa-solid fa-user-ninja text-red-600"></i>
-                    <span id="display-nombre" class="text-[10px] font-black uppercase">Invitado</span>
+                    <span id="display-nombre" class="text-[10px] font-black uppercase tracking-widest">Invitado</span>
                 </div>
 
-                <button onclick="verBolsa()" class="relative bg-white text-black w-12 h-12 rounded-2xl flex items-center justify-center transition active:scale-90">
+                <button onclick="verBolsa()" class="relative bg-white text-black w-14 h-14 rounded-2xl flex items-center justify-center transition active:scale-90 shadow-lg">
                     <i class="fa-solid fa-bag-shopping text-xl"></i>
-                    <span id="badge" class="absolute -top-2 -right-2 bg-red-600 text-white text-[10px] font-black w-5 h-5 flex items-center justify-center rounded-full">0</span>
+                    <span id="badge" class="absolute -top-2 -right-2 bg-red-600 text-white text-[10px] font-black w-6 h-6 flex items-center justify-center rounded-full border-2 border-black">0</span>
                 </button>
             </div>
         </div>
     </nav>
 
-    <main class="container mx-auto px-6 pt-72 pb-48 relative z-10">
+    <main class="container mx-auto px-6 pt-96 pb-48 relative z-10">
         
-        <section class="mb-24">
-            <h2 class="text-5xl font-black italic uppercase mb-12 border-b-4 border-red-600 inline-block">Entradas</h2>
-            <div id="cat-entradas" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"></div>
+        <section class="mb-32">
+            <h2 class="text-6xl font-black italic uppercase mb-16 tracking-tighter"><span class="text-red-600">01.</span> Entradas</h2>
+            <div id="cat-entradas" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10"></div>
         </section>
 
-        <section class="mb-24">
-            <h2 class="text-5xl font-black italic uppercase mb-12 border-b-4 border-red-600 inline-block">Paquetes</h2>
-            <div id="cat-paquetes" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"></div>
+        <section class="mb-32">
+            <h2 class="text-6xl font-black italic uppercase mb-16 tracking-tighter"><span class="text-red-600">02.</span> Paquetes</h2>
+            <div id="cat-paquetes" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10"></div>
         </section>
 
-        <section class="mb-24">
-            <h2 class="text-5xl font-black italic uppercase mb-12 border-b-4 border-red-600 inline-block">Rollos</h2>
-            <div id="cat-rollos" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4"></div>
+        <section class="mb-32">
+            <h2 class="text-6xl font-black italic uppercase mb-16 tracking-tighter"><span class="text-red-600">03.</span> Rollos Especiales</h2>
+            <div id="cat-rollos" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"></div>
         </section>
 
     </main>
 
-    <a href="https://wa.me/522311511435?text=Hola%20Sushi%20Kyto,%20necesito%20ayuda%20con%20la%20página." target="_blank" class="help-pill">
-        <i class="fa-brands fa-whatsapp"></i>
-        <span>AYUDA</span>
-    </a>
-
     <div class="maneki-trigger" onclick="abrirJuego()">
-        <svg class="gato-svg" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-            <ellipse cx="100" cy="120" rx="60" ry="70" fill="white" stroke="black" stroke-width="2"/>
-            <circle cx="100" cy="70" r="50" fill="white" stroke="black" stroke-width="2"/>
-            <path d="M70 40 Q80 30 90 40" stroke="black" stroke-width="5" fill="none"/>
-            <path d="M110 40 Q120 30 130 40" stroke="black" stroke-width="5" fill="none"/>
-            <polygon points="60,30 80,10 90,40" fill="white" stroke="black"/>
-            <polygon points="140,30 120,10 110,40" fill="white" stroke="black"/>
-            <circle cx="80" cy="70" r="5" fill="black"/>
-            <circle cx="120" cy="70" r="5" fill="black"/>
-            <path d="M90 85 Q100 95 110 85" stroke="black" stroke-width="2" fill="none"/>
-            <circle cx="100" cy="140" r="25" fill="#FFD700" stroke="#B8860B" stroke-width="2"/>
-            <text x="92" y="148" font-family="Arial" font-size="20" fill="#B8860B" font-weight="bold">¥</text>
-            <ellipse cx="150" cy="60" rx="15" ry="25" fill="white" stroke="black" transform="rotate(-20 150 60)"/>
+        <svg class="gato-3d" viewBox="0 0 200 220" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+                <radialGradient id="gradBody" cx="50%" cy="50%" r="50%">
+                    <stop offset="0%" style="stop-color:#ffffff" />
+                    <stop offset="100%" style="stop-color:#d1d1d1" />
+                </radialGradient>
+                <linearGradient id="gradGold" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" style="stop-color:#FFD700" />
+                    <stop offset="100%" style="stop-color:#B8860B" />
+                </linearGradient>
+            </defs>
+            <ellipse cx="100" cy="140" rx="70" ry="80" fill="url(#gradBody)" />
+            <circle cx="100" cy="70" r="55" fill="url(#gradBody)" />
+            <path d="M60 40 Q50 20 40 45" fill="#222"/>
+            <path d="M140 40 Q150 20 160 45" fill="#222"/>
+            <path d="M100 10 L105 30 L95 30 Z" fill="#222"/>
+            <path d="M55 35 L35 5 L80 30 Z" fill="#ffffff" stroke="#eee" />
+            <path d="M145 35 L165 5 L120 30 Z" fill="#ffffff" stroke="#eee" />
+            <path d="M50 30 L42 15 L65 28 Z" fill="#ffb7c5" /> <circle cx="75" cy="70" r="4" fill="#111"/>
+            <circle cx="125" cy="70" r="4" fill="#111"/>
+            <path d="M90 85 Q100 100 110 85" stroke="#333" stroke-width="3" fill="none" stroke-linecap="round"/>
+            <path d="M60 75 Q40 75 30 85" stroke="#ccc" stroke-width="1" fill="none"/> <path d="M140 75 Q160 75 170 85" stroke="#ccc" stroke-width="1" fill="none"/>
+            <circle cx="100" cy="160" r="30" fill="url(#gradGold)" stroke="#966F33" stroke-width="1"/>
+            <text x="88" y="172" font-family="Arial" font-size="35" fill="#966F33" font-weight="bold">¥</text>
+            <path d="M150 80 Q180 30 155 20 Q130 10 140 70 Z" fill="url(#gradBody)" stroke="#ccc"/>
+            <circle cx="152" cy="25" r="8" fill="#ffb7c5" opacity="0.5"/>
         </svg>
     </div>
 
-    <div id="juego-box" class="fixed inset-0 z-[600] hidden flex items-center justify-center bg-black/90 backdrop-blur-2xl">
+    <div id="perfil-box" class="fixed inset-0 z-[700] hidden flex items-center justify-center p-6 bg-black/90 backdrop-blur-md">
+        <div class="bg-zinc-900 w-full max-w-sm rounded-[3.5rem] p-12 border border-white/10 shadow-2xl text-center">
+            <div class="w-24 h-24 bg-red-600 rounded-full mx-auto flex items-center justify-center mb-6 shadow-[0_0_30px_rgba(227,28,36,0.4)]">
+                <i class="fa-solid fa-user-ninja text-4xl"></i>
+            </div>
+            <h3 class="text-3xl font-black italic uppercase mb-8">Configuración</h3>
+            <div class="space-y-4">
+                <input type="text" id="input-nombre" class="w-full bg-white/5 border border-white/10 p-5 rounded-2xl outline-none focus:border-red-600 font-bold uppercase text-xs transition" placeholder="Cambiar Nombre">
+                <button onclick="guardarNombre()" class="w-full bg-red-600 py-5 rounded-2xl font-black uppercase text-xs tracking-widest shadow-lg">Guardar Cambios</button>
+                <button onclick="location.reload()" class="w-full bg-white/5 py-5 rounded-2xl font-black uppercase text-xs border border-white/10">Cerrar Sesión</button>
+                <button onclick="abrirPerfil()" class="pt-4 text-gray-500 font-black text-[10px] uppercase tracking-widest">Volver al Menú</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="bolsa-side" class="fixed inset-y-0 right-[-100%] w-full md:w-[550px] bg-black/95 z-[500] border-l border-white/10 transition-all duration-500 flex flex-col backdrop-blur-3xl">
+        <div class="p-10 border-b border-white/10 flex justify-between items-end">
+            <div>
+                <h2 class="text-5xl font-black italic uppercase leading-none">Tu Bolsa</h2>
+                <span class="text-red-600 font-black text-[10px] tracking-[4px]">READY TO ORDER</span>
+            </div>
+            <button onclick="verBolsa()" class="text-5xl font-light hover:text-red-600 transition">&times;</button>
+        </div>
+        <div class="flex-grow overflow-y-auto p-10 no-scrollbar" id="lista-bolsa"></div>
+        <div class="p-10 border-t border-white/10 bg-white/5">
+            <div class="space-y-4 mb-8">
+                <input type="text" id="dir-envio" placeholder="DIRECCIÓN DE ENTREGA COMPLETA" class="w-full bg-black border border-white/10 p-5 rounded-2xl font-bold uppercase text-xs focus:border-red-600 outline-none">
+                <select id="pago-metodo" class="w-full bg-black border border-white/10 p-5 rounded-2xl font-bold uppercase text-xs outline-none">
+                    <option value="Efectivo">Efectivo al recibir</option>
+                    <option value="Transferencia">Transferencia Bancaria</option>
+                    <option value="Terminal">Terminal (Tarjeta)</option>
+                </select>
+            </div>
+            <div class="flex justify-between items-center mb-8">
+                <span class="font-black italic text-2xl">TOTAL:</span>
+                <span id="total-txt" class="text-4xl font-black text-red-600">$0</span>
+            </div>
+            <button onclick="finalizarPedido()" class="w-full bg-red-600 py-7 rounded-3xl font-black uppercase tracking-[5px] text-sm hover:bg-red-700 transition shadow-xl">Confirmar en WhatsApp</button>
+        </div>
+    </div>
+
+    <div id="juego-box" class="fixed inset-0 z-[600] hidden flex items-center justify-center bg-black/95 backdrop-blur-3xl">
         <div class="nexo-hw">
             <div class="nexo-in">
                 <div class="absolute top-0 w-full h-8 bg-black flex justify-center items-center z-30">
-                    <div class="w-20 h-4 bg-zinc-900 rounded-full"></div>
+                    <div class="w-20 h-4 bg-zinc-800 rounded-full"></div>
                 </div>
                 <canvas id="canvasGame" width="286" height="596"></canvas>
-                <div id="game-over" class="absolute inset-0 bg-black/80 hidden flex flex-col items-center justify-center">
-                    <h2 class="text-4xl font-black text-red-600 mb-8 uppercase">Game Over</h2>
-                    <button onclick="resetGame()" class="bg-white text-black px-10 py-4 rounded-full font-black uppercase text-xs">Jugar de nuevo</button>
+                <div id="game-over" class="absolute inset-0 bg-black/90 hidden flex flex-col items-center justify-center p-6 text-center">
+                    <h2 class="text-5xl font-black text-red-600 mb-4 italic">GAME OVER</h2>
+                    <p id="final-score" class="text-white font-bold mb-10 text-xl"></p>
+                    <button onclick="resetGame()" class="bg-white text-black px-12 py-5 rounded-full font-black uppercase text-xs tracking-widest shadow-white/20 shadow-2xl">Reintentar</button>
                 </div>
             </div>
-            <button onclick="abrirJuego()" class="absolute -bottom-12 left-1/2 -translate-x-1/2 text-[8px] font-black uppercase tracking-[5px] opacity-40">Cerrar Nexo Game</button>
-        </div>
-    </div>
-
-    <div id="perfil-box" class="fixed inset-0 z-[700] hidden flex items-center justify-center p-6 bg-black/90">
-        <div class="bg-zinc-900 w-full max-w-sm rounded-[3rem] p-10 border border-white/10">
-            <div class="text-center mb-10">
-                <div class="w-24 h-24 bg-red-600 rounded-full mx-auto flex items-center justify-center mb-4 shadow-xl">
-                    <i class="fa-solid fa-user-secret text-4xl"></i>
-                </div>
-                <h3 class="text-2xl font-black italic uppercase">Mi Perfil</h3>
-            </div>
-            <div class="space-y-6">
-                <div>
-                    <label class="text-[9px] font-black text-gray-500 uppercase tracking-widest ml-4">Nombre de Usuario</label>
-                    <input type="text" id="input-nombre" class="w-full bg-white/5 border border-white/10 p-5 rounded-2xl outline-none focus:border-red-600 font-bold uppercase text-xs" placeholder="Tu Nombre">
-                </div>
-                <button onclick="guardarNombre()" class="w-full bg-red-600 py-4 rounded-2xl font-black uppercase text-xs">Actualizar Datos</button>
-                <button onclick="location.reload()" class="w-full bg-white/5 py-4 rounded-2xl font-black uppercase text-xs border border-white/5">Cerrar Sesión</button>
-                <button onclick="abrirPerfil()" class="w-full text-[9px] font-black text-gray-500 uppercase tracking-widest">Regresar al Menú</button>
-            </div>
-        </div>
-    </div>
-
-    <div id="bolsa-side" class="fixed inset-y-0 right-[-100%] w-full md:w-[500px] bg-black/95 z-[500] border-l border-white/10 transition-all duration-500 flex flex-col">
-        <div class="p-10 border-b border-white/10 flex justify-between items-center">
-            <h2 class="text-4xl font-black italic uppercase">Bolsa</h2>
-            <button onclick="verBolsa()" class="text-4xl">&times;</button>
-        </div>
-        <div class="flex-grow overflow-y-auto p-10 no-scrollbar" id="lista-bolsa"></div>
-        <div class="p-10 border-t border-white/10">
-            <div class="space-y-4 mb-10">
-                <input type="text" id="dir-envio" placeholder="DIRECCIÓN DE ENTREGA" class="w-full bg-white/5 border border-white/10 p-5 rounded-2xl font-bold uppercase text-xs">
-                <select id="pago-metodo" class="w-full bg-white/5 border border-white/10 p-5 rounded-2xl font-bold uppercase text-xs outline-none">
-                    <option class="bg-black" value="Efectivo">Efectivo al recibir</option>
-                    <option class="bg-black" value="Transferencia">Transferencia</option>
-                    <option class="bg-black" value="Terminal">Terminal Repartidor</option>
-                </select>
-            </div>
-            <div class="flex justify-between text-3xl font-black mb-8 italic">
-                <span>TOTAL:</span>
-                <span id="total-txt">$0</span>
-            </div>
-            <button onclick="finalizarPedido()" class="w-full bg-red-600 py-6 rounded-[2rem] font-black uppercase tracking-widest">Pedir por WhatsApp</button>
+            <button onclick="abrirJuego()" class="absolute -bottom-16 left-1/2 -translate-x-1/2 text-white font-black uppercase tracking-[8px] text-[10px] opacity-30 hover:opacity-100 transition">Cerrar Juego</button>
         </div>
     </div>
 
     <script>
         const MENU_REAL = {
             entradas: [
-                {id: 1, name: "Brochetas de Queso", price: 65, img: "21659.png"},
-                {id: 2, name: "Yakimeshi Especial", price: 95, img: "21660.png"},
-                {id: 3, name: "Kushiages Mixtos", price: 85, img: "21661.png"}
+                {id: 1, name: "Brochetas de Queso", price: 65, img: ""},
+                {id: 2, name: "Yakimeshi Especial", price: 95, img: ""},
+                {id: 3, name: "Kushiages Mixtos", price: 85, img: ""}
             ],
             paquetes: [
-                {id: 10, name: "Mini Paquete", price: 120, img: "21653.png"},
-                {id: 11, name: "Kyto Box", price: 530, img: "21654.png"},
-                {id: 12, name: "Paquete Dúo", price: 340, img: "21655.png"},
-                {id: 13, name: "Charola Kyto", price: 890, img: "21656.png"}
+                {id: 10, name: "Mini Paquete", price: 120, img: ""},
+                {id: 11, name: "Kyto Box", price: 530, img: ""},
+                {id: 12, name: "Paquete Dúo", price: 340, img: ""},
+                {id: 13, name: "Charola Kyto", price: 890, img: ""}
             ],
             rollos: [
-                {id: 100, name: "Philadelfia Roll", price: 105, img: "21662.png"},
-                {id: 101, name: "Avocado Roll", price: 120, img: "21663.png"},
-                {id: 102, name: "Mar y Tierra Roll", price: 215, img: "21664.png"},
-                {id: 103, name: "Hannibal Roll", price: 250, img: "21665.png"},
-                {id: 104, name: "Eby Furay Roll", price: 145, img: "21666.png"},
-                {id: 105, name: "California Roll", price: 105, img: "21667.png"},
-                {id: 106, name: "Dragon Roll", price: 180, img: "21668.png"},
-                {id: 107, name: "Tampico Especial Roll", price: 110, img: "21669.png"}
+                {id: 100, name: "Philadelfia Roll", price: 105, img: ""},
+                {id: 101, name: "Avocado Roll", price: 120, img: ""},
+                {id: 102, name: "Mar y Tierra Roll", price: 215, img: ""},
+                {id: 103, name: "Hannibal Roll", price: 250, img: ""},
+                {id: 104, name: "Eby Furay Roll", price: 145, img: ""},
+                {id: 105, name: "California Roll", price: 105, img: ""},
+                {id: 106, name: "Dragon Roll", price: 180, img: ""},
+                {id: 107, name: "Tampico Especial Roll", price: 110, img: ""}
             ]
         };
 
         let bolsa = [];
 
-        // RELOJ
+        // RELOJ ESQUINA
         function clock() {
             const d = new Date();
-            document.getElementById('reloj-h').innerText = d.toLocaleTimeString('es-MX', { hour12: false });
+            const h = d.getHours().toString().padStart(2, '0');
+            const m = d.getMinutes().toString().padStart(2, '0');
+            document.getElementById('reloj-h').innerText = `${h}:${m}`;
         }
         setInterval(clock, 1000);
 
@@ -253,29 +257,29 @@
             const p = document.createElement('div');
             p.className = 'petalo';
             p.style.left = Math.random() * 100 + 'vw';
-            p.style.width = Math.random() * 10 + 5 + 'px';
+            p.style.width = Math.random() * 12 + 6 + 'px';
             p.style.height = p.style.width;
-            p.style.animationDuration = Math.random() * 3 + 2 + 's';
+            p.style.animationDuration = Math.random() * 4 + 3 + 's';
             document.getElementById('pétalos-container').appendChild(p);
-            setTimeout(() => p.remove(), 5000);
+            setTimeout(() => p.remove(), 6000);
         }
-        setInterval(createPetal, 300);
+        setInterval(createPetal, 400);
 
-        // RENDER MENU
+        // RENDER DINAMICO
         function render() {
             ['entradas', 'paquetes', 'rollos'].forEach(cat => {
                 const container = document.getElementById(`cat-${cat}`);
                 container.innerHTML = MENU_REAL[cat].map(item => `
                     <div class="kyto-item">
-                        <div class="relative h-60 overflow-hidden">
-                            <img src="fotos/${item.img}" class="w-full h-full object-cover">
-                            <div class="absolute top-4 right-4 bg-black/60 backdrop-blur-md px-4 py-2 rounded-full font-black text-red-600">
+                        <div class="relative h-64 bg-zinc-800">
+                            <img src="${item.img || 'https://via.placeholder.com/400x300?text=Cargar+Foto'}" class="w-full h-full object-cover">
+                            <div class="absolute bottom-6 left-6 bg-red-600 px-5 py-2 rounded-xl font-black text-white shadow-xl italic">
                                 $${item.price}
                             </div>
                         </div>
                         <div class="p-8">
-                            <h3 class="text-xl font-black uppercase italic">${item.name}</h3>
-                            <button onclick="add(${item.id}, '${cat}')" class="mt-6 w-full bg-white text-black py-4 rounded-2xl font-black uppercase text-[10px] tracking-widest hover:bg-red-600 hover:text-white transition">Añadir a Bolsa</button>
+                            <h3 class="text-xl font-black uppercase italic tracking-tight">${item.name}</h3>
+                            <button onclick="add(${item.id}, '${cat}')" class="mt-8 w-full bg-white text-black py-5 rounded-[1.5rem] font-black uppercase text-[10px] tracking-[3px] hover:bg-red-600 hover:text-white transition-all duration-300">Añadir</button>
                         </div>
                     </div>
                 `).join('');
@@ -296,9 +300,14 @@
             total.innerText = `$${suma > 0 ? suma + 40 : 0}`;
 
             list.innerHTML = bolsa.map(i => `
-                <div class="flex justify-between items-center bg-white/5 p-6 rounded-3xl mb-4">
-                    <div><p class="font-black uppercase italic text-xs">${i.name}</p><p class="text-red-600 font-bold">$${i.price}</p></div>
-                    <button onclick="remove(${i.bid})" class="text-gray-500 hover:text-red-600"><i class="fa-solid fa-trash"></i></button>
+                <div class="flex justify-between items-center bg-white/5 p-8 rounded-[2.5rem] mb-6 border border-white/5">
+                    <div>
+                        <p class="font-black uppercase italic text-sm tracking-tighter">${i.name}</p>
+                        <p class="text-red-600 font-black mt-1">$${i.price}</p>
+                    </div>
+                    <button onclick="remove(${i.bid})" class="w-12 h-12 rounded-full bg-white/5 text-gray-400 hover:bg-red-600 hover:text-white transition">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
                 </div>
             `).join('');
         }
@@ -325,17 +334,14 @@
             }
         }
 
-        // WHATSAPP PROFESIONAL
         function finalizarPedido() {
             if(bolsa.length === 0) return alert("Bolsa vacía");
             const dir = document.getElementById('dir-envio').value;
             const nom = document.getElementById('display-nombre').innerText;
-            if(!dir) return alert("Por favor ingresa tu dirección");
+            if(!dir) return alert("Ingresa tu dirección");
 
             let itemsTxt = "";
             let subtotal = 0;
-            
-            // Agrupar por nombre para cantidad
             const counts = {};
             bolsa.forEach(x => { counts[x.name] = (counts[x.name] || 0) + 1; });
             
@@ -348,12 +354,12 @@
             });
 
             const total = subtotal + 40;
-            const msg = `🍣 *ORDEN DE SUSHI KYTO*%0A------------------------------%0A👤 *Cliente:* ${nom}%0A📍 *Dirección:* ${dir}%0A💳 *Pago:* ${document.getElementById('pago-metodo').value}%0A------------------------------%0A🍱 *PEDIDO:*%0A${itemsTxt}------------------------------%0A💰 *Subtotal:* $${subtotal}%0A🚚 *Envío:* $40%0A🔥 *TOTAL:* $${total}`;
+            const msg = `🍣 *SUSHI KYTO - PEDIDO*%0A%0A👤 *Cliente:* ${nom}%0A📍 *Entrega:* ${dir}%0A💳 *Método:* ${document.getElementById('pago-metodo').value}%0A%0A🍱 *DETALLE:*%0A${itemsTxt}%0A💰 *Subtotal:* $${subtotal}%0A🚚 *Envío:* $40%0A🔥 *TOTAL:* $${total}`;
 
             window.open(`https://wa.me/522311511435?text=${msg}`, '_blank');
         }
 
-        // JUEGO NEXO
+        // JUEGO NEXO (CANVAS)
         const canvas = document.getElementById('canvasGame');
         const ctx = canvas.getContext('2d');
         let playing = false, score = 0, pX = 143, items = [];
@@ -374,30 +380,34 @@
             if(!playing) return;
             ctx.clearRect(0, 0, 286, 596);
             
-            // PLATO
-            ctx.fillStyle = "#FFF";
-            ctx.beginPath(); ctx.ellipse(pX, 540, 45, 12, 0, 0, Math.PI*2); ctx.fill();
-            ctx.strokeStyle = "#DDD"; ctx.stroke();
+            // PLATO (PLAYER)
+            ctx.fillStyle = "#E31C24";
+            ctx.beginPath(); ctx.roundRect(pX - 40, 540, 80, 10, 5); ctx.fill();
 
-            if(Math.random() < 0.03) items.push({x: Math.random()*240+20, y: 0});
+            if(Math.random() < 0.04) items.push({x: Math.random()*240+20, y: 0, r: Math.random()*Math.PI});
 
             items.forEach((s, i) => {
-                s.y += 4;
-                // SUSHI REALISTA
-                ctx.fillStyle = "white"; ctx.fillRect(s.x-12, s.y-6, 24, 18);
-                ctx.fillStyle = "red"; ctx.fillRect(s.x-12, s.y-6, 24, 6);
+                s.y += 5;
+                // DIBUJAR SUSHI CAYENDO
+                ctx.save();
+                ctx.translate(s.x, s.y);
+                ctx.rotate(s.r);
+                ctx.fillStyle = "white"; ctx.fillRect(-10, -10, 20, 20);
+                ctx.fillStyle = "red"; ctx.fillRect(-10, -10, 20, 5);
+                ctx.restore();
 
                 if(s.y > 530 && s.x > pX - 50 && s.x < pX + 50) {
                     score++;
                     items.splice(i, 1);
                 }
-                if(s.y > 596) {
+                if(s.y > 600) {
                     playing = false;
+                    document.getElementById('final-score').innerText = `Atrapaste ${score} sushis`;
                     document.getElementById('game-over').classList.remove('hidden');
                 }
             });
 
-            ctx.fillStyle = "white"; ctx.font = "900 20px Outfit"; ctx.fillText(score, 20, 40);
+            ctx.fillStyle = "white"; ctx.font = "900 30px Outfit"; ctx.fillText(score, 130, 80);
             if(playing) requestAnimationFrame(gameLoop);
         }
 
@@ -405,7 +415,7 @@
         canvas.addEventListener('touchmove', e => {
             pX = e.touches[0].clientX - canvas.getBoundingClientRect().left;
             e.preventDefault();
-        });
+        }, {passive: false});
 
         render();
         clock();
