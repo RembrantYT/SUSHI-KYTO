@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>SUSHI-KYTO | SISTEMA PROFESIONAL</title>
+    <title>SUSHI-KYTO | SISTEMA PROFESIONAL NEXO</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
@@ -13,273 +13,304 @@
             --kyto-red: #E31C24;
             --nexo-blue: #007AFF;
             --nexo-green: #34C759;
+            --gold: #FFD700;
         }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body { 
             font-family: 'Outfit', sans-serif; 
             background-color: #000; 
             color: white; 
             overflow-x: hidden;
-            background-image: linear-gradient(rgba(0,0,0,0.85), rgba(0,0,0,0.85)), url('https://images.unsplash.com/photo-1524413840807-0c3cb6fa808d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
-            background-attachment: fixed;
-            background-size: cover;
+            min-height: 100vh;
         }
 
-        /* PETALOS ROSAS ANIMADOS */
+        /* FONTO TIPO GIF ANIMADO */
+        .bg-animated {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-image: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.9)), url('https://images.unsplash.com/photo-1579871494447-9811cf80d66c?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80');
+            background-size: cover;
+            background-position: center;
+            z-index: -1;
+            animation: kenBurns 20s infinite alternate;
+        }
+
+        @keyframes kenBurns {
+            0% { transform: scale(1); filter: hue-rotate(0deg); }
+            100% { transform: scale(1.2); filter: hue-rotate(10deg); }
+        }
+
+        /* PETALOS */
         .petalo {
             position: fixed; top: -10%; background: #ffb7c5;
-            border-radius: 10px 0 10px 10px; opacity: 0.8;
-            animation: caer linear infinite; z-index: 1;
+            border-radius: 10px 0 10px 10px; opacity: 0.6;
+            animation: caer linear infinite; z-index: 1; pointer-events: none;
         }
         @keyframes caer {
             0% { transform: translateY(0vh) translateX(0px) rotate(0deg); }
-            100% { transform: translateY(110vh) translateX(100px) rotate(360deg); }
+            100% { transform: translateY(110vh) translateX(120px) rotate(720deg); }
         }
 
-        /* RELOJ EN LA ESQUINA (NO ESTORBA) */
-        .reloj-corner {
-            position: absolute; top: 20px; right: 20px;
-            z-index: 200; background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px); padding: 10px 20px;
-            border-radius: 20px; border: 1px solid rgba(255,255,255,0.1);
-            text-align: right;
+        /* RELOJ IMPORTADO POR NEXO */
+        .reloj-nexo {
+            position: absolute; top: 30px; right: 30px;
+            z-index: 200; background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
+            padding: 15px 30px; border-radius: 25px;
+            border: 1px solid rgba(255,255,255,0.15);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+            text-align: center; min-width: 180px;
         }
-        .reloj-txt { font-weight: 800; font-size: 1.5rem; color: white; display: block; line-height: 1; }
-        .reloj-sub { font-size: 7px; text-transform: uppercase; letter-spacing: 2px; color: var(--kyto-red); font-weight: 900; }
+        .reloj-txt { font-weight: 900; font-size: 2rem; color: white; display: block; font-variant-numeric: tabular-nums; letter-spacing: 1px; }
+        .reloj-sub { font-size: 8px; text-transform: uppercase; letter-spacing: 3px; color: var(--kyto-red); font-weight: 900; margin-top: 5px; display: block; }
+        .reloj-import { font-size: 6px; text-transform: uppercase; letter-spacing: 1px; color: rgba(255,255,255,0.4); margin-top: 4px; display: block; }
 
-        /* NAV ESTATICO (CORREGIDO: SE QUEDA ARRIBA) */
-        .nav-static {
-            position: absolute; top: 120px; width: 100%; z-index: 150; padding: 0 24px;
-        }
+        /* NAV ESTATICO */
+        .nav-container { position: absolute; top: 140px; width: 100%; z-index: 150; padding: 0 30px; }
 
-        /* GATO 3D REALISTA SVG */
+        /* MANEKI NEKO CUTE 3D */
         .maneki-trigger {
-            position: fixed; bottom: 20px; right: 20px; z-index: 500;
-            cursor: pointer; transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: fixed; bottom: 30px; right: 30px; z-index: 500;
+            cursor: pointer; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
-        .maneki-trigger:hover { transform: scale(1.1) rotate(-10deg); filter: brightness(1.2); }
-        .gato-3d { width: 110px; filter: drop-shadow(0 15px 30px rgba(0,0,0,0.8)); }
+        .maneki-trigger:hover { transform: scale(1.2) rotate(-5deg); filter: drop-shadow(0 0 20px var(--kyto-red)); }
+        
+        /* HARDWARE ADAPTATIVO JUEGO */
+        .hw-wrapper { transition: all 0.5s ease; position: relative; }
+        
+        /* Estilo Computadora */
+        .pc-case {
+            width: 700px; height: 500px; background: #1a1a1a; border: 15px solid #333;
+            border-radius: 10px; position: relative; box-shadow: 0 0 100px rgba(0,0,0,0.8);
+        }
+        .pc-base { width: 200px; height: 20px; background: #222; margin: 0 auto; border-radius: 0 0 20px 20px; }
+        
+        /* Estilo Celular */
+        .phone-case {
+            width: 300px; height: 600px; background: #000; border: 8px solid #222;
+            border-radius: 40px; position: relative; box-shadow: 0 0 50px rgba(0,0,0,0.9);
+        }
 
-        /* TARJETAS MENU */
-        .kyto-item {
-            background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255,255,255,0.08);
-            backdrop-filter: blur(15px); border-radius: 40px; overflow: hidden;
-            transition: all 0.4s ease;
+        /* TARJETAS */
+        .kyto-card {
+            background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255,255,255,0.05);
+            backdrop-filter: blur(20px); border-radius: 40px; overflow: hidden;
+            transition: all 0.4s ease; position: relative;
         }
-        .kyto-item:hover { transform: scale(1.02); border-color: var(--kyto-red); background: rgba(255, 255, 255, 0.06); }
-
-        /* CELULAR NEXO */
-        .nexo-hw {
-            width: 310px; height: 620px; border-radius: 55px; padding: 12px;
-            background: #111; border: 4px solid #333; position: relative;
-            box-shadow: 0 0 50px rgba(0,122,255,0.3);
-        }
-        .nexo-in { background: #000; width: 100%; height: 100%; border-radius: 45px; overflow: hidden; position: relative; }
+        .kyto-card:hover { transform: translateY(-15px); border-color: var(--kyto-red); background: rgba(255, 255, 255, 0.05); }
 
         .no-scrollbar::-webkit-scrollbar { display: none; }
     </style>
 </head>
 <body class="no-scrollbar">
 
+    <div class="bg-animated"></div>
     <div id="pétalos-container"></div>
 
-    <div class="reloj-corner">
-        <span id="reloj-h" class="reloj-txt">00:00</span>
-        <span class="reloj-sub">Kyto Time</span>
+    <div class="reloj-nexo">
+        <span id="reloj-h" class="reloj-txt">00:00:00</span>
+        <span class="reloj-sub">Kyto Official Time</span>
+        <span class="reloj-import">Reloj importado por NEXO</span>
     </div>
 
-    <nav class="nav-static">
-        <div class="container mx-auto flex justify-between items-center bg-white/5 backdrop-blur-2xl p-6 rounded-[3rem] border border-white/10 shadow-2xl">
+    <nav class="nav-container">
+        <div class="container mx-auto flex justify-between items-center bg-black/40 backdrop-blur-3xl p-8 rounded-[3.5rem] border border-white/10">
             <div class="flex flex-col">
-                <h1 class="text-4xl font-black italic tracking-tighter uppercase leading-none">Sushi Kyto</h1>
-                <span class="text-[9px] font-black tracking-[5px] text-red-600 mt-1">MENU REAL</span>
+                <h1 class="text-5xl font-black italic tracking-tighter uppercase leading-none">Sushi Kyto</h1>
+                <div class="flex items-center gap-2 mt-2">
+                    <span class="w-2 h-2 bg-red-600 rounded-full animate-pulse"></span>
+                    <span class="text-[10px] font-black tracking-[5px] text-gray-400">SISTEMA DE PEDIDOS</span>
+                </div>
             </div>
 
-            <div class="flex items-center gap-6">
-                <div onclick="abrirPerfil()" class="flex items-center gap-3 bg-white/10 px-5 py-3 rounded-2xl cursor-pointer hover:bg-white/20 transition">
+            <div class="flex items-center gap-8">
+                <div onclick="abrirPerfil()" class="hidden md:flex items-center gap-4 bg-white/5 px-6 py-4 rounded-2xl cursor-pointer hover:bg-white/10 transition border border-white/5">
                     <i class="fa-solid fa-user-ninja text-red-600"></i>
-                    <span id="display-nombre" class="text-[10px] font-black uppercase tracking-widest">Invitado</span>
+                    <span id="display-nombre" class="text-xs font-black uppercase tracking-widest">Invitado</span>
                 </div>
 
-                <button onclick="verBolsa()" class="relative bg-white text-black w-14 h-14 rounded-2xl flex items-center justify-center transition active:scale-90 shadow-lg">
-                    <i class="fa-solid fa-bag-shopping text-xl"></i>
-                    <span id="badge" class="absolute -top-2 -right-2 bg-red-600 text-white text-[10px] font-black w-6 h-6 flex items-center justify-center rounded-full border-2 border-black">0</span>
+                <button onclick="verBolsa()" class="relative bg-white text-black w-16 h-16 rounded-3xl flex items-center justify-center transition active:scale-90 shadow-2xl">
+                    <i class="fa-solid fa-bag-shopping text-2xl"></i>
+                    <span id="badge" class="absolute -top-3 -right-3 bg-red-600 text-white text-[12px] font-black w-7 h-7 flex items-center justify-center rounded-full border-4 border-black">0</span>
                 </button>
             </div>
         </div>
     </nav>
 
-    <main class="container mx-auto px-6 pt-96 pb-48 relative z-10">
+    <main class="container mx-auto px-6 pt-[450px] pb-48 relative z-10">
         
-        <section class="mb-32">
-            <h2 class="text-6xl font-black italic uppercase mb-16 tracking-tighter"><span class="text-red-600">01.</span> Entradas</h2>
-            <div id="cat-entradas" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10"></div>
+        <section class="mb-40">
+            <h2 class="text-7xl font-black italic uppercase mb-20 tracking-tighter"><span class="text-red-600 opacity-50">#01</span> Entradas</h2>
+            <div id="cat-entradas" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12"></div>
         </section>
 
-        <section class="mb-32">
-            <h2 class="text-6xl font-black italic uppercase mb-16 tracking-tighter"><span class="text-red-600">02.</span> Paquetes</h2>
-            <div id="cat-paquetes" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10"></div>
+        <section class="mb-40">
+            <h2 class="text-7xl font-black italic uppercase mb-20 tracking-tighter"><span class="text-red-600 opacity-50">#02</span> Paquetes</h2>
+            <div id="cat-paquetes" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12"></div>
         </section>
 
-        <section class="mb-32">
-            <h2 class="text-6xl font-black italic uppercase mb-16 tracking-tighter"><span class="text-red-600">03.</span> Rollos Especiales</h2>
-            <div id="cat-rollos" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"></div>
+        <section class="mb-40">
+            <h2 class="text-7xl font-black italic uppercase mb-20 tracking-tighter"><span class="text-red-600 opacity-50">#03</span> Rollos Especiales</h2>
+            <div id="cat-rollos" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8"></div>
         </section>
 
     </main>
 
     <div class="maneki-trigger" onclick="abrirJuego()">
-        <svg class="gato-3d" viewBox="0 0 200 220" xmlns="http://www.w3.org/2000/svg">
+        <svg width="120" height="120" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
             <defs>
-                <radialGradient id="gradBody" cx="50%" cy="50%" r="50%">
+                <radialGradient id="cuteGrad" cx="50%" cy="50%" r="50%">
                     <stop offset="0%" style="stop-color:#ffffff" />
-                    <stop offset="100%" style="stop-color:#d1d1d1" />
+                    <stop offset="100%" style="stop-color:#f0f0f0" />
                 </radialGradient>
-                <linearGradient id="gradGold" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" style="stop-color:#FFD700" />
-                    <stop offset="100%" style="stop-color:#B8860B" />
-                </linearGradient>
             </defs>
-            <ellipse cx="100" cy="140" rx="70" ry="80" fill="url(#gradBody)" />
-            <circle cx="100" cy="70" r="55" fill="url(#gradBody)" />
-            <path d="M60 40 Q50 20 40 45" fill="#222"/>
-            <path d="M140 40 Q150 20 160 45" fill="#222"/>
-            <path d="M100 10 L105 30 L95 30 Z" fill="#222"/>
-            <path d="M55 35 L35 5 L80 30 Z" fill="#ffffff" stroke="#eee" />
-            <path d="M145 35 L165 5 L120 30 Z" fill="#ffffff" stroke="#eee" />
-            <path d="M50 30 L42 15 L65 28 Z" fill="#ffb7c5" /> <circle cx="75" cy="70" r="4" fill="#111"/>
-            <circle cx="125" cy="70" r="4" fill="#111"/>
-            <path d="M90 85 Q100 100 110 85" stroke="#333" stroke-width="3" fill="none" stroke-linecap="round"/>
-            <path d="M60 75 Q40 75 30 85" stroke="#ccc" stroke-width="1" fill="none"/> <path d="M140 75 Q160 75 170 85" stroke="#ccc" stroke-width="1" fill="none"/>
-            <circle cx="100" cy="160" r="30" fill="url(#gradGold)" stroke="#966F33" stroke-width="1"/>
-            <text x="88" y="172" font-family="Arial" font-size="35" fill="#966F33" font-weight="bold">¥</text>
-            <path d="M150 80 Q180 30 155 20 Q130 10 140 70 Z" fill="url(#gradBody)" stroke="#ccc"/>
-            <circle cx="152" cy="25" r="8" fill="#ffb7c5" opacity="0.5"/>
+            <circle cx="100" cy="140" r="55" fill="url(#cuteGrad)" />
+            <circle cx="100" cy="80" r="45" fill="url(#cuteGrad)" />
+            <path d="M65 45 L45 10 L85 45 Z" fill="#fff" stroke="#eee" />
+            <path d="M135 45 L155 10 L115 45 Z" fill="#fff" stroke="#eee" />
+            <path d="M60 40 L50 20 L75 38 Z" fill="#ffb7c5" />
+            <path d="M140 40 L150 20 L125 38 Z" fill="#ffb7c5" />
+            <circle cx="80" cy="85" r="7" fill="#111" />
+            <circle cx="120" cy="85" r="7" fill="#111" />
+            <circle cx="78" cy="83" r="2" fill="#fff" />
+            <circle cx="118" cy="83" r="2" fill="#fff" />
+            <circle cx="70" cy="98" r="5" fill="#ffb7c5" opacity="0.4" />
+            <circle cx="130" cy="98" r="5" fill="#ffb7c5" opacity="0.4" />
+            <circle cx="100" cy="145" r="20" fill="#FFD700" stroke="#B8860B" />
+            <text x="94" y="153" font-family="Arial" font-size="20" fill="#B8860B" font-weight="bold">¥</text>
+            <path d="M145 100 Q170 50 150 40 Q130 30 135 80 Z" fill="#fff" stroke="#eee" />
         </svg>
     </div>
 
-    <div id="perfil-box" class="fixed inset-0 z-[700] hidden flex items-center justify-center p-6 bg-black/90 backdrop-blur-md">
-        <div class="bg-zinc-900 w-full max-w-sm rounded-[3.5rem] p-12 border border-white/10 shadow-2xl text-center">
-            <div class="w-24 h-24 bg-red-600 rounded-full mx-auto flex items-center justify-center mb-6 shadow-[0_0_30px_rgba(227,28,36,0.4)]">
+    <div id="juego-box" class="fixed inset-0 z-[600] hidden flex flex-col items-center justify-center bg-black/95 backdrop-blur-3xl">
+        <div id="hw-container" class="hw-wrapper">
+            <div id="game-screen" class="overflow-hidden relative">
+                <canvas id="canvasGame"></canvas>
+                <div id="game-over" class="absolute inset-0 bg-black/90 hidden flex flex-col items-center justify-center p-6">
+                    <h2 class="text-5xl font-black text-red-600 mb-2 italic">GAME OVER</h2>
+                    <p id="final-score" class="text-white font-bold mb-8"></p>
+                    <button onclick="resetGame()" class="bg-white text-black px-10 py-4 rounded-full font-black uppercase text-[10px] tracking-widest shadow-2xl">Reiniciar Sistema</button>
+                </div>
+            </div>
+        </div>
+        <button onclick="abrirJuego()" class="mt-12 text-white font-black uppercase tracking-[10px] text-[10px] opacity-20 hover:opacity-100 transition">Salir del Simulador</button>
+    </div>
+
+    <div id="perfil-box" class="fixed inset-0 z-[700] hidden flex items-center justify-center p-6 bg-black/90 backdrop-blur-xl">
+        <div class="bg-zinc-900 w-full max-w-sm rounded-[4rem] p-12 border border-white/10 text-center">
+            <div class="w-24 h-24 bg-red-600 rounded-full mx-auto flex items-center justify-center mb-8 shadow-2xl shadow-red-600/20">
                 <i class="fa-solid fa-user-ninja text-4xl"></i>
             </div>
-            <h3 class="text-3xl font-black italic uppercase mb-8">Configuración</h3>
+            <h3 class="text-4xl font-black italic uppercase mb-10">Usuario</h3>
             <div class="space-y-4">
-                <input type="text" id="input-nombre" class="w-full bg-white/5 border border-white/10 p-5 rounded-2xl outline-none focus:border-red-600 font-bold uppercase text-xs transition" placeholder="Cambiar Nombre">
-                <button onclick="guardarNombre()" class="w-full bg-red-600 py-5 rounded-2xl font-black uppercase text-xs tracking-widest shadow-lg">Guardar Cambios</button>
-                <button onclick="location.reload()" class="w-full bg-white/5 py-5 rounded-2xl font-black uppercase text-xs border border-white/10">Cerrar Sesión</button>
-                <button onclick="abrirPerfil()" class="pt-4 text-gray-500 font-black text-[10px] uppercase tracking-widest">Volver al Menú</button>
+                <input type="text" id="input-nombre" class="w-full bg-white/5 border border-white/10 p-6 rounded-3xl outline-none focus:border-red-600 font-bold uppercase text-xs" placeholder="Tu Apodo">
+                <button onclick="guardarNombre()" class="w-full bg-red-600 py-6 rounded-3xl font-black uppercase text-xs tracking-widest">Guardar</button>
+                <button onclick="abrirPerfil()" class="w-full bg-transparent py-4 text-gray-500 font-bold text-[10px] uppercase tracking-widest">Cerrar</button>
             </div>
         </div>
     </div>
 
-    <div id="bolsa-side" class="fixed inset-y-0 right-[-100%] w-full md:w-[550px] bg-black/95 z-[500] border-l border-white/10 transition-all duration-500 flex flex-col backdrop-blur-3xl">
-        <div class="p-10 border-b border-white/10 flex justify-between items-end">
+    <div id="bolsa-side" class="fixed inset-y-0 right-[-100%] w-full md:w-[600px] bg-black/95 z-[500] border-l border-white/10 transition-all duration-500 flex flex-col backdrop-blur-2xl">
+        <div class="p-12 border-b border-white/10 flex justify-between items-end">
             <div>
-                <h2 class="text-5xl font-black italic uppercase leading-none">Tu Bolsa</h2>
-                <span class="text-red-600 font-black text-[10px] tracking-[4px]">READY TO ORDER</span>
+                <h2 class="text-6xl font-black italic uppercase">Bolsa</h2>
+                <p class="text-red-600 font-black text-[10px] tracking-[5px] mt-2">NEXO DELIVERY SYSTEM</p>
             </div>
-            <button onclick="verBolsa()" class="text-5xl font-light hover:text-red-600 transition">&times;</button>
+            <button onclick="verBolsa()" class="text-6xl font-thin">&times;</button>
         </div>
-        <div class="flex-grow overflow-y-auto p-10 no-scrollbar" id="lista-bolsa"></div>
-        <div class="p-10 border-t border-white/10 bg-white/5">
-            <div class="space-y-4 mb-8">
-                <input type="text" id="dir-envio" placeholder="DIRECCIÓN DE ENTREGA COMPLETA" class="w-full bg-black border border-white/10 p-5 rounded-2xl font-bold uppercase text-xs focus:border-red-600 outline-none">
-                <select id="pago-metodo" class="w-full bg-black border border-white/10 p-5 rounded-2xl font-bold uppercase text-xs outline-none">
-                    <option value="Efectivo">Efectivo al recibir</option>
-                    <option value="Transferencia">Transferencia Bancaria</option>
-                    <option value="Terminal">Terminal (Tarjeta)</option>
+        <div class="flex-grow overflow-y-auto p-12 no-scrollbar" id="lista-bolsa"></div>
+        <div class="p-12 border-t border-white/10 bg-white/5">
+            <div class="space-y-4 mb-10">
+                <input type="text" id="dir-envio" placeholder="DIRECCIÓN COMPLETA DE ENTREGA" class="w-full bg-black/50 border border-white/10 p-6 rounded-3xl font-bold uppercase text-xs focus:border-red-600 transition outline-none">
+                <select id="pago-metodo" class="w-full bg-black/50 border border-white/10 p-6 rounded-3xl font-bold uppercase text-xs outline-none">
+                    <option value="Efectivo">💵 Pago en Efectivo</option>
+                    <option value="Transferencia">🏦 Transferencia</option>
+                    <option value="Terminal">💳 Tarjeta (Terminal)</option>
                 </select>
             </div>
-            <div class="flex justify-between items-center mb-8">
-                <span class="font-black italic text-2xl">TOTAL:</span>
-                <span id="total-txt" class="text-4xl font-black text-red-600">$0</span>
+            <div class="flex justify-between items-center mb-10">
+                <span class="font-black italic text-3xl">TOTAL:</span>
+                <span id="total-txt" class="text-5xl font-black text-red-600">$0</span>
             </div>
-            <button onclick="finalizarPedido()" class="w-full bg-red-600 py-7 rounded-3xl font-black uppercase tracking-[5px] text-sm hover:bg-red-700 transition shadow-xl">Confirmar en WhatsApp</button>
-        </div>
-    </div>
-
-    <div id="juego-box" class="fixed inset-0 z-[600] hidden flex items-center justify-center bg-black/95 backdrop-blur-3xl">
-        <div class="nexo-hw">
-            <div class="nexo-in">
-                <div class="absolute top-0 w-full h-8 bg-black flex justify-center items-center z-30">
-                    <div class="w-20 h-4 bg-zinc-800 rounded-full"></div>
-                </div>
-                <canvas id="canvasGame" width="286" height="596"></canvas>
-                <div id="game-over" class="absolute inset-0 bg-black/90 hidden flex flex-col items-center justify-center p-6 text-center">
-                    <h2 class="text-5xl font-black text-red-600 mb-4 italic">GAME OVER</h2>
-                    <p id="final-score" class="text-white font-bold mb-10 text-xl"></p>
-                    <button onclick="resetGame()" class="bg-white text-black px-12 py-5 rounded-full font-black uppercase text-xs tracking-widest shadow-white/20 shadow-2xl">Reintentar</button>
-                </div>
-            </div>
-            <button onclick="abrirJuego()" class="absolute -bottom-16 left-1/2 -translate-x-1/2 text-white font-black uppercase tracking-[8px] text-[10px] opacity-30 hover:opacity-100 transition">Cerrar Juego</button>
+            <button onclick="finalizarPedido()" class="w-full bg-red-600 py-8 rounded-[2.5rem] font-black uppercase tracking-[6px] text-sm shadow-2xl hover:bg-red-700 transition">Enviar Pedido a WhatsApp</button>
         </div>
     </div>
 
     <script>
+        // MENU COMPLETO ACTUALIZADO
         const MENU_REAL = {
             entradas: [
-                {id: 1, name: "Brochetas de Queso", price: 65, img: ""},
-                {id: 2, name: "Yakimeshi Especial", price: 95, img: ""},
-                {id: 3, name: "Kushiages Mixtos", price: 85, img: ""}
+                {id: 1, name: "Brochetas de Queso", price: 65, img: "21659.png"},
+                {id: 2, name: "Yakimeshi Especial", price: 95, img: "21660.png"},
+                {id: 3, name: "Kushiages Mixtos", price: 85, img: "21661.png"},
+                {id: 4, name: "Edamames", price: 75, img: "21670.png"},
+                {id: 5, name: "Gyoza de Cerdo", price: 110, img: "21671.png"}
             ],
             paquetes: [
-                {id: 10, name: "Mini Paquete", price: 120, img: ""},
-                {id: 11, name: "Kyto Box", price: 530, img: ""},
-                {id: 12, name: "Paquete Dúo", price: 340, img: ""},
-                {id: 13, name: "Charola Kyto", price: 890, img: ""}
+                {id: 10, name: "Mini Paquete", price: 120, img: "21653.png"},
+                {id: 11, name: "Kyto Box", price: 530, img: "21654.png"},
+                {id: 12, name: "Paquete Dúo", price: 340, img: "21655.png"},
+                {id: 13, name: "Charola Kyto", price: 890, img: "21656.png"},
+                {id: 14, name: "Paquete Familiar", price: 650, img: "21672.png"}
             ],
             rollos: [
-                {id: 100, name: "Philadelfia Roll", price: 105, img: ""},
-                {id: 101, name: "Avocado Roll", price: 120, img: ""},
-                {id: 102, name: "Mar y Tierra Roll", price: 215, img: ""},
-                {id: 103, name: "Hannibal Roll", price: 250, img: ""},
-                {id: 104, name: "Eby Furay Roll", price: 145, img: ""},
-                {id: 105, name: "California Roll", price: 105, img: ""},
-                {id: 106, name: "Dragon Roll", price: 180, img: ""},
-                {id: 107, name: "Tampico Especial Roll", price: 110, img: ""}
+                {id: 100, name: "Philadelfia Roll", price: 105, img: "21662.png"},
+                {id: 101, name: "Avocado Roll", price: 120, img: "21663.png"},
+                {id: 102, name: "Mar y Tierra Roll", price: 215, img: "21664.png"},
+                {id: 103, name: "Hannibal Roll", price: 250, img: "21665.png"},
+                {id: 104, name: "Eby Furay Roll", price: 145, img: "21666.png"},
+                {id: 105, name: "California Roll", price: 105, img: "21667.png"},
+                {id: 106, name: "Dragon Roll", price: 180, img: "21668.png"},
+                {id: 107, name: "Tampico Especial", price: 110, img: "21669.png"},
+                {id: 108, name: "Spicy Tuna Roll", price: 165, img: "21673.png"},
+                {id: 109, name: "Salmon Skin Roll", price: 155, img: "21674.png"},
+                {id: 110, name: "Rainbow Roll", price: 230, img: "21675.png"},
+                {id: 111, name: "Veggie Fresh Roll", price: 95, img: "21676.png"}
             ]
         };
 
         let bolsa = [];
 
-        // RELOJ ESQUINA
-        function clock() {
-            const d = new Date();
-            const h = d.getHours().toString().padStart(2, '0');
-            const m = d.getMinutes().toString().padStart(2, '0');
-            document.getElementById('reloj-h').innerText = `${h}:${m}`;
+        // RELOJ CON SEGUNDOS
+        function updateClock() {
+            const now = new Date();
+            const h = now.getHours().toString().padStart(2, '0');
+            const m = now.getMinutes().toString().padStart(2, '0');
+            const s = now.getSeconds().toString().padStart(2, '0');
+            document.getElementById('reloj-h').innerText = `${h}:${m}:${s}`;
         }
-        setInterval(clock, 1000);
+        setInterval(updateClock, 1000);
+        updateClock();
 
-        // PETALOS
+        // PETALOS 
         function createPetal() {
             const p = document.createElement('div');
             p.className = 'petalo';
             p.style.left = Math.random() * 100 + 'vw';
-            p.style.width = Math.random() * 12 + 6 + 'px';
+            p.style.width = Math.random() * 10 + 8 + 'px';
             p.style.height = p.style.width;
-            p.style.animationDuration = Math.random() * 4 + 3 + 's';
+            p.style.animationDuration = Math.random() * 5 + 4 + 's';
             document.getElementById('pétalos-container').appendChild(p);
-            setTimeout(() => p.remove(), 6000);
+            setTimeout(() => p.remove(), 8000);
         }
-        setInterval(createPetal, 400);
+        setInterval(createPetal, 500);
 
-        // RENDER DINAMICO
-        function render() {
+        // RENDER MENU
+        function renderMenu() {
             ['entradas', 'paquetes', 'rollos'].forEach(cat => {
                 const container = document.getElementById(`cat-${cat}`);
                 container.innerHTML = MENU_REAL[cat].map(item => `
-                    <div class="kyto-item">
-                        <div class="relative h-64 bg-zinc-800">
-                            <img src="${item.img || 'https://via.placeholder.com/400x300?text=Cargar+Foto'}" class="w-full h-full object-cover">
-                            <div class="absolute bottom-6 left-6 bg-red-600 px-5 py-2 rounded-xl font-black text-white shadow-xl italic">
+                    <div class="kyto-card">
+                        <div class="relative h-72 bg-zinc-900 overflow-hidden">
+                            <img src="fotos/${item.img}" class="w-full h-full object-cover transition duration-700 hover:scale-110">
+                            <div class="absolute top-6 right-6 bg-black/60 backdrop-blur-xl px-6 py-3 rounded-2xl font-black text-red-600 border border-white/10 shadow-2xl">
                                 $${item.price}
                             </div>
                         </div>
-                        <div class="p-8">
-                            <h3 class="text-xl font-black uppercase italic tracking-tight">${item.name}</h3>
-                            <button onclick="add(${item.id}, '${cat}')" class="mt-8 w-full bg-white text-black py-5 rounded-[1.5rem] font-black uppercase text-[10px] tracking-[3px] hover:bg-red-600 hover:text-white transition-all duration-300">Añadir</button>
+                        <div class="p-10">
+                            <h3 class="text-2xl font-black uppercase italic tracking-tight mb-8">${item.name}</h3>
+                            <button onclick="add(${item.id}, '${cat}')" class="w-full bg-white text-black py-5 rounded-2xl font-black uppercase text-[10px] tracking-[4px] hover:bg-red-600 hover:text-white transition-all duration-300">Añadir a Bolsa</button>
                         </div>
                     </div>
                 `).join('');
@@ -302,11 +333,11 @@
             list.innerHTML = bolsa.map(i => `
                 <div class="flex justify-between items-center bg-white/5 p-8 rounded-[2.5rem] mb-6 border border-white/5">
                     <div>
-                        <p class="font-black uppercase italic text-sm tracking-tighter">${i.name}</p>
-                        <p class="text-red-600 font-black mt-1">$${i.price}</p>
+                        <p class="font-black uppercase italic text-sm">${i.name}</p>
+                        <p class="text-red-600 font-black mt-2">$${i.price}</p>
                     </div>
-                    <button onclick="remove(${i.bid})" class="w-12 h-12 rounded-full bg-white/5 text-gray-400 hover:bg-red-600 hover:text-white transition">
-                        <i class="fa-solid fa-xmark"></i>
+                    <button onclick="remove(${i.bid})" class="text-gray-500 hover:text-red-600 text-2xl transition">
+                        <i class="fa-solid fa-trash-can"></i>
                     </button>
                 </div>
             `).join('');
@@ -322,49 +353,54 @@
             s.style.right = s.style.right === "0px" ? "-100%" : "0px";
         }
 
-        function abrirPerfil() {
-            document.getElementById('perfil-box').classList.toggle('hidden');
-        }
-
+        function abrirPerfil() { document.getElementById('perfil-box').classList.toggle('hidden'); }
         function guardarNombre() {
             const n = document.getElementById('input-nombre').value;
-            if(n) {
-                document.getElementById('display-nombre').innerText = n;
-                abrirPerfil();
-            }
+            if(n) { document.getElementById('display-nombre').innerText = n; abrirPerfil(); }
         }
 
         function finalizarPedido() {
-            if(bolsa.length === 0) return alert("Bolsa vacía");
+            if(bolsa.length === 0) return alert("Tu bolsa está vacía.");
             const dir = document.getElementById('dir-envio').value;
-            const nom = document.getElementById('display-nombre').innerText;
-            if(!dir) return alert("Ingresa tu dirección");
-
-            let itemsTxt = "";
-            let subtotal = 0;
+            if(!dir) return alert("Por favor, ingresa tu dirección.");
+            
             const counts = {};
             bolsa.forEach(x => { counts[x.name] = (counts[x.name] || 0) + 1; });
+            let itemsTxt = "";
+            let subtotal = 0;
             
             Object.keys(counts).forEach(name => {
                 const item = bolsa.find(b => b.name === name);
-                const cant = counts[name];
-                const sub = item.price * cant;
-                itemsTxt += `✅ *${cant}x* ${name} - $${sub}%0A`;
+                const sub = item.price * counts[name];
+                itemsTxt += `✅ *${counts[name]}x* ${name} - $${sub}%0A`;
                 subtotal += sub;
             });
 
             const total = subtotal + 40;
-            const msg = `🍣 *SUSHI KYTO - PEDIDO*%0A%0A👤 *Cliente:* ${nom}%0A📍 *Entrega:* ${dir}%0A💳 *Método:* ${document.getElementById('pago-metodo').value}%0A%0A🍱 *DETALLE:*%0A${itemsTxt}%0A💰 *Subtotal:* $${subtotal}%0A🚚 *Envío:* $40%0A🔥 *TOTAL:* $${total}`;
-
+            const msg = `🍣 *PEDIDO SUSHI KYTO*%0A%0A📍 *Entrega:* ${dir}%0A💳 *Pago:* ${document.getElementById('pago-metodo').value}%0A%0A🍱 *PEDIDO:*%0A${itemsTxt}%0A💰 *Subtotal:* $${subtotal}%0A🚚 *Envío:* $40%0A🔥 *TOTAL:* $${total}`;
             window.open(`https://wa.me/522311511435?text=${msg}`, '_blank');
         }
 
-        // JUEGO NEXO (CANVAS)
+        // MINIJUEGO ADAPTATIVO
         const canvas = document.getElementById('canvasGame');
         const ctx = canvas.getContext('2d');
         let playing = false, score = 0, pX = 143, items = [];
 
         function abrirJuego() {
+            const isMobile = window.innerWidth < 768;
+            const container = document.getElementById('hw-container');
+            const screen = document.getElementById('game-screen');
+            
+            if(isMobile) {
+                container.className = "phone-case";
+                canvas.width = 284; canvas.height = 584;
+                screen.className = "w-full h-full rounded-[35px] overflow-hidden";
+            } else {
+                container.className = "pc-case";
+                canvas.width = 670; canvas.height = 470;
+                screen.className = "w-full h-full rounded-[5px] overflow-hidden";
+            }
+
             playing = !playing;
             document.getElementById('juego-box').classList.toggle('hidden');
             if(playing) resetGame();
@@ -378,36 +414,33 @@
 
         function gameLoop() {
             if(!playing) return;
-            ctx.clearRect(0, 0, 286, 596);
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
             
             // PLATO (PLAYER)
             ctx.fillStyle = "#E31C24";
-            ctx.beginPath(); ctx.roundRect(pX - 40, 540, 80, 10, 5); ctx.fill();
+            ctx.beginPath(); ctx.roundRect(pX - 50, canvas.height - 40, 100, 15, 8); ctx.fill();
 
-            if(Math.random() < 0.04) items.push({x: Math.random()*240+20, y: 0, r: Math.random()*Math.PI});
+            if(Math.random() < (canvas.width > 400 ? 0.05 : 0.03)) {
+                items.push({x: Math.random()*(canvas.width-40)+20, y: 0});
+            }
 
             items.forEach((s, i) => {
-                s.y += 5;
-                // DIBUJAR SUSHI CAYENDO
-                ctx.save();
-                ctx.translate(s.x, s.y);
-                ctx.rotate(s.r);
-                ctx.fillStyle = "white"; ctx.fillRect(-10, -10, 20, 20);
-                ctx.fillStyle = "red"; ctx.fillRect(-10, -10, 20, 5);
-                ctx.restore();
+                s.y += 6;
+                ctx.fillStyle = "white"; ctx.fillRect(s.x-15, s.y-10, 30, 20);
+                ctx.fillStyle = "red"; ctx.fillRect(s.x-15, s.y-10, 30, 6);
 
-                if(s.y > 530 && s.x > pX - 50 && s.x < pX + 50) {
-                    score++;
-                    items.splice(i, 1);
+                if(s.y > canvas.height - 50 && s.x > pX - 60 && s.x < pX + 60) {
+                    score++; items.splice(i, 1);
                 }
-                if(s.y > 600) {
+                if(s.y > canvas.height) {
                     playing = false;
-                    document.getElementById('final-score').innerText = `Atrapaste ${score} sushis`;
+                    document.getElementById('final-score').innerText = `Sushis recolectados: ${score}`;
                     document.getElementById('game-over').classList.remove('hidden');
                 }
             });
 
-            ctx.fillStyle = "white"; ctx.font = "900 30px Outfit"; ctx.fillText(score, 130, 80);
+            ctx.fillStyle = "white"; ctx.font = "900 40px Outfit"; ctx.textAlign = "center";
+            ctx.fillText(score, canvas.width/2, 60);
             if(playing) requestAnimationFrame(gameLoop);
         }
 
@@ -417,8 +450,7 @@
             e.preventDefault();
         }, {passive: false});
 
-        render();
-        clock();
+        renderMenu();
     </script>
 </body>
 </html>
