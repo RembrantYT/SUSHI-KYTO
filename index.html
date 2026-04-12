@@ -11,543 +11,258 @@
         
         :root {
             --kyto-red: #E31C24;
-            --glass: rgba(10, 10, 10, 0.75);
-            --gold: #FFD700;
+            --glass: rgba(10, 10, 10, 0.85);
         }
 
-        /* RESET & BASE */
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-        body { 
-            font-family: 'Outfit', sans-serif; 
-            background-color: #000; 
-            color: white; 
-            overflow-x: hidden; 
-            min-height: 100vh;
-        }
+        body { font-family: 'Outfit', sans-serif; background-color: #050505; color: white; overflow-x: hidden; min-height: 100vh; }
 
-        /* FONDO DINÁMICO: PECES KOI (REEMPLAZO DE CONTENIDO NO DISPONIBLE) */
-        .bg-koi-hdr {
+        /* FONDO MEJORADO: MADERA OSCURA Y DETALLES JAPONESES */
+        .bg-zen {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background-image: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.9)), 
-                              url('https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExM3ZleHlzYW9uZWU0dzlreGgxaGN2emFpYjBzMGZtczFmeHVqbjgzbyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/Lp8YIqY5oQZz2/giphy.gif');
-            background-size: cover; background-position: center; z-index: -2;
-            filter: contrast(1.2) brightness(0.8);
+            background: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.9)), 
+                        url('https://images.unsplash.com/photo-1557180295-76eee20ae8aa?q=80&w=2000');
+            background-size: cover; z-index: -2;
         }
 
-        /* ANIMACIÓN DE PÉTALOS ROSAS */
-        .sakura-petal {
-            position: fixed; top: -10%; background: #ffb7c5;
-            border-radius: 10px 0 10px 10px; opacity: 0.5;
-            animation: fell linear infinite; z-index: -1; pointer-events: none;
+        /* PÉTALOS DE CEREZO (MÁS SUTILES) */
+        .sakura {
+            position: fixed; top: -10%; background: #ffc0cb;
+            border-radius: 50% 0 50% 50%; opacity: 0.6;
+            animation: fall linear infinite; z-index: -1; pointer-events: none;
         }
-        @keyframes fell {
-            0% { transform: translateY(0vh) translateX(0px) rotate(0deg); }
-            100% { transform: translateY(110vh) translateX(200px) rotate(720deg); }
+        @keyframes fall {
+            0% { transform: translateY(0vh) rotate(0deg); }
+            100% { transform: translateY(110vh) rotate(360deg) translateX(100px); }
         }
 
-        /* RELOJ NEXO HDR */
+        /* RELOJ CORREGIDO (ESPAÑOL) */
         .reloj-wrapper {
-            position: fixed; top: 25px; left: 50%; transform: translateX(-50%);
-            z-index: 500; background: var(--glass); backdrop-filter: blur(20px);
-            padding: 12px 35px; border-radius: 50px; border: 1px solid rgba(255,255,255,0.1);
-            text-align: center; box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+            position: fixed; top: 20px; left: 50%; transform: translateX(-50%);
+            z-index: 500; background: var(--glass); backdrop-filter: blur(15px);
+            padding: 10px 30px; border-radius: 50px; border: 1px solid rgba(255,255,255,0.1);
+            text-align: center;
         }
-        #time-display { font-weight: 900; font-size: 2.2rem; letter-spacing: 2px; line-height: 1; }
-        .time-tag { font-size: 7px; color: var(--kyto-red); font-weight: 900; letter-spacing: 4px; text-transform: uppercase; margin-top: 4px; display: block; }
+        #time-display { font-weight: 900; font-size: 1.8rem; letter-spacing: 2px; color: white; }
+        .time-tag { font-size: 8px; color: var(--kyto-red); font-weight: 900; letter-spacing: 2px; text-transform: uppercase; display: block; }
 
-        /* NAV PRINCIPAL */
-        .nav-kyto {
-            position: fixed; top: 120px; width: 100%; z-index: 400; padding: 0 30px;
-        }
-        .nav-blur {
-            background: rgba(20, 20, 20, 0.4); backdrop-filter: blur(20px);
-            border-radius: 35px; border: 1px solid rgba(255,255,255,0.05);
-            padding: 20px 40px; display: flex; justify-content: space-between; items: center;
-        }
-
-        /* TARJETAS DE PRODUCTO (ESTILO APPLE PREMIUM) */
-        .card-kyto {
-            background: linear-gradient(145deg, rgba(30,30,30,0.4), rgba(10,10,10,0.6));
-            border-radius: 40px; border: 1px solid rgba(255,255,255,0.08);
-            overflow: hidden; transition: all 0.5s cubic-bezier(0.2, 1, 0.3, 1);
-            position: relative;
-        }
-        .card-kyto:hover {
-            transform: translateY(-12px) scale(1.02);
-            border-color: var(--kyto-red);
-            box-shadow: 0 40px 80px rgba(0,0,0,0.8);
-        }
-        .card-img { width: 100%; height: 260px; object-cover: cover; transition: 0.8s ease; }
-        .card-kyto:hover .card-img { transform: scale(1.1); filter: saturate(1.2); }
-
-        /* GATO MANEKI-NEXO ANIMADO */
-        .maneki-btn {
-            position: fixed; bottom: 40px; right: 40px; z-index: 600; cursor: pointer;
-            filter: drop-shadow(0 20px 40px rgba(0,0,0,0.6)); transition: 0.3s;
-        }
-        .maneki-btn:hover { transform: scale(1.1) rotate(-5deg); }
-        .paw-animation { animation: wave 1.5s ease-in-out infinite alternate; transform-origin: 75% 80%; }
-        @keyframes wave { from { transform: rotate(0deg); } to { transform: rotate(35deg); } }
-
-        /* MODALES */
-        .modal-overlay {
-            position: fixed; inset: 0; background: rgba(0,0,0,0.9);
-            backdrop-filter: blur(30px); z-index: 1000; display: none;
-            align-items: center; justify-content: center; padding: 20px;
-        }
-        .modal-content {
-            background: #0a0a0a; width: 100%; max-width: 500px;
-            border-radius: 50px; border: 1px solid rgba(255,255,255,0.1);
-            padding: 50px; position: relative; animation: slideUp 0.5s ease;
-        }
-        @keyframes slideUp { from { transform: translateY(50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-
-        /* CARRITO LATERAL */
+        /* CARRITO CORREGIDO */
         .cart-sidebar {
-            position: fixed; top: 0; right: -100%; width: 100%; max-width: 550px;
-            height: 100%; background: rgba(5,5,5,0.95); backdrop-filter: blur(40px);
-            z-index: 1100; transition: 0.7s cubic-bezier(0.19, 1, 0.22, 1);
-            border-l: 1px solid rgba(255,255,255,0.1); display: flex; flex-col;
+            position: fixed; top: 0; right: -100%; width: 100%; max-width: 450px;
+            height: 100%; background: #0a0a0a; z-index: 1100; 
+            transition: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex; flex-direction: column; border-left: 1px solid #222;
         }
         .cart-open { right: 0; }
 
-        /* INPUTS PREMIUM */
-        input, textarea, select {
-            width: 100%; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
-            padding: 20px; border-radius: 20px; color: white; font-weight: 600;
-            outline: none; transition: 0.3s; margin-bottom: 15px;
+        /* PRODUCTOS */
+        .card-kyto {
+            background: rgba(20,20,20,0.6); border-radius: 30px; 
+            border: 1px solid rgba(255,255,255,0.05); overflow: hidden;
+            transition: 0.3s;
         }
-        input:focus { border-color: var(--kyto-red); background: rgba(255,255,255,0.1); }
+        .card-kyto:hover { border-color: var(--kyto-red); transform: translateY(-5px); }
 
-        /* SCROLLBAR */
-        ::-webkit-scrollbar { width: 5px; }
-        ::-webkit-scrollbar-track { background: #000; }
-        ::-webkit-scrollbar-thumb { background: var(--kyto-red); border-radius: 10px; }
+        /* GATO CORREGIDO (YA NO ESTÁ DEFORME) */
+        .maneki-btn {
+            position: fixed; bottom: 30px; right: 30px; z-index: 600; cursor: pointer;
+            width: 100px; height: 100px; background: white; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5); border: 4px solid var(--kyto-red);
+        }
+        .maneki-img { width: 70px; animation: bounce 2s infinite; }
+        @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
 
-        /* HARDWARE DEL JUEGO */
-        .hw-pc { width: 850px; height: 550px; border: 15px solid #222; border-radius: 20px; position: relative; background: #000; }
-        .hw-mobile { width: 340px; height: 680px; border: 12px solid #1a1a1a; border-radius: 55px; position: relative; background: #000; }
+        /* MINIJUEGO CONTENEDOR */
+        canvas { background: #111; border-radius: 15px; cursor: none; width: 100%; max-width: 600px; }
+        
+        .btn-red { background: var(--kyto-red); color: white; font-weight: 900; border-radius: 15px; padding: 15px; transition: 0.2s; }
+        .btn-red:hover { filter: brightness(1.2); }
     </style>
 </head>
 <body>
 
-    <div class="bg-koi-hdr"></div>
+    <div class="bg-zen"></div>
     <div id="sakura-container"></div>
 
     <div class="reloj-wrapper">
         <div id="time-display">00:00:00</div>
-        <span class="time-tag">Nexo Digital Clock</span>
+        <span class="time-tag">Reloj importado por el equipo Nexo</span>
     </div>
 
-    <nav class="nav-kyto">
-        <div class="nav-blur">
+    <nav class="fixed top-[100px] w-full z-40 px-6">
+        <div class="max-w-6xl mx-auto bg-black/50 backdrop-blur-md p-6 rounded-[35px] flex justify-between items-center border border-white/5">
             <div>
-                <h1 class="text-4xl font-black italic uppercase tracking-tighter">Sushi <span class="text-red-600">Kyto</span></h1>
-                <p class="text-[9px] font-bold tracking-[5px] text-gray-500 uppercase mt-1">Sabor Japonés Real</p>
+                <h1 class="text-3xl font-black italic uppercase">Sushi <span class="text-red-600">Kyto</span></h1>
+                <p class="text-[10px] font-bold text-gray-300 tracking-tighter uppercase">Comida japonesa con ingredientes de nuestra tierra</p>
             </div>
-            
-            <div class="flex items-center gap-6">
-                <div id="auth-section">
-                    <button onclick="toggleModal('login-modal')" class="bg-white/5 border border-white/10 p-4 rounded-2xl hover:bg-white/10 transition">
-                        <i class="fa-solid fa-user-ninja text-xl"></i>
-                    </button>
-                </div>
-
-                <button onclick="toggleCart()" class="relative bg-white text-black px-8 py-4 rounded-2xl font-black flex items-center gap-3 transition hover:scale-105 active:scale-95 shadow-2xl">
-                    <i class="fa-solid fa-cart-shopping"></i>
-                    <span id="cart-counter">0</span>
-                </button>
-            </div>
+            <button onclick="toggleCart()" class="bg-white text-black px-6 py-3 rounded-2xl font-black flex items-center gap-2">
+                <i class="fa-solid fa-cart-shopping"></i>
+                <span id="cart-counter">0</span>
+            </button>
         </div>
     </nav>
 
-    <main class="container mx-auto px-6 pt-[350px] pb-40">
-        <section class="mb-32">
-            <div class="flex items-center gap-4 mb-12">
-                <div class="w-2 h-12 bg-red-600"></div>
-                <h2 class="text-6xl font-black italic uppercase">Entradas</h2>
+    <main class="container mx-auto px-6 pt-[250px] pb-20">
+        <div id="grid-menu" class="grid grid-cols-1 md:grid-cols-3 gap-8">
             </div>
-            <div id="grid-entradas" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10"></div>
-        </section>
-
-        <section class="mb-32">
-            <div class="flex items-center gap-4 mb-12">
-                <div class="w-2 h-12 bg-white/20"></div>
-                <h2 class="text-6xl font-black italic uppercase">Paquetes PRO</h2>
-            </div>
-            <div id="grid-paquetes" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10"></div>
-        </section>
-
-        <section class="mb-32">
-            <div class="flex items-center gap-4 mb-12">
-                <div class="w-2 h-12 bg-red-600"></div>
-                <h2 class="text-6xl font-black italic uppercase">Especialidades</h2>
-            </div>
-            <div id="grid-rollos" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8"></div>
-        </section>
     </main>
 
     <div class="maneki-btn" onclick="openGame()">
-        <svg width="140" height="140" viewBox="0 0 200 200">
-            <circle cx="100" cy="140" r="55" fill="white" />
-            <circle cx="100" cy="85" r="45" fill="white" />
-            <circle cx="80" cy="80" r="5" fill="black" />
-            <circle cx="120" cy="80" r="5" fill="black" />
-            <path d="M90 100 Q100 112 110 100" stroke="black" stroke-width="2" fill="none" />
-            <g class="paw-animation">
-                <rect x="145" y="60" width="25" height="50" rx="12" fill="white" stroke="#eee" />
-                <circle cx="157" cy="70" r="8" fill="#ffb7c5" />
-            </g>
-            <circle cx="100" cy="145" r="25" fill="#FFD700" stroke="#B8860B" stroke-width="2" />
-            <text x="93" y="156" font-weight="900" fill="#B8860B" font-size="25">¥</text>
-        </svg>
-    </div>
-
-    <div id="login-modal" class="modal-overlay">
-        <div class="modal-content text-center">
-            <h2 id="auth-title" class="text-4xl font-black italic uppercase mb-8">Crear Cuenta</h2>
-            <div id="auth-form" class="space-y-2">
-                <input type="text" id="user-name" placeholder="NOMBRE COMPLETO">
-                <input type="email" id="user-email" placeholder="CORREO ELECTRÓNICO">
-                <input type="password" id="user-pass" placeholder="CONTRASEÑA">
-                <button onclick="handleAuth()" class="w-full bg-red-600 py-6 rounded-2xl font-black uppercase tracking-widest text-sm shadow-xl">Confirmar Datos</button>
-            </div>
-            <button onclick="toggleModal('login-modal')" class="mt-8 text-xs font-bold text-gray-500 uppercase tracking-widest">Cerrar</button>
-        </div>
-    </div>
-
-    <div id="profile-modal" class="modal-overlay">
-        <div class="modal-content text-center">
-            <div class="w-24 h-24 bg-red-600 rounded-full mx-auto mb-6 flex items-center justify-center border-4 border-white/10 shadow-2xl">
-                <i class="fa-solid fa-user-ninja text-4xl"></i>
-            </div>
-            <h2 id="profile-name-display" class="text-3xl font-black italic uppercase">Ninja Usuario</h2>
-            <p id="profile-email-display" class="text-gray-500 font-bold text-xs mb-10 tracking-widest">EMAIL@NEXO.PRO</p>
-            <div class="grid grid-cols-1 gap-4">
-                <button onclick="logout()" class="w-full bg-white/5 border border-white/10 py-5 rounded-2xl font-black uppercase text-xs hover:bg-red-600 transition">Cerrar Sesión</button>
-            </div>
-            <button onclick="toggleModal('profile-modal')" class="mt-8 text-xs font-bold text-gray-500 uppercase tracking-widest">Regresar</button>
-        </div>
+        <img src="https://cdn-icons-png.flaticon.com/512/1010/1010379.png" class="maneki-img" alt="Gato">
     </div>
 
     <aside id="cart-sidebar" class="cart-sidebar">
-        <div class="p-12 border-b border-white/5 flex justify-between items-end">
-            <div>
-                <h2 class="text-6xl font-black italic uppercase leading-none">Mi Bolsa</h2>
-                <p class="text-red-600 font-black text-[10px] tracking-[5px] mt-2">RESUMEN DEL PEDIDO</p>
-            </div>
-            <button onclick="toggleCart()" class="text-5xl font-thin">&times;</button>
+        <div class="p-8 border-b border-white/10 flex justify-between items-center">
+            <h2 class="text-3xl font-black italic uppercase">Resumen</h2>
+            <button onclick="toggleCart()" class="text-4xl">&times;</button>
         </div>
 
-        <div id="cart-items-list" class="flex-grow overflow-y-auto p-12 space-y-6">
+        <div id="cart-items" class="flex-grow overflow-y-auto p-6 space-y-4">
             </div>
 
-        <div class="p-12 bg-white/5 border-t border-white/5 space-y-6">
-            <div class="space-y-2">
-                <div class="flex justify-between text-gray-500 font-bold uppercase text-[11px]">
-                    <span>Subtotal Productos:</span>
-                    <span id="subtotal-val">$0</span>
-                </div>
-                <div class="flex justify-between text-red-600 font-black uppercase text-[11px]">
-                    <span>Servicio a Domicilio:</span>
-                    <span>$40</span>
-                </div>
+        <div class="p-8 bg-zinc-900/50 space-y-4">
+            <div class="flex justify-between font-bold text-xl">
+                <span>Total:</span>
+                <span id="total-val" class="text-red-600">$0</span>
             </div>
-
-            <div class="flex justify-between items-end">
-                <span class="text-2xl font-black italic uppercase">Total:</span>
-                <span id="total-final-val" class="text-6xl font-black">$0</span>
-            </div>
-
-            <div class="space-y-4 pt-4">
-                <input type="text" id="order-address" placeholder="DIRECCIÓN DE ENTREGA (TEZIUTLÁN)">
-                <select id="order-pay-method">
-                    <option value="Efectivo">💵 Pago en Efectivo</option>
-                    <option value="Tarjeta/Terminal">💳 Tarjeta (Terminal Moto)</option>
-                    <option value="Transferencia">🏦 Transferencia Bancaria</option>
-                </select>
-                <button onclick="checkoutWhatsApp()" class="w-full bg-red-600 py-8 rounded-3xl font-black uppercase text-xl shadow-2xl hover:bg-red-700 transition active:scale-95">Pagar vía WhatsApp</button>
-            </div>
+            <input type="text" id="order-address" placeholder="Dirección de entrega en Teziutlán" class="w-full p-4 rounded-xl bg-black border border-white/10">
+            <button onclick="checkoutWhatsApp()" class="btn-red w-full text-lg">PAGAR POR WHATSAPP</button>
+            <a href="https://wa.me/522311511435" target="_blank" class="block text-center text-xs font-bold text-green-500 uppercase">¿Necesitas ayuda? Chat de soporte</a>
         </div>
     </aside>
 
-    <div id="game-modal" class="modal-overlay">
-        <div id="hw-container" class="hw-pc">
+    <div id="game-modal" class="hidden fixed inset-0 bg-black/95 z-[2000] flex items-center justify-center p-6">
+        <div class="text-center w-full max-w-2xl">
+            <h2 class="text-2xl font-bold mb-4 italic">ATRAPA EL SUSHI CON EL PLATO</h2>
             <canvas id="gameCanvas"></canvas>
-            <div id="game-ui" class="absolute inset-0 bg-black/80 hidden flex flex-col items-center justify-center">
-                <h2 class="text-6xl font-black italic text-red-600 mb-8">GAME OVER</h2>
-                <button onclick="startGame()" class="bg-white text-black px-12 py-4 rounded-full font-black uppercase">Reiniciar</button>
-            </div>
+            <p class="mt-4 text-gray-400 text-sm">Usa el mouse o el dedo para mover el plato</p>
+            <button onclick="closeGame()" class="mt-6 text-red-600 font-black uppercase">Cerrar Juego</button>
         </div>
-        <button onclick="toggleModal('game-modal')" class="fixed top-10 right-10 text-4xl">&times;</button>
     </div>
 
     <script>
-        // --- BASE DE DATOS DEL MENÚ ---
-        const DB = {
-            entradas: [
-                {id:1, name: "Brochetas de Queso (3 pzas)", price: 65, img: "https://images.unsplash.com/photo-1547516508-4c1f9c73a91e?w=600"},
-                {id:2, name: "Eby Chesse Furay", price: 35, img: "https://images.unsplash.com/photo-1558985250-27a406d64cb3?w=600"},
-                {id:3, name: "Yakimeshi Especial", price: 95, img: "https://images.unsplash.com/photo-1512314889357-e157c22f938d?w=600"},
-                {id:4, name: "Edamames Spicy", price: 80, img: "https://images.unsplash.com/photo-1615484477778-ca3b77940c25?w=600"}
-            ],
-            paquetes: [
-                {id:10, name: "Kyto Box PRO", price: 530, img: "https://images.unsplash.com/photo-1579871494447-9811cf80d66c?w=600"},
-                {id:11, name: "Charola Familiar (60 pzas)", price: 890, img: "https://images.unsplash.com/photo-1583623025817-d180a2221d0a?w=600"},
-                {id:12, name: "Dúo Pasta & Sushi", price: 340, img: "https://images.unsplash.com/photo-1553621042-f6e147245754?w=600"}
-            ],
-            rollos: [
-                {id:20, name: "Flaming Roll (Hot Cheetos)", price: 149, img: "https://images.unsplash.com/photo-1579584425555-c3ce17fd4111?w=600"},
-                {id:21, name: "Hannibal Roll (Chistorra)", price: 250, img: "https://images.unsplash.com/photo-1617196034183-421b4917c92d?w=600"},
-                {id:22, name: "Dragon Roll PRO", price: 180, img: "https://images.unsplash.com/photo-1611143669185-af324757bb90?w=600"},
-                {id:23, name: "Mar y Tierra", price: 215, img: "https://images.unsplash.com/photo-1559466273-d95e72debaf8?w=600"},
-                {id:24, name: "California Roll", price: 105, img: "https://images.unsplash.com/photo-1593504049359-74330189a345?w=600"},
-                {id:25, name: "Philadelphia Clásico", price: 120, img: "https://images.unsplash.com/photo-1534422298391-e4f8c170db0f?w=600"}
-            ]
-        };
+        const menu = [
+            {id: 1, name: "California Roll", price: 105, img: "https://images.unsplash.com/photo-1593504049359-74330189a345?w=400"},
+            {id: 2, name: "Flaming Roll", price: 149, img: "https://images.unsplash.com/photo-1579584425555-c3ce17fd4111?w=400"},
+            {id: 3, name: "Yakimeshi Especial", price: 95, img: "https://images.unsplash.com/photo-1512314889357-e157c22f938d?w=400"}
+        ];
 
         let cart = [];
-        let currentUser = JSON.parse(localStorage.getItem('kyto_user')) || null;
 
-        // --- INICIALIZACIÓN ---
-        window.onload = () => {
-            renderMenu();
-            updateAuthUI();
-            startClock();
-            spawnPetals();
-        };
-
-        // RELOJ
-        function startClock() {
-            setInterval(() => {
-                document.getElementById('time-display').innerText = new Date().toLocaleTimeString('es-MX', {hour12:false});
-            }, 1000);
-        }
-
-        // PÉTALOS
-        function spawnPetals() {
-            setInterval(() => {
-                const p = document.createElement('div');
-                p.className = 'sakura-petal';
-                p.style.left = Math.random() * 100 + 'vw';
-                p.style.width = p.style.height = (Math.random() * 10 + 5) + 'px';
-                p.style.animationDuration = (Math.random() * 5 + 5) + 's';
-                document.getElementById('sakura-container').appendChild(p);
-                setTimeout(() => p.remove(), 10000);
-            }, 500);
-        }
-
-        // RENDERIZAR MENÚ
-        function renderMenu() {
-            const sections = [
-                {id: 'grid-entradas', data: DB.entradas},
-                {id: 'grid-paquetes', data: DB.paquetes},
-                {id: 'grid-rollos', data: DB.rollos}
-            ];
-            sections.forEach(sec => {
-                document.getElementById(sec.id).innerHTML = sec.data.map(item => `
-                    <div class="card-kyto">
-                        <img src="${item.img}" class="card-img">
-                        <div class="p-8">
-                            <h3 class="text-xl font-black uppercase italic mb-6">${item.name}</h3>
-                            <div class="flex justify-between items-center">
-                                <span class="text-red-600 font-black text-2xl">$${item.price}</span>
-                                <button onclick="addToCart(${item.id})" class="bg-white text-black px-6 py-3 rounded-xl font-black uppercase text-[10px] tracking-widest hover:bg-red-600 hover:text-white transition">Añadir</button>
-                            </div>
+        function render() {
+            document.getElementById('grid-menu').innerHTML = menu.map(item => `
+                <div class="card-kyto">
+                    <img src="${item.img}" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <h3 class="font-black uppercase italic">${item.name}</h3>
+                        <div class="flex justify-between items-center mt-4">
+                            <span class="text-xl font-bold text-red-600">$${item.price}</span>
+                            <button onclick="addToCart(${item.id})" class="bg-white text-black px-4 py-2 rounded-lg font-bold text-xs">AGREGAR</button>
                         </div>
                     </div>
-                `).join('');
-            });
-        }
-
-        // --- SISTEMA DE AUTENTICACIÓN LOCAL ---
-        function handleAuth() {
-            const name = document.getElementById('user-name').value;
-            const email = document.getElementById('user-email').value;
-            if(!name || !email) return alert("Completa los datos");
-            
-            currentUser = { name, email };
-            localStorage.setItem('kyto_user', JSON.stringify(currentUser));
-            updateAuthUI();
-            toggleModal('login-modal');
-        }
-
-        function updateAuthUI() {
-            const authSection = document.getElementById('auth-section');
-            if(currentUser) {
-                authSection.innerHTML = `
-                    <button onclick="toggleModal('profile-modal')" class="flex items-center gap-3 bg-red-600/10 px-6 py-3 rounded-2xl border border-red-600/20">
-                        <i class="fa-solid fa-user-ninja text-red-600"></i>
-                        <span class="text-[10px] font-black uppercase">${currentUser.name.split(' ')[0]}</span>
-                    </button>
-                `;
-                document.getElementById('profile-name-display').innerText = currentUser.name;
-                document.getElementById('profile-email-display').innerText = currentUser.email;
-            } else {
-                authSection.innerHTML = `
-                    <button onclick="toggleModal('login-modal')" class="bg-white/5 border border-white/10 p-4 rounded-2xl hover:bg-white/10 transition">
-                        <i class="fa-solid fa-user-ninja text-xl"></i>
-                    </button>
-                `;
-            }
-        }
-
-        function logout() {
-            localStorage.removeItem('kyto_user');
-            currentUser = null;
-            location.reload();
-        }
-
-        // --- LÓGICA DEL CARRITO ---
-        function addToCart(id) {
-            let item;
-            for(let key in DB) {
-                const found = DB[key].find(i => i.id === id);
-                if(found) item = found;
-            }
-            cart.push({...item, cartId: Date.now()});
-            updateCartUI();
-        }
-
-        function updateCartUI() {
-            document.getElementById('cart-counter').innerText = cart.length;
-            const list = document.getElementById('cart-items-list');
-            const subtotal = cart.reduce((acc, item) => acc + item.price, 0);
-            
-            document.getElementById('subtotal-val').innerText = `$${subtotal}`;
-            document.getElementById('total-final-val').innerText = `$${subtotal > 0 ? subtotal + 40 : 0}`;
-
-            list.innerHTML = cart.map(item => `
-                <div class="flex justify-between items-center bg-white/5 p-6 rounded-3xl border border-white/5">
-                    <div>
-                        <p class="font-black uppercase italic text-sm">${item.name}</p>
-                        <p class="text-red-600 font-black">$${item.price}</p>
-                    </div>
-                    <button onclick="removeFromCart(${item.cartId})" class="text-gray-600 hover:text-red-600 transition"><i class="fa-solid fa-trash"></i></button>
                 </div>
             `).join('');
         }
 
-        function removeFromCart(cartId) {
-            cart = cart.filter(i => i.cartId !== cartId);
-            updateCartUI();
+        function addToCart(id) {
+            const item = menu.find(i => i.id === id);
+            cart.push(item);
+            updateCart();
         }
 
-        // --- WHATSAPP ENGINE (TICKET DESGLOSADO) ---
-        function checkoutWhatsApp() {
-            if(cart.length === 0) return alert("Tu bolsa está vacía");
-            const address = document.getElementById('order-address').value;
-            if(!address) return alert("Por favor ingresa tu dirección en Teziutlán");
-
-            const payMethod = document.getElementById('order-pay-method').value;
+        function updateCart() {
+            document.getElementById('cart-counter').innerText = cart.length;
+            const total = cart.reduce((acc, i) => acc + i.price, 0);
+            document.getElementById('total-val').innerText = `$${total}`;
             
-            // Agrupar items para el ticket
-            const summary = {};
-            cart.forEach(item => {
-                summary[item.name] = (summary[item.name] || 0) + 1;
-            });
-
-            let itemsText = "";
-            let subtotal = 0;
-            for(let name in summary) {
-                const price = cart.find(i => i.name === name).price;
-                const qty = summary[name];
-                itemsText += `• *${name}* (x${qty}) - $${price * qty}%0A`;
-                subtotal += price * qty;
-            }
-
-            const total = subtotal + 40;
-            const userName = currentUser ? currentUser.name : "Invitado Web";
-
-            const message = `🍣 *NUEVO PEDIDO DESDE EL SITIO WEB*%0A%0A` +
-                            `👤 *Cliente:* ${userName}%0A` +
-                            `📍 *Dirección:* ${address}%0A` +
-                            `💳 *Método de Pago:* ${payMethod}%0A%0A` +
-                            `🍱 *DETALLE DEL PEDIDO:*%0A${itemsText}%0A` +
-                            `💵 *Subtotal:* $${subtotal}%0A` +
-                            `🚚 *Servicio a Domicilio:* $40%0A` +
-                            `🔥 *TOTAL A PAGAR:* $${total}%0A%0A` +
-                            `---%0A_Enviado desde el portal oficial de Sushi Kyto_`;
-
-            window.open(`https://wa.me/522311511435?text=${message}`, '_blank');
+            document.getElementById('cart-items').innerHTML = cart.map((item, index) => `
+                <div class="flex justify-between bg-white/5 p-4 rounded-xl">
+                    <span class="text-sm font-bold">${item.name}</span>
+                    <button onclick="cart.splice(${index},1);updateCart()" class="text-red-500"><i class="fa-solid fa-trash"></i></button>
+                </div>
+            `).join('');
         }
 
-        // --- UTILIDADES DE INTERFAZ ---
-        function toggleModal(id) {
-            const m = document.getElementById(id);
-            m.style.display = (m.style.display === 'flex') ? 'none' : 'flex';
+        function toggleCart() { document.getElementById('cart-sidebar').classList.toggle('cart-open'); }
+
+        function checkoutWhatsApp() {
+            const addr = document.getElementById('order-address').value;
+            if(!addr) return alert("Pon tu dirección");
+            const text = `🍣 Nuevo Pedido: ${cart.length} productos. Total: ${document.getElementById('total-val').innerText}. Envío a: ${addr}`;
+            window.open(`https://wa.me/522311511435?text=${encodeURIComponent(text)}`);
         }
 
-        function toggleCart() {
-            document.getElementById('cart-sidebar').classList.toggle('cart-open');
+        // --- RELOJ ---
+        setInterval(() => {
+            document.getElementById('time-display').innerText = new Date().toLocaleTimeString('es-MX', {hour12:false});
+        }, 1000);
+
+        // --- PÉTALOS ---
+        for(let i=0; i<15; i++) {
+            const p = document.createElement('div');
+            p.className = 'sakura';
+            p.style.left = Math.random() * 100 + 'vw';
+            p.style.width = p.style.height = (Math.random() * 10 + 5) + 'px';
+            p.style.animationDuration = (Math.random() * 3 + 4) + 's';
+            p.style.delay = Math.random() * 5 + 's';
+            document.getElementById('sakura-container').appendChild(p);
         }
 
-        // --- MINIJUEGO ADAPTATIVO ---
+        // --- JUEGO BALANCEADO ---
         const canvas = document.getElementById('gameCanvas');
         const ctx = canvas.getContext('2d');
-        let gameActive = false, score = 0, playerX = 150, objects = [];
+        let gameActive = false, playerX = 250, items = [];
 
         function openGame() {
-            const isMobile = window.innerWidth < 1024;
-            const container = document.getElementById('hw-container');
-            if(isMobile) {
-                container.className = "hw-mobile";
-                canvas.width = 320; canvas.height = 660;
-            } else {
-                container.className = "hw-pc";
-                canvas.width = 820; canvas.height = 520;
-            }
-            toggleModal('game-modal');
-            startGame();
+            document.getElementById('game-modal').classList.remove('hidden');
+            canvas.width = Math.min(window.innerWidth - 40, 500);
+            canvas.height = 400;
+            gameActive = true;
+            items = [];
+            requestAnimationFrame(gameLoop);
         }
 
-        function startGame() {
-            gameActive = true; score = 0; objects = [];
-            document.getElementById('game-ui').classList.add('hidden');
-            gameLoop();
+        function closeGame() {
+            gameActive = false;
+            document.getElementById('game-modal').classList.add('hidden');
         }
 
         function gameLoop() {
             if(!gameActive) return;
             ctx.clearRect(0,0,canvas.width, canvas.height);
-            
-            // Jugador (Palillos/Plato)
-            ctx.fillStyle = "#E31C24";
-            ctx.fillRect(playerX - 40, canvas.height - 40, 80, 10);
 
-            // Generar Sushi cayendo
-            if(Math.random() < 0.03) objects.push({x: Math.random() * canvas.width, y: 0});
+            // PLATO (Jugador)
+            ctx.fillStyle = "#fff";
+            ctx.beginPath();
+            ctx.ellipse(playerX, canvas.height - 20, 40, 10, 0, 0, Math.PI * 2);
+            ctx.fill();
 
-            objects.forEach((obj, index) => {
-                obj.y += 5;
-                ctx.fillStyle = "white";
-                ctx.beginPath(); ctx.arc(obj.x, obj.y, 10, 0, Math.PI*2); ctx.fill();
+            // SUSHI CAYENDO (Menos cantidad, más fácil)
+            if(Math.random() < 0.02) items.push({x: Math.random() * canvas.width, y: 0});
 
-                // Colisión
-                if(obj.y > canvas.height - 40 && obj.x > playerX - 50 && obj.x < playerX + 50) {
-                    score++; objects.splice(index, 1);
-                } else if(obj.y > canvas.height) {
-                    gameActive = false;
-                    document.getElementById('game-ui').classList.remove('hidden');
+            items.forEach((item, index) => {
+                item.y += 3; // Velocidad reducida
+                ctx.font = "30px Arial";
+                ctx.fillText("🍣", item.x - 15, item.y);
+
+                if(item.y > canvas.height - 30 && Math.abs(item.x - playerX) < 40) {
+                    items.splice(index, 1);
+                } else if(item.y > canvas.height) {
+                    items.splice(index, 1);
                 }
             });
 
-            ctx.fillStyle = "white"; ctx.font = "900 20px Outfit";
-            ctx.fillText(`SCORE: ${score}`, 20, 40);
-            if(gameActive) requestAnimationFrame(gameLoop);
+            requestAnimationFrame(gameLoop);
         }
 
-        canvas.addEventListener('mousemove', e => {
-            const rect = canvas.getBoundingClientRect();
-            playerX = e.clientX - rect.left;
+        canvas.addEventListener('mousemove', e => playerX = e.offsetX);
+        canvas.addEventListener('touchmove', e => {
+            playerX = e.touches[0].clientX - canvas.getBoundingClientRect().left;
+            e.preventDefault();
         });
 
-        canvas.addEventListener('touchmove', e => {
-            const rect = canvas.getBoundingClientRect();
-            playerX = e.touches[0].clientX - rect.left;
-            e.preventDefault();
-        }, {passive: false});
-
+        render();
     </script>
 </body>
 </html>
