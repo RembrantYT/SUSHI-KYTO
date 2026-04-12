@@ -11,78 +11,111 @@
         
         :root {
             --kyto-red: #E31C24;
-            --glass: rgba(10, 10, 10, 0.85);
+            --glass: rgba(10, 10, 10, 0.9);
+            --gold: #FFD700;
         }
 
+        /* RESET & BASE */
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-        body { font-family: 'Outfit', sans-serif; background-color: #050505; color: white; overflow-x: hidden; min-height: 100vh; }
+        body { 
+            font-family: 'Outfit', sans-serif; 
+            background-color: #050505; 
+            color: white; 
+            overflow-x: hidden; 
+            min-height: 100vh;
+        }
 
-        /* FONDO MEJORADO: MADERA OSCURA Y DETALLES JAPONESES */
-        .bg-zen {
+        /* FONDO JAPONÉS PREMIUM */
+        .bg-hdr {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.9)), 
-                        url('https://images.unsplash.com/photo-1557180295-76eee20ae8aa?q=80&w=2000');
-            background-size: cover; z-index: -2;
+            background-image: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.95)), 
+                              url('https://images.unsplash.com/photo-1528164344705-4754268799af?q=80&w=2000');
+            background-size: cover; background-position: center; z-index: -2;
         }
 
-        /* PÉTALOS DE CEREZO (MÁS SUTILES) */
+        /* SAKURA ANIMATION */
         .sakura {
-            position: fixed; top: -10%; background: #ffc0cb;
-            border-radius: 50% 0 50% 50%; opacity: 0.6;
-            animation: fall linear infinite; z-index: -1; pointer-events: none;
+            position: fixed; top: -10%; background: #ffb7c5;
+            border-radius: 10px 0 10px 10px; opacity: 0.4;
+            animation: fell linear infinite; z-index: -1; pointer-events: none;
         }
-        @keyframes fall {
-            0% { transform: translateY(0vh) rotate(0deg); }
-            100% { transform: translateY(110vh) rotate(360deg) translateX(100px); }
+        @keyframes fell {
+            0% { transform: translateY(0vh) translateX(0px) rotate(0deg); }
+            100% { transform: translateY(110vh) translateX(150px) rotate(720deg); }
         }
 
-        /* RELOJ CORREGIDO (ESPAÑOL) */
+        /* RELOJ NEXO EN ESPAÑOL */
         .reloj-wrapper {
-            position: fixed; top: 20px; left: 50%; transform: translateX(-50%);
-            z-index: 500; background: var(--glass); backdrop-filter: blur(15px);
-            padding: 10px 30px; border-radius: 50px; border: 1px solid rgba(255,255,255,0.1);
-            text-align: center;
+            position: fixed; top: 25px; left: 50%; transform: translateX(-50%);
+            z-index: 500; background: var(--glass); backdrop-filter: blur(20px);
+            padding: 12px 35px; border-radius: 50px; border: 1px solid rgba(255,255,255,0.1);
+            text-align: center; box-shadow: 0 20px 40px rgba(0,0,0,0.5);
         }
-        #time-display { font-weight: 900; font-size: 1.8rem; letter-spacing: 2px; color: white; }
-        .time-tag { font-size: 8px; color: var(--kyto-red); font-weight: 900; letter-spacing: 2px; text-transform: uppercase; display: block; }
+        #time-display { font-weight: 900; font-size: 2.2rem; letter-spacing: 2px; line-height: 1; }
+        .time-tag { font-size: 8px; color: var(--kyto-red); font-weight: 900; letter-spacing: 3px; text-transform: uppercase; margin-top: 4px; display: block; }
 
-        /* CARRITO CORREGIDO */
+        /* NAV PRINCIPAL */
+        .nav-kyto { position: fixed; top: 110px; width: 100%; z-index: 400; padding: 0 20px; }
+        .nav-blur {
+            max-width: 1200px; margin: 0 auto;
+            background: rgba(20, 20, 20, 0.6); backdrop-filter: blur(20px);
+            border-radius: 35px; border: 1px solid rgba(255,255,255,0.05);
+            padding: 20px 40px; display: flex; justify-content: space-between; align-items: center;
+        }
+
+        /* CARDS */
+        .card-kyto {
+            background: linear-gradient(145deg, rgba(30,30,30,0.5), rgba(10,10,10,0.7));
+            border-radius: 40px; border: 1px solid rgba(255,255,255,0.08);
+            overflow: hidden; transition: 0.4s cubic-bezier(0.2, 1, 0.3, 1);
+        }
+        .card-kyto:hover { transform: translateY(-10px); border-color: var(--kyto-red); box-shadow: 0 30px 60px rgba(0,0,0,0.6); }
+        .card-img { width: 100%; height: 240px; object-fit: cover; transition: 0.5s; }
+        .card-kyto:hover .card-img { transform: scale(1.05); }
+
+        /* GATO MANEKI-NEKO (EL ORIGINAL) */
+        .maneki-btn {
+            position: fixed; bottom: 40px; right: 40px; z-index: 600; cursor: pointer;
+            filter: drop-shadow(0 20px 40px rgba(0,0,0,0.5));
+        }
+        .paw-animation { animation: wave 1.2s ease-in-out infinite alternate; transform-origin: 75% 80%; }
+        @keyframes wave { from { transform: rotate(0deg); } to { transform: rotate(30deg); } }
+
+        /* CARRITO LATERAL */
         .cart-sidebar {
-            position: fixed; top: 0; right: -100%; width: 100%; max-width: 450px;
-            height: 100%; background: #0a0a0a; z-index: 1100; 
-            transition: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-            display: flex; flex-direction: column; border-left: 1px solid #222;
+            position: fixed; top: 0; right: -100%; width: 100%; max-width: 500px;
+            height: 100%; background: #080808; z-index: 2000;
+            transition: 0.6s cubic-bezier(0.19, 1, 0.22, 1);
+            display: flex; flex-direction: column; border-left: 1px solid rgba(255,255,255,0.1);
         }
         .cart-open { right: 0; }
 
-        /* PRODUCTOS */
-        .card-kyto {
-            background: rgba(20,20,20,0.6); border-radius: 30px; 
-            border: 1px solid rgba(255,255,255,0.05); overflow: hidden;
-            transition: 0.3s;
+        /* INPUTS */
+        input, select, textarea {
+            width: 100%; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
+            padding: 18px; border-radius: 18px; color: white; outline: none; transition: 0.3s;
         }
-        .card-kyto:hover { border-color: var(--kyto-red); transform: translateY(-5px); }
+        input:focus { border-color: var(--kyto-red); background: rgba(255,255,255,0.1); }
 
-        /* GATO CORREGIDO (YA NO ESTÁ DEFORME) */
-        .maneki-btn {
-            position: fixed; bottom: 30px; right: 30px; z-index: 600; cursor: pointer;
-            width: 100px; height: 100px; background: white; border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5); border: 4px solid var(--kyto-red);
+        /* MODALES */
+        .modal-overlay {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.95);
+            backdrop-filter: blur(20px); z-index: 3000; display: none;
+            align-items: center; justify-content: center; padding: 20px;
         }
-        .maneki-img { width: 70px; animation: bounce 2s infinite; }
-        @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+        .modal-content {
+            background: #0a0a0a; width: 100%; max-width: 450px;
+            border-radius: 40px; border: 1px solid #222; padding: 40px;
+        }
 
-        /* MINIJUEGO CONTENEDOR */
-        canvas { background: #111; border-radius: 15px; cursor: none; width: 100%; max-width: 600px; }
-        
-        .btn-red { background: var(--kyto-red); color: white; font-weight: 900; border-radius: 15px; padding: 15px; transition: 0.2s; }
-        .btn-red:hover { filter: brightness(1.2); }
+        /* JUEGO */
+        #gameCanvas { background: #000; border: 4px solid #222; border-radius: 20px; width: 100%; cursor: none; }
+        .game-hw { width: 100%; max-width: 600px; position: relative; }
     </style>
 </head>
 <body>
 
-    <div class="bg-zen"></div>
+    <div class="bg-hdr"></div>
     <div id="sakura-container"></div>
 
     <div class="reloj-wrapper">
@@ -90,179 +123,349 @@
         <span class="time-tag">Reloj importado por el equipo Nexo</span>
     </div>
 
-    <nav class="fixed top-[100px] w-full z-40 px-6">
-        <div class="max-w-6xl mx-auto bg-black/50 backdrop-blur-md p-6 rounded-[35px] flex justify-between items-center border border-white/5">
+    <nav class="nav-kyto">
+        <div class="nav-blur">
             <div>
-                <h1 class="text-3xl font-black italic uppercase">Sushi <span class="text-red-600">Kyto</span></h1>
-                <p class="text-[10px] font-bold text-gray-300 tracking-tighter uppercase">Comida japonesa con ingredientes de nuestra tierra</p>
+                <h1 class="text-4xl font-black italic uppercase leading-none">Sushi <span class="text-red-600">Kyto</span></h1>
+                <p class="text-[9px] font-bold text-gray-400 tracking-[3px] uppercase mt-1">Comida japonesa con ingredientes de nuestra tierra</p>
             </div>
-            <button onclick="toggleCart()" class="bg-white text-black px-6 py-3 rounded-2xl font-black flex items-center gap-2">
-                <i class="fa-solid fa-cart-shopping"></i>
-                <span id="cart-counter">0</span>
-            </button>
+            
+            <div class="flex items-center gap-4">
+                <div id="auth-ui">
+                    <button onclick="toggleModal('login-modal')" class="bg-white/5 p-4 rounded-2xl hover:bg-white/10">
+                        <i class="fa-solid fa-user-ninja"></i>
+                    </button>
+                </div>
+                <button onclick="toggleCart()" class="bg-white text-black px-8 py-4 rounded-2xl font-black flex items-center gap-3">
+                    <i class="fa-solid fa-cart-shopping"></i>
+                    <span id="cart-counter">0</span>
+                </button>
+            </div>
         </div>
     </nav>
 
-    <main class="container mx-auto px-6 pt-[250px] pb-20">
-        <div id="grid-menu" class="grid grid-cols-1 md:grid-cols-3 gap-8">
-            </div>
+    <main class="container mx-auto px-6 pt-[300px] pb-40">
+        <section class="mb-20">
+            <h2 class="text-5xl font-black italic uppercase mb-10 flex items-center gap-4">
+                <span class="w-2 h-10 bg-red-600"></span> Entradas
+            </h2>
+            <div id="grid-entradas" class="grid grid-cols-1 md:grid-cols-3 gap-8"></div>
+        </section>
+
+        <section class="mb-20">
+            <h2 class="text-5xl font-black italic uppercase mb-10 flex items-center gap-4">
+                <span class="w-2 h-10 bg-white/20"></span> Paquetes PRO
+            </h2>
+            <div id="grid-paquetes" class="grid grid-cols-1 md:grid-cols-2 gap-8"></div>
+        </section>
+
+        <section>
+            <h2 class="text-5xl font-black italic uppercase mb-10 flex items-center gap-4">
+                <span class="w-2 h-10 bg-red-600"></span> Especialidades
+            </h2>
+            <div id="grid-rollos" class="grid grid-cols-1 md:grid-cols-4 gap-6"></div>
+        </section>
     </main>
 
     <div class="maneki-btn" onclick="openGame()">
-        <img src="https://cdn-icons-png.flaticon.com/512/1010/1010379.png" class="maneki-img" alt="Gato">
+        <svg width="120" height="120" viewBox="0 0 200 200">
+            <circle cx="100" cy="140" r="55" fill="white" />
+            <circle cx="100" cy="85" r="45" fill="white" />
+            <circle cx="80" cy="80" r="5" fill="black" />
+            <circle cx="120" cy="80" r="5" fill="black" />
+            <path d="M90 100 Q100 112 110 100" stroke="black" stroke-width="2" fill="none" />
+            <g class="paw-animation">
+                <rect x="145" y="60" width="25" height="50" rx="12" fill="white" stroke="#eee" />
+                <circle cx="157" cy="70" r="8" fill="#ffb7c5" />
+            </g>
+            <circle cx="100" cy="145" r="25" fill="#FFD700" stroke="#B8860B" stroke-width="2" />
+            <text x="93" y="156" font-weight="900" fill="#B8860B" font-size="25">¥</text>
+        </svg>
+    </div>
+
+    <div id="login-modal" class="modal-overlay">
+        <div class="modal-content">
+            <h2 class="text-3xl font-black italic uppercase mb-6 text-center">Identificación Ninja</h2>
+            <div class="space-y-4">
+                <input type="text" id="user-name" placeholder="¿CÓMO TE LLAMAS?">
+                <input type="email" id="user-email" placeholder="TU CORREO">
+                <button onclick="handleLogin()" class="w-full bg-red-600 py-5 rounded-2xl font-black uppercase shadow-xl hover:bg-red-700">Entrar al Dojo</button>
+            </div>
+            <button onclick="toggleModal('login-modal')" class="w-full mt-4 text-xs font-bold text-gray-500 uppercase tracking-widest">Cerrar</button>
+        </div>
+    </div>
+
+    <div id="profile-modal" class="modal-overlay">
+        <div class="modal-content text-center">
+            <div class="w-20 h-20 bg-red-600 rounded-full mx-auto mb-4 flex items-center justify-center text-3xl shadow-2xl">
+                <i class="fa-solid fa-user-ninja"></i>
+            </div>
+            <h2 id="display-name" class="text-2xl font-black italic uppercase">Usuario</h2>
+            <p id="display-email" class="text-gray-500 text-xs font-bold mb-8">EMAIL@NEXO.PRO</p>
+            <button onclick="logout()" class="w-full bg-white/5 border border-white/10 py-4 rounded-xl font-bold uppercase text-xs hover:bg-red-600 transition">Cerrar Sesión</button>
+            <button onclick="toggleModal('profile-modal')" class="mt-6 text-xs text-gray-400 underline">Regresar</button>
+        </div>
     </div>
 
     <aside id="cart-sidebar" class="cart-sidebar">
-        <div class="p-8 border-b border-white/10 flex justify-between items-center">
-            <h2 class="text-3xl font-black italic uppercase">Resumen</h2>
-            <button onclick="toggleCart()" class="text-4xl">&times;</button>
+        <div class="p-10 border-b border-white/5 flex justify-between items-end">
+            <div>
+                <h2 class="text-5xl font-black italic uppercase">Tu Bolsa</h2>
+                <p class="text-red-600 font-black text-[10px] tracking-[4px] mt-1">RESUMEN DEL PEDIDO</p>
+            </div>
+            <button onclick="toggleCart()" class="text-4xl font-thin">&times;</button>
         </div>
 
-        <div id="cart-items" class="flex-grow overflow-y-auto p-6 space-y-4">
+        <div id="cart-list" class="flex-grow overflow-y-auto p-10 space-y-4"></div>
+
+        <div class="p-10 bg-white/5 border-t border-white/10 space-y-6">
+            <div class="space-y-2 text-xs font-bold uppercase tracking-wider">
+                <div class="flex justify-between text-gray-400">
+                    <span>Subtotal:</span>
+                    <span id="sub-val">$0</span>
+                </div>
+                <div class="flex justify-between text-red-600">
+                    <span>Envío (Teziutlán Fijo):</span>
+                    <span>$40</span>
+                </div>
             </div>
 
-        <div class="p-8 bg-zinc-900/50 space-y-4">
-            <div class="flex justify-between font-bold text-xl">
-                <span>Total:</span>
-                <span id="total-val" class="text-red-600">$0</span>
+            <div class="flex justify-between items-end">
+                <span class="text-xl font-black italic">TOTAL:</span>
+                <span id="total-val" class="text-5xl font-black">$0</span>
             </div>
-            <input type="text" id="order-address" placeholder="Dirección de entrega en Teziutlán" class="w-full p-4 rounded-xl bg-black border border-white/10">
-            <button onclick="checkoutWhatsApp()" class="btn-red w-full text-lg">PAGAR POR WHATSAPP</button>
-            <a href="https://wa.me/522311511435" target="_blank" class="block text-center text-xs font-bold text-green-500 uppercase">¿Necesitas ayuda? Chat de soporte</a>
+
+            <div class="space-y-3">
+                <input type="text" id="order-addr" placeholder="DIRECCIÓN EXACTA (CALLE, NÚMERO, BARRIO)">
+                <input type="text" id="order-ref" placeholder="INDICACIONES PARA LLEGAR (COLOR DE CASA, ETC)">
+                <select id="order-pay">
+                    <option value="Efectivo">💵 Pago en Efectivo</option>
+                    <option value="Transferencia">🏦 Transferencia Bancaria</option>
+                    <option value="Terminal">💳 Terminal (La lleva el repartidor)</option>
+                </select>
+                <button onclick="sendWhatsApp()" class="w-full bg-red-600 py-6 rounded-3xl font-black uppercase text-lg shadow-2xl hover:bg-red-700">Pagar vía WhatsApp</button>
+                <a href="https://wa.me/522311511435" target="_blank" class="block text-center text-[10px] font-bold text-green-500 uppercase tracking-widest"><i class="fa-brands fa-whatsapp"></i> ¿Problemas? Solicitar ayuda por WhatsApp</a>
+            </div>
         </div>
     </aside>
 
-    <div id="game-modal" class="hidden fixed inset-0 bg-black/95 z-[2000] flex items-center justify-center p-6">
-        <div class="text-center w-full max-w-2xl">
-            <h2 class="text-2xl font-bold mb-4 italic">ATRAPA EL SUSHI CON EL PLATO</h2>
+    <div id="game-modal" class="modal-overlay">
+        <div class="game-hw text-center">
+            <h2 class="text-3xl font-black italic uppercase mb-4 text-red-600">Minijuego: Sushi Catch</h2>
             <canvas id="gameCanvas"></canvas>
-            <p class="mt-4 text-gray-400 text-sm">Usa el mouse o el dedo para mover el plato</p>
-            <button onclick="closeGame()" class="mt-6 text-red-600 font-black uppercase">Cerrar Juego</button>
+            <p class="mt-4 text-gray-500 font-bold text-xs uppercase">Mueve el plato para atrapar los sushis</p>
+            <button onclick="toggleModal('game-modal')" class="mt-8 text-white/30 font-bold uppercase text-xs">Salir</button>
         </div>
     </div>
 
     <script>
-        const menu = [
-            {id: 1, name: "California Roll", price: 105, img: "https://images.unsplash.com/photo-1593504049359-74330189a345?w=400"},
-            {id: 2, name: "Flaming Roll", price: 149, img: "https://images.unsplash.com/photo-1579584425555-c3ce17fd4111?w=400"},
-            {id: 3, name: "Yakimeshi Especial", price: 95, img: "https://images.unsplash.com/photo-1512314889357-e157c22f938d?w=400"}
-        ];
+        const DB = {
+            entradas: [
+                {id:1, name: "Brochetas de Queso (3 pzas)", price: 65, img: "https://images.unsplash.com/photo-1547516508-4c1f9c73a91e?w=500"},
+                {id:2, name: "Eby Chesse Furay", price: 35, img: "https://images.unsplash.com/photo-1558985250-27a406d64cb3?w=500"},
+                {id:3, name: "Yakimeshi Especial", price: 95, img: "https://images.unsplash.com/photo-1512314889357-e157c22f938d?w=500"},
+                {id:4, name: "Edamames Spicy", price: 80, img: "https://images.unsplash.com/photo-1615484477778-ca3b77940c25?w=500"}
+            ],
+            paquetes: [
+                {id:10, name: "Kyto Box PRO", price: 530, img: "https://images.unsplash.com/photo-1579871494447-9811cf80d66c?w=500"},
+                {id:11, name: "Charola Familiar (60 pzas)", price: 890, img: "https://images.unsplash.com/photo-1583623025817-d180a2221d0a?w=500"}
+            ],
+            rollos: [
+                {id:20, name: "Flaming Roll", price: 149, img: "https://images.unsplash.com/photo-1579584425555-c3ce17fd4111?w=500"},
+                {id:21, name: "Hannibal Roll", price: 250, img: "https://images.unsplash.com/photo-1617196034183-421b4917c92d?w=500"},
+                {id:22, name: "Dragon Roll PRO", price: 180, img: "https://images.unsplash.com/photo-1611143669185-af324757bb90?w=500"},
+                {id:23, name: "Mar y Tierra", price: 215, img: "https://images.unsplash.com/photo-1559466273-d95e72debaf8?w=500"}
+            ]
+        };
 
         let cart = [];
+        let user = JSON.parse(localStorage.getItem('nexo_user')) || null;
 
-        function render() {
-            document.getElementById('grid-menu').innerHTML = menu.map(item => `
-                <div class="card-kyto">
-                    <img src="${item.img}" class="w-full h-48 object-cover">
-                    <div class="p-6">
-                        <h3 class="font-black uppercase italic">${item.name}</h3>
-                        <div class="flex justify-between items-center mt-4">
-                            <span class="text-xl font-bold text-red-600">$${item.price}</span>
-                            <button onclick="addToCart(${item.id})" class="bg-white text-black px-4 py-2 rounded-lg font-bold text-xs">AGREGAR</button>
+        // INICIO
+        window.onload = () => {
+            renderMenu();
+            updateAuth();
+            startClock();
+            startSakura();
+        };
+
+        function startClock() {
+            setInterval(() => {
+                document.getElementById('time-display').innerText = new Date().toLocaleTimeString('es-MX', {hour12:false});
+            }, 1000);
+        }
+
+        function startSakura() {
+            setInterval(() => {
+                const s = document.createElement('div');
+                s.className = 'sakura';
+                s.style.left = Math.random() * 100 + 'vw';
+                s.style.width = s.style.height = (Math.random() * 8 + 4) + 'px';
+                s.style.animationDuration = (Math.random() * 4 + 4) + 's';
+                document.getElementById('sakura-container').appendChild(s);
+                setTimeout(() => s.remove(), 8000);
+            }, 600);
+        }
+
+        function renderMenu() {
+            const map = { 'grid-entradas': DB.entradas, 'grid-paquetes': DB.paquetes, 'grid-rollos': DB.rollos };
+            for(let id in map) {
+                document.getElementById(id).innerHTML = map[id].map(item => `
+                    <div class="card-kyto">
+                        <img src="${item.img}" class="card-img">
+                        <div class="p-6">
+                            <h3 class="text-xl font-black uppercase italic">${item.name}</h3>
+                            <div class="flex justify-between items-center mt-6">
+                                <span class="text-2xl font-black text-red-600">$${item.price}</span>
+                                <button onclick="addToCart(${item.id})" class="bg-white text-black px-6 py-2 rounded-xl font-black text-[10px] uppercase">Agregar</button>
+                            </div>
                         </div>
                     </div>
-                </div>
-            `).join('');
+                `).join('');
+            }
         }
 
+        // AUTH
+        function handleLogin() {
+            const name = document.getElementById('user-name').value;
+            const email = document.getElementById('user-email').value;
+            if(!name || !email) return alert("Llena tus datos, ninja");
+            user = { name, email };
+            localStorage.setItem('nexo_user', JSON.stringify(user));
+            updateAuth();
+            toggleModal('login-modal');
+        }
+
+        function updateAuth() {
+            const ui = document.getElementById('auth-ui');
+            if(user) {
+                ui.innerHTML = `<button onclick="toggleModal('profile-modal')" class="bg-red-600/20 border border-red-600/40 px-5 py-3 rounded-2xl flex items-center gap-2">
+                    <i class="fa-solid fa-user-ninja text-red-600"></i>
+                    <span class="text-[10px] font-black uppercase">${user.name.split(' ')[0]}</span>
+                </button>`;
+                document.getElementById('display-name').innerText = user.name;
+                document.getElementById('display-email').innerText = user.email;
+            }
+        }
+
+        function logout() {
+            localStorage.removeItem('nexo_user');
+            location.reload();
+        }
+
+        // CARRITO
         function addToCart(id) {
-            const item = menu.find(i => i.id === id);
-            cart.push(item);
-            updateCart();
+            let prod;
+            for(let k in DB) { const f = DB[k].find(i => i.id === id); if(f) prod = f; }
+            cart.push({...prod, uid: Date.now()});
+            updateCartUI();
+            if(!document.getElementById('cart-sidebar').classList.contains('cart-open')) toggleCart();
         }
 
-        function updateCart() {
+        function updateCartUI() {
             document.getElementById('cart-counter').innerText = cart.length;
-            const total = cart.reduce((acc, i) => acc + i.price, 0);
-            document.getElementById('total-val').innerText = `$${total}`;
-            
-            document.getElementById('cart-items').innerHTML = cart.map((item, index) => `
-                <div class="flex justify-between bg-white/5 p-4 rounded-xl">
-                    <span class="text-sm font-bold">${item.name}</span>
-                    <button onclick="cart.splice(${index},1);updateCart()" class="text-red-500"><i class="fa-solid fa-trash"></i></button>
+            const list = document.getElementById('cart-list');
+            const sub = cart.reduce((acc, i) => acc + i.price, 0);
+            document.getElementById('sub-val').innerText = `$${sub}`;
+            document.getElementById('total-val').innerText = `$${sub > 0 ? sub + 40 : 0}`;
+
+            list.innerHTML = cart.map(item => `
+                <div class="flex justify-between items-center bg-white/5 p-5 rounded-2xl border border-white/5">
+                    <div>
+                        <p class="font-black italic uppercase text-sm">${item.name}</p>
+                        <p class="text-red-600 font-black text-xs">$${item.price}</p>
+                    </div>
+                    <button onclick="removeCart(${item.uid})" class="text-gray-600 hover:text-red-600"><i class="fa-solid fa-trash"></i></button>
                 </div>
             `).join('');
         }
 
-        function toggleCart() { document.getElementById('cart-sidebar').classList.toggle('cart-open'); }
-
-        function checkoutWhatsApp() {
-            const addr = document.getElementById('order-address').value;
-            if(!addr) return alert("Pon tu dirección");
-            const text = `🍣 Nuevo Pedido: ${cart.length} productos. Total: ${document.getElementById('total-val').innerText}. Envío a: ${addr}`;
-            window.open(`https://wa.me/522311511435?text=${encodeURIComponent(text)}`);
+        function removeCart(uid) {
+            cart = cart.filter(i => i.uid !== uid);
+            updateCartUI();
         }
 
-        // --- RELOJ ---
-        setInterval(() => {
-            document.getElementById('time-display').innerText = new Date().toLocaleTimeString('es-MX', {hour12:false});
-        }, 1000);
+        function sendWhatsApp() {
+            if(cart.length === 0) return alert("Tu bolsa está vacía");
+            const addr = document.getElementById('order-addr').value;
+            const ref = document.getElementById('order-ref').value;
+            const pay = document.getElementById('order-pay').value;
+            if(!addr) return alert("Necesitamos tu dirección en Teziutlán");
 
-        // --- PÉTALOS ---
-        for(let i=0; i<15; i++) {
-            const p = document.createElement('div');
-            p.className = 'sakura';
-            p.style.left = Math.random() * 100 + 'vw';
-            p.style.width = p.style.height = (Math.random() * 10 + 5) + 'px';
-            p.style.animationDuration = (Math.random() * 3 + 4) + 's';
-            p.style.delay = Math.random() * 5 + 's';
-            document.getElementById('sakura-container').appendChild(p);
+            let itemsTxt = cart.map(i => `• ${i.name} ($${i.price})`).join('%0A');
+            const sub = cart.reduce((acc, i) => acc + i.price, 0);
+            
+            const msg = `🍣 *NUEVO PEDIDO - SUSHI KYTO*%0A%0A` +
+                        `👤 *Cliente:* ${user ? user.name : 'Invitado'}%0A` +
+                        `📍 *Dirección:* ${addr}%0A` +
+                        `🔍 *Referencia:* ${ref}%0A` +
+                        `💳 *Pago:* ${pay}%0A%0A` +
+                        `🍱 *Pedido:*%0A${itemsTxt}%0A%0A` +
+                        `💵 *Subtotal:* $${sub}%0A` +
+                        `🚚 *Envío:* $40%0A` +
+                        `🔥 *TOTAL:* $${sub + 40}%0A%0A` +
+                        `_Enviado desde Nexo Platform_`;
+
+            window.open(`https://wa.me/522311511435?text=${msg}`, '_blank');
         }
 
-        // --- JUEGO BALANCEADO ---
+        function toggleModal(id) {
+            const m = document.getElementById(id);
+            m.style.display = (m.style.display === 'flex') ? 'none' : 'flex';
+        }
+
+        function toggleCart() {
+            document.getElementById('cart-sidebar').classList.toggle('cart-open');
+        }
+
+        // MINIJUEGO
         const canvas = document.getElementById('gameCanvas');
         const ctx = canvas.getContext('2d');
-        let gameActive = false, playerX = 250, items = [];
+        let gameActive = false, playerX = 150, objects = [], score = 0;
 
         function openGame() {
-            document.getElementById('game-modal').classList.remove('hidden');
-            canvas.width = Math.min(window.innerWidth - 40, 500);
-            canvas.height = 400;
-            gameActive = true;
-            items = [];
-            requestAnimationFrame(gameLoop);
+            canvas.width = 400; canvas.height = 500;
+            toggleModal('game-modal');
+            gameActive = true; score = 0; objects = [];
+            runGame();
         }
 
-        function closeGame() {
-            gameActive = false;
-            document.getElementById('game-modal').classList.add('hidden');
-        }
-
-        function gameLoop() {
+        function runGame() {
             if(!gameActive) return;
-            ctx.clearRect(0,0,canvas.width, canvas.height);
+            ctx.clearRect(0,0,400,500);
 
-            // PLATO (Jugador)
-            ctx.fillStyle = "#fff";
-            ctx.beginPath();
-            ctx.ellipse(playerX, canvas.height - 20, 40, 10, 0, 0, Math.PI * 2);
-            ctx.fill();
+            // Plato
+            ctx.fillStyle = "white";
+            ctx.beginPath(); ctx.ellipse(playerX, 470, 40, 10, 0, 0, Math.PI*2); ctx.fill();
+            ctx.fillStyle = "#eee";
+            ctx.beginPath(); ctx.ellipse(playerX, 468, 30, 5, 0, 0, Math.PI*2); ctx.fill();
 
-            // SUSHI CAYENDO (Menos cantidad, más fácil)
-            if(Math.random() < 0.02) items.push({x: Math.random() * canvas.width, y: 0});
+            if(Math.random() < 0.03) objects.push({x: Math.random() * 360 + 20, y: 0});
 
-            items.forEach((item, index) => {
-                item.y += 3; // Velocidad reducida
-                ctx.font = "30px Arial";
-                ctx.fillText("🍣", item.x - 15, item.y);
+            objects.forEach((obj, i) => {
+                obj.y += 4;
+                // Dibujar Sushi
+                ctx.font = "24px Arial";
+                ctx.fillText("🍣", obj.x - 12, obj.y);
 
-                if(item.y > canvas.height - 30 && Math.abs(item.x - playerX) < 40) {
-                    items.splice(index, 1);
-                } else if(item.y > canvas.height) {
-                    items.splice(index, 1);
+                if(obj.y > 450 && obj.x > playerX - 45 && obj.x < playerX + 45) {
+                    score++; objects.splice(i, 1);
+                } else if(obj.y > 500) {
+                    objects.splice(i, 1);
                 }
             });
 
-            requestAnimationFrame(gameLoop);
+            ctx.fillStyle = "red"; ctx.font = "bold 20px Outfit";
+            ctx.fillText(`PUNTOS: ${score}`, 20, 40);
+            requestAnimationFrame(runGame);
         }
 
-        canvas.addEventListener('mousemove', e => playerX = e.offsetX);
-        canvas.addEventListener('touchmove', e => {
+        canvas.onmousemove = (e) => playerX = e.offsetX;
+        canvas.ontouchmove = (e) => {
             playerX = e.touches[0].clientX - canvas.getBoundingClientRect().left;
             e.preventDefault();
-        });
+        };
 
-        render();
     </script>
 </body>
 </html>
